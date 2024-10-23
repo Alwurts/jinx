@@ -4,10 +4,26 @@ import { Badge } from "@/components/ui/badge";
 
 const teamMembers = [
 	{ name: "Alejandro Wurts", role: "Teammember", image: "/alwurts.jpg" },
-	{ name: "Ilse Loehr", role: "Teammember", image: "https://imageplaceholder.net/500" },
-	{ name: "Ketjona Lapuri", role: "Teammember", image: "https://imageplaceholder.net/500" },
-	{ name: "Xhesika Samarxhiu", role: "Teammember", image: "https://imageplaceholder.net/500" },
-	{ name: "Amirali Shaban Khamseh", role: "Teammember", image: "https://imageplaceholder.net/500" },
+	{
+		name: "Ilse Loehr",
+		role: "Teammember",
+		image: "https://imageplaceholder.net/500",
+	},
+	{
+		name: "Ketjona Lapuri",
+		role: "Teammember",
+		image: "https://imageplaceholder.net/500",
+	},
+	{
+		name: "Xhesika Samarxhiu",
+		role: "Teammember",
+		image: "https://imageplaceholder.net/500",
+	},
+	{
+		name: "Amirali Shaban Khamseh",
+		role: "Teammember",
+		image: "https://imageplaceholder.net/500",
+	},
 ];
 
 export default function Home() {
