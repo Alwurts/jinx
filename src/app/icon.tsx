@@ -12,7 +12,20 @@ export const contentType = "image/png";
 export default function Icon() {
 	return new ImageResponse(
 		// ImageResponse JSX element
-		<Image src="/logo-black.png" alt="Jinx" width={32} height={32} />,
+		<div
+			style={{
+				fontSize: 24,
+				background: "black",
+				width: "100%",
+				height: "100%",
+				display: "flex",
+				alignItems: "center",
+				justifyContent: "center",
+				color: "white",
+			}}
+		>
+			J
+		</div>,
 		// ImageResponse options
 		{
 			// For convenience, we can re-use the exported icons size metadata
