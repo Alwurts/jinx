@@ -5,9 +5,9 @@ import { Badge } from "@/components/ui/badge";
 const teamMembers = [
 	{ name: "Alejandro Wurts", role: "Teammember", image: "/alwurts.jpg" },
 	{
-		name: "Ilse Loehr",
+		name: "Ilse Löhr",
 		role: "Teammember",
-		image: "https://imageplaceholder.net/500",
+		image: "/ilse_adult.jpg",
 	},
 	{
 		name: "Ketjona Lepuri",
@@ -37,7 +37,8 @@ export default function Home() {
 					height={150}
 					className="mx-auto"
 				/>
-				<h1 className="text-5xl font-bold text-white mb-4">Jinx</h1>
+
+				<h1 className="text-5xl font-bold text-white mb-4">jinx</h1>
 				<p className="text-xl text-purple-100">
 					Pioneering AI Web Applications
 				</p>
