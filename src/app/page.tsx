@@ -10,9 +10,9 @@ const teamMembers = [
 		image: "https://imageplaceholder.net/500",
 	},
 	{
-		name: "Ketjona Lapuri",
+		name: "Ketjona Lepuri",
 		role: "Teammember",
-		image: "https://imageplaceholder.net/500",
+		image: "/ketjona.jpg",
 	},
 	{
 		name: "Xhesika Samarxhiu",
@@ -22,7 +22,7 @@ const teamMembers = [
 	{
 		name: "Amirali Shaban Khamseh",
 		role: "Teammember",
-		image: "https://imageplaceholder.net/500",
+		image: "/amir.jpg",
 	},
 ];
 
