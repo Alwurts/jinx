@@ -17,7 +17,7 @@ const teamMembers = [
 	{
 		name: "Xhesika Samarxhiu",
 		role: "Teammember",
-		image: "https://imageplaceholder.net/500",
+		image: "/xhesika.jpg",
 	},
 	{
 		name: "Amirali Shaban Khamseh",
