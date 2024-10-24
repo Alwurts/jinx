@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Navbar from "@/components/layout/Navbar"; // Import the Navbar component
 
 export const metadata: Metadata = {
 	title: "Jinx",
@@ -13,7 +14,10 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body className="min-h-screen ">
+				<Navbar /> {/* Add the Navbar component here */}
+				{children}
+			</body>
 		</html>
 	);
 }
