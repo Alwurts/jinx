@@ -38,7 +38,7 @@ export default function Home() {
 					className="mx-auto"
 				/>
 
-				<h1 className="text-5xl font-bold text-white mb-4">jinx</h1>
+				<h1 className="text-5xl font-bold text-white mb-4">jgit inx</h1>
 				<p className="text-xl text-purple-100">
 					Pioneering AI Web Applications
 				</p>
