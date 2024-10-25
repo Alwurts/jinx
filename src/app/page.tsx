@@ -5,7 +5,15 @@ import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
-	{ name: "Alejandro Wurts", role: "CEO", image: "/alwurts_adult.jpg", coffeeOrder: "Dirty Latte", techTool: "", techToolLink: "" },
+	{   name: "Alejandro Wurts",
+	    role: "CEO", 
+		image: "/alwurts_adult.jpg",
+		coffeeOrder: "Dirty Latte",
+		techTool: "", 
+		techToolLink: "", 
+		instaLink: "",
+		linkedInLink: "" 
+	},
 	{
 		name: "Ilse Löhr",
 		role: "PM & CCO",
@@ -22,7 +30,9 @@ const teamMembers = [
 		image: "/ketjona_adult.jpg",
 		coffeeOrder: "Latte Grand", 
 		techTool: "",
-		techToolLink: ""
+		techToolLink: "",
+		instaLink: "",
+		linkedInLink: ""
 	},
 	{
 		name: "Xhesika Samarxhiu",
@@ -30,7 +40,9 @@ const teamMembers = [
 		image: "/xhesika_adult.jpg",
 		coffeeOrder: "Cappucino with oat milk",
 		techTool: "",
-		techToolLink: ""
+		techToolLink: "",
+		instaLink: "",
+		linkedInLink: ""
 	},
 	{
 		name: "Amirali Shaban Khamseh",
@@ -38,7 +50,9 @@ const teamMembers = [
 		image: "/amir_adult.jpg",
 		coffeeOrder: "mericano",
 		techTool: "",
-		techToolLink: ""
+		techToolLink: "",
+		instaLink: "",
+		linkedInLink: ""
 	},
 ];
 
@@ -94,9 +108,15 @@ export default function Home() {
 								<p className="text-sm">
 									<strong>Favorite Tech-Tool:</strong> {<a className="hover:underline" href={member.techToolLink}>{member.techTool}</a> || 'Not provided'}
 								</p>
-								<p className="text-sm mt-5">My social media accounts.</p>
-								<div>
-									
+								<div className="mt-4">
+									<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+										<li>
+											<a href={member.instaLink} className="hover:underline me-4 md:me-6">Insta</a>
+										</li>
+										<li>
+											<a href={member.linkedInLink} className="hover:underline me-4 md:me-6">LinkedIn</a>
+										</li>
+									</ul>
 								</div>
 
 							</div>
