@@ -53,9 +53,9 @@ export default function Home() {
 			<div className="flex flex-col items-start mb-5">
 				{teamMembers.map((member) => (
 					<Card key={member.name} className="mb-10 w-full max-w-2xl mx-auto py-10">
-					<CardContent className="flex items-center space-x-8 px-2 lg:px-0">
+					<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
 						{/* Profile Picture */}
-						<div className="relative">
+						<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
 						<Image
 							src={member.image}
 							alt={member.name}
@@ -66,19 +66,19 @@ export default function Home() {
 						</div>
 
 						{/* Member Info */}
-						<div className="flex-grow flex flex-col pl-16 border-l-[1.5px] border-gray-200">
-						<div className="flex flex-col items-start mb-2">
-							<h2 className="text-2xl font-semibold">{member.name}</h2>
-							<Badge className="my-2 text-sm">{member.role}</Badge>
+						<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 pt-6 lg:pt-0 items-center lg:items-start">
+						<div className="flex flex-col items-center lg:items-start mb-2">
+							<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
+							<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
 						</div>
 						<p className="text-sm">
-							<strong>Favorite Tool:</strong> {member.favoriteTool || 'Not provided'}
+							<strong>Fact 1:</strong> Here comes fact 1.
 						</p>
 						<p className="text-sm">
-							<strong>Star Sign:</strong> {member.starSign || 'Not provided'}
+							<strong>Fact 2:</strong> Here comes fact 2.
 						</p>
 						<p className="text-sm mt-5">
-							 Hover on the pic to see a youth pic!
+							 Hover on the profile pic to see me in my youth!
 						</p>
 
 						{/* Childhood Photo */}
