@@ -1,10 +1,10 @@
-import { Card } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { MDXRemote, compileMDX } from "next-mdx-remote/rsc";
 import fs from "node:fs/promises"; // Use promises for async file system operations
 import path from "node:path";
-import type { Frontmatter } from "@/types/mdx"; // Import Frontmatter type
 import { Badge } from "@/components/ui/badge";
+import { Card } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import type { Frontmatter } from "@/types/mdx"; // Import Frontmatter type
+import { MDXRemote, compileMDX } from "next-mdx-remote/rsc";
 
 async function getPosts() {
 	const postsDirectory = path.join(process.cwd(), "src/posts");

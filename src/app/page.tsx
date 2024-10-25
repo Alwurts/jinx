@@ -35,7 +35,7 @@ export default function Home() {
 				<LogoText className="w-full h-44 mx-auto text-white" />
 				<h1 className="sr-only">Jinx</h1>
 				<p className="text-xl text-purple-100">
-					Pioneering AI Applications
+					Pioneering AI Web Applications
 				</p>
 			</div>
 
