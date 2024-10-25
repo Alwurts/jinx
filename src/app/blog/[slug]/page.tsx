@@ -1,10 +1,10 @@
+import fs from "node:fs";
+import path from "node:path";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import type { Frontmatter } from "@/types/mdx";
 import { MDXRemote, compileMDX } from "next-mdx-remote/rsc";
 import { notFound } from "next/navigation";
-import fs from "node:fs";
-import path from "node:path";
 
 function getPost(slug: string) {
 	const filePath = path.join(process.cwd(), `src/posts/${slug}.mdx`);
