@@ -52,10 +52,13 @@ export default function Home() {
 
 			<div className="flex flex-col items-start mb-5">
 				{teamMembers.map((member) => (
-					<Card key={member.name} className="mb-10 w-full max-w-2xl mx-auto py-10">
-							<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
-								{/* Profile Picture */}
-								<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
+					<Card
+						key={member.name}
+						className="mb-10 w-full max-w-2xl mx-auto py-10"
+					>
+						<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
+							{/* Profile Picture */}
+							<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
 								<Image
 									src={member.image}
 									alt={member.name}
@@ -63,10 +66,10 @@ export default function Home() {
 									height={220}
 									className="rounded-full border-2 border-grey-800 shadow-lg lg:-ml-12"
 								/>
-								</div>
+							</div>
 
-								{/* Member Info */}
-								<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 dark:border-gray-700 pt-6 lg:pt-0 items-center lg:items-start">
+							{/* Member Info */}
+							<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 dark:border-gray-700 pt-6 lg:pt-0 items-center lg:items-start">
 								<div className="flex flex-col items-center lg:items-start mb-2">
 									<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
 									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
@@ -77,16 +80,12 @@ export default function Home() {
 								<p className="text-sm">
 									<strong>Best Tech Tool:</strong> Here comes fact 2.
 								</p>
-								<p className="text-sm mt-5">
-									My social media accounts.
-								</p>
-
+								<p className="text-sm mt-5">My social media accounts.</p>
 							</div>
 						</CardContent>
 					</Card>
 				))}
 			</div>
-
 		</main>
 	);
 }

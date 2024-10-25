@@ -10,15 +10,15 @@ const Logo = (props: React.SVGProps<SVGSVGElement>) => {
 		>
 			<title
 				style={{
-					position: 'absolute',
-					width: '1px',
-					height: '1px',
-					padding: '0',
-					margin: '-1px',
-					overflow: 'hidden',
-					clip: 'rect(0, 0, 0, 0)',
-					whiteSpace: 'nowrap',
-					borderWidth: '0',
+					position: "absolute",
+					width: "1px",
+					height: "1px",
+					padding: "0",
+					margin: "-1px",
+					overflow: "hidden",
+					clip: "rect(0, 0, 0, 0)",
+					whiteSpace: "nowrap",
+					borderWidth: "0",
 				}}
 			>
 				Jinx Logo
