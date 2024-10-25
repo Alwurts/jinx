@@ -3,26 +3,26 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 const teamMembers = [
-	{ name: "Alejandro Wurts", role: "Teammember", image: "/alwurts.jpg" },
+	{ name: "Alejandro Wurts", role: "CEO", image: "/alwurts_adult.jpg" },
 	{
 		name: "Ilse Löhr",
-		role: "Teammember",
+		role: "Product Manager and CCO",
 		image: "/ilse_adult.jpg",
 	},
 	{
 		name: "Ketjona Lepuri",
-		role: "Teammember",
-		image: "/ketjona.jpg",
+		role: "CFO and Head of Sales",
+		image: "/ketjona_adult.jpg",
 	},
 	{
 		name: "Xhesika Samarxhiu",
-		role: "Teammember",
-		image: "/xhesika.jpg",
+		role: "CMO and Communication",
+		image: "/xhesika_adult.jpg",
 	},
 	{
 		name: "Amirali Shaban Khamseh",
-		role: "Teammember",
-		image: "/amir.jpg",
+		role: "CTO",
+		image: "/amir_adult.jpg",
 	},
 ];
 
@@ -31,16 +31,15 @@ export default function Home() {
 		<main className="container mx-auto px-4 py-4">
 			<div className="text-center mb-10">
 				<Image
-					src="/logo-black.png"
+					src="/jinx_logo_white_big.svg"
 					alt="Jinx Logo"
 					width={150}
 					height={150}
 					className="mx-auto"
 				/>
 
-				<h1 className="text-5xl font-bold text-white mb-4">jgit inx</h1>
 				<p className="text-xl text-purple-100">
-					Pioneering AI Web Applications
+					Pioneering AI Web Applications - We are solving the unresolved.
 				</p>
 			</div>
 
