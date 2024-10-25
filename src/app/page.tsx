@@ -5,34 +5,35 @@ import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
-	{   name: "Alejandro Wurts",
-	    role: "CEO", 
+	{
+		name: "Alejandro Wurts",
+		role: "CEO",
 		image: "/alwurts_adult.jpg",
 		coffeeOrder: "Dirty Latte",
-		techTool: "", 
-		techToolLink: "", 
+		techTool: "",
+		techToolLink: "",
 		instaLink: "",
-		linkedInLink: "" 
+		linkedInLink: "",
 	},
 	{
 		name: "Ilse Löhr",
 		role: "PM & CCO",
 		image: "/ilse_adult.jpg",
-		coffeeOrder: "Pumpkin Spice Latte", 
+		coffeeOrder: "Pumpkin Spice Latte",
 		techTool: "Tailwind CSS",
 		techToolLink: "https://tailwindcss.com/",
 		instaLink: "",
-		linkedInLink: ""
+		linkedInLink: "",
 	},
 	{
 		name: "Ketjona Lepuri",
 		role: "CFO & HoS",
 		image: "/ketjona_adult.jpg",
-		coffeeOrder: "Latte Grand", 
+		coffeeOrder: "Latte Grand",
 		techTool: "",
 		techToolLink: "",
 		instaLink: "",
-		linkedInLink: ""
+		linkedInLink: "",
 	},
 	{
 		name: "Xhesika Samarxhiu",
@@ -42,7 +43,7 @@ const teamMembers = [
 		techTool: "",
 		techToolLink: "",
 		instaLink: "",
-		linkedInLink: ""
+		linkedInLink: "",
 	},
 	{
 		name: "Amirali Shaban Khamseh",
@@ -52,7 +53,7 @@ const teamMembers = [
 		techTool: "",
 		techToolLink: "",
 		instaLink: "",
-		linkedInLink: ""
+		linkedInLink: "",
 	},
 ];
 
@@ -103,22 +104,37 @@ export default function Home() {
 									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
 								</div>
 								<p className="text-sm">
-									<strong>Coffee Order:</strong> {member.coffeeOrder || 'Not provided'}
+									<strong>Coffee Order:</strong>{" "}
+									{member.coffeeOrder || "Not provided"}
 								</p>
 								<p className="text-sm">
-									<strong>Favorite Tech-Tool:</strong> {<a className="hover:underline" href={member.techToolLink}>{member.techTool}</a> || 'Not provided'}
+									<strong>Favorite Tech-Tool:</strong>{" "}
+									{(
+										<a className="hover:underline" href={member.techToolLink}>
+											{member.techTool}
+										</a>
+									) || "Not provided"}
 								</p>
 								<div className="mt-4">
 									<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
 										<li>
-											<a href={member.instaLink} className="hover:underline me-4 md:me-6">Insta</a>
+											<a
+												href={member.instaLink}
+												className="hover:underline me-4 md:me-6"
+											>
+												Insta
+											</a>
 										</li>
 										<li>
-											<a href={member.linkedInLink} className="hover:underline me-4 md:me-6">LinkedIn</a>
+											<a
+												href={member.linkedInLink}
+												className="hover:underline me-4 md:me-6"
+											>
+												LinkedIn
+											</a>
 										</li>
 									</ul>
 								</div>
-
 							</div>
 						</CardContent>
 					</Card>

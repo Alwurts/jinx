@@ -26,7 +26,7 @@ export default function RootLayout({
 					<Navbar /> {/* Add the Navbar component here */}
 					{children}
 				</ThemeProvider>
-					<Footer/>
+				<Footer />
 			</body>
 		</html>
 	);
