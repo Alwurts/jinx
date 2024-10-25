@@ -1,3 +1,4 @@
+import LogoIcon from "@/components/icons/LogoIcon";
 import Image from "next/image";
 import { ImageResponse } from "next/og";
 
@@ -12,20 +13,15 @@ export const contentType = "image/png";
 export default function Icon() {
 	return new ImageResponse(
 		// ImageResponse JSX element
-		<div
+		<LogoIcon
 			style={{
-				fontSize: 22,
-				background: "purple",
+				color: "white",
+				backgroundColor: "#723FDF",
+				borderRadius: "20%",
 				width: "100%",
 				height: "100%",
-				display: "flex",
-				alignItems: "center",
-				justifyContent: "center",
-				color: "white",
 			}}
-		>
-			J
-		</div>,
+		/>,
 		// ImageResponse options
 		{
 			// For convenience, we can re-use the exported icons size metadata

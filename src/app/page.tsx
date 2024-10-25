@@ -1,6 +1,8 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import LogoIcon from "@/components/icons/LogoIcon";
+import LogoText from "@/components/icons/LogoText";
 
 const teamMembers = [
 	{ name: "Alejandro Wurts", role: "Teammember", image: "/alwurts.jpg" },
@@ -30,14 +32,8 @@ export default function Home() {
 	return (
 		<main className="container mx-auto px-4 py-4">
 			<div className="text-center mb-10">
-				<Image
-					src="/logo-black.png"
-					alt="Jinx Logo"
-					width={150}
-					height={150}
-					className="mx-auto"
-				/>
-				<h1 className="text-5xl font-bold text-white mb-4">Jinx</h1>
+				<LogoText className="w-full h-44 mx-auto text-white" />
+				<h1 className="sr-only">Jinx</h1>
 				<p className="text-xl text-purple-100">
 					Pioneering AI Web Applications
 				</p>
