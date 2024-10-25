@@ -5,26 +5,40 @@ import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
-	{ name: "Alejandro Wurts", role: "CEO", image: "/alwurts_adult.jpg" },
+	{ name: "Alejandro Wurts", role: "CEO", image: "/alwurts_adult.jpg", coffeeOrder: "Dirty Latte", techTool: "", techToolLink: "" },
 	{
 		name: "Ilse Löhr",
 		role: "PM & CCO",
 		image: "/ilse_adult.jpg",
+		coffeeOrder: "Pumpkin Spice Latte", 
+		techTool: "Tailwind CSS",
+		techToolLink: "https://tailwindcss.com/",
+		instaLink: "",
+		linkedInLink: ""
 	},
 	{
 		name: "Ketjona Lepuri",
 		role: "CFO & HoS",
 		image: "/ketjona_adult.jpg",
+		coffeeOrder: "Latte Grand", 
+		techTool: "",
+		techToolLink: ""
 	},
 	{
 		name: "Xhesika Samarxhiu",
 		role: "CMO",
 		image: "/xhesika_adult.jpg",
+		coffeeOrder: "Cappucino with oat milk",
+		techTool: "",
+		techToolLink: ""
 	},
 	{
 		name: "Amirali Shaban Khamseh",
 		role: "CTO",
 		image: "/amir_adult.jpg",
+		coffeeOrder: "mericano",
+		techTool: "",
+		techToolLink: ""
 	},
 ];
 
@@ -75,12 +89,16 @@ export default function Home() {
 									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
 								</div>
 								<p className="text-sm">
-									<strong>Fact 1:</strong> Here comes fact 1.
+									<strong>Coffee Order:</strong> {member.coffeeOrder || 'Not provided'}
 								</p>
 								<p className="text-sm">
-									<strong>Best Tech Tool:</strong> Here comes fact 2.
+									<strong>Favorite Tech-Tool:</strong> {<a className="hover:underline" href={member.techToolLink}>{member.techTool}</a> || 'Not provided'}
 								</p>
 								<p className="text-sm mt-5">My social media accounts.</p>
+								<div>
+									
+								</div>
+
 							</div>
 						</CardContent>
 					</Card>
