@@ -53,76 +53,39 @@ export default function Home() {
 			<div className="flex flex-col items-start mb-5">
 				{teamMembers.map((member) => (
 					<Card key={member.name} className="mb-10 w-full max-w-2xl mx-auto py-10">
-					<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
-						{/* Profile Picture */}
-						<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
-						<Image
-							src={member.image}
-							alt={member.name}
-							width={220}
-							height={220}
-							className="rounded-full border-2 border-grey-800 shadow-lg lg:-ml-12"
-						/>
-						</div>
+							<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
+								{/* Profile Picture */}
+								<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
+								<Image
+									src={member.image}
+									alt={member.name}
+									width={220}
+									height={220}
+									className="rounded-full border-2 border-grey-800 shadow-lg lg:-ml-12"
+								/>
+								</div>
 
-						{/* Member Info */}
-						<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 pt-6 lg:pt-0 items-center lg:items-start">
-						<div className="flex flex-col items-center lg:items-start mb-2">
-							<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
-							<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
-						</div>
-						<p className="text-sm">
-							<strong>Fact 1:</strong> Here comes fact 1.
-						</p>
-						<p className="text-sm">
-							<strong>Fact 2:</strong> Here comes fact 2.
-						</p>
-						<p className="text-sm mt-5">
-							 Hover on the profile pic to see me in my youth!
-						</p>
+								{/* Member Info */}
+								<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 pt-6 lg:pt-0 items-center lg:items-start">
+								<div className="flex flex-col items-center lg:items-start mb-2">
+									<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
+									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
+								</div>
+								<p className="text-sm">
+									<strong>Fact 1:</strong> Here comes fact 1.
+								</p>
+								<p className="text-sm">
+									<strong>Fact 2:</strong> Here comes fact 2.
+								</p>
+								<p className="text-sm mt-5">
+									Hover on the profile pic to see me in my youth!
+								</p>
 
-						{/* Childhood Photo */}
-						{member.childhoodImage && (
-							<div className="mt-4">
-							<Image
-								src={member.childhoodImage}
-								alt={`${member.name} as a child`}
-								width={100}
-								height={100}
-								className="rounded-full border-2 border-gray-300"
-							/>
 							</div>
-						)}
-						</div>
-					</CardContent>
-					</Card>
-				))}
-		</div>
-
-
-
-
-		{/* Old Team Section
-			<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-				{teamMembers.map((member) => (
-					<Card key={member.name} className="">
-						<CardContent className="p-6 flex flex-col items-center">
-							<Image
-								src={member.image}
-								alt={member.name}
-								width={200}
-								height={200}
-								className="rounded-full mx-auto mb-4 border-4 "
-							/>
-							<h2 className="text-2xl font-semibold text-center mb-2">
-								{member.name}
-							</h2>
-							<Badge className="mx-auto">{member.role}</Badge>
 						</CardContent>
 					</Card>
 				))}
 			</div>
-		*/}
 
 		</main>
 	);
