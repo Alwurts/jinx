@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import Navbar from "@/components/layout/Navbar"; // Import the Navbar component
+import Navbar from "@/components/layout/navigation-bar"; // Import the Navbar component
 
 export const metadata: Metadata = {
 	title: "Jinx",
