@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ThemeToggle } from "../theme/theme-toggle";
+import LogoIconMystical from "@/components/icons/logo-icon-mystical";
 
 export default function Navbar() {
 	const pathname = usePathname();
@@ -20,7 +21,8 @@ export default function Navbar() {
 	return (
 		<nav className="p-4 bg-card">
 			<div className="container mx-auto flex justify-between items-center">
-				<ul className="flex space-x-4">
+				<ul className="flex items-center justify-center space-x-4">
+					<LogoIconMystical className="h-8 w-full text-foreground" />
 					{navigationLinks.map((link) => (
 						<li key={link.href}>
 							<Link
