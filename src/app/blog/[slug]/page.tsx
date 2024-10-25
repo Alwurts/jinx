@@ -66,7 +66,7 @@ export default async function Page({ params }: { params: { slug: string } }) {
 						</p>
 					</div>
 					<Separator className="mt-4" />
-					<div className="max-w-none prose prose-headings:my-6 prose-headings:font-semibold prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base prose-p:my-3 prose-li:my-1 prose-ul:my-3 ">
+					<div className="max-w-none prose prose-headings:my-6 prose-headings:font-semibold prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl prose-h5:text-lg prose-h6:text-base prose-p:my-3 prose-li:my-1 prose-ul:my-3 dark:prose-invert">
 						<MDXRemote
 							source={fileContents}
 							options={{

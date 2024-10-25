@@ -1,8 +1,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import LogoIcon from "@/components/icons/LogoIcon";
-import LogoText from "@/components/icons/LogoText";
+import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
 	{ name: "Alejandro Wurts", role: "CEO", image: "/alwurts_adult.jpg" },
@@ -32,9 +31,9 @@ export default function Home() {
 	return (
 		<main className="container mx-auto px-4 py-4">
 			<div className="text-center mb-10">
-				<LogoText className="w-full h-44 mx-auto text-white" />
+				<LogoText className="w-full h-44 mx-auto text-foreground" />
 				<h1 className="sr-only">Jinx</h1>
-				<p className="text-xl text-purple-100">
+				<p className="text-xl">
 					Pioneering AI Web Applications - We are solving the unresolved.
 				</p>
 			</div>
@@ -43,7 +42,7 @@ export default function Home() {
 				{teamMembers.map((member) => (
 					<Card
 						key={member.name}
-						className="bg-white/10 backdrop-blur-lg border-none"
+						className=""
 					>
 						<CardContent className="p-6 flex flex-col items-center">
 							<Image
@@ -51,12 +50,12 @@ export default function Home() {
 								alt={member.name}
 								width={200}
 								height={200}
-								className="rounded-full mx-auto mb-4 border-4 border-purple-300"
+								className="rounded-full mx-auto mb-4 border-4 "
 							/>
-							<h2 className="text-2xl font-semibold text-white text-center mb-2">
+							<h2 className="text-2xl font-semibold text-center mb-2">
 								{member.name}
 							</h2>
-							<Badge className="bg-purple-500 hover:bg-purple-600 text-white mx-auto">
+							<Badge className="mx-auto">
 								{member.role}
 							</Badge>
 						</CardContent>

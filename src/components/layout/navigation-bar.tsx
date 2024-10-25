@@ -3,6 +3,7 @@
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ThemeToggle } from "../theme/theme-toggle";
 
 export default function Navbar() {
 	const pathname = usePathname();
@@ -17,22 +18,25 @@ export default function Navbar() {
 		},
 	];
 	return (
-		<nav className="bg-white/10 backdrop-blur-lg p-4">
-			<ul className="w-fit flex space-x-4 mx-auto">
-				{navigationLinks.map((link) => (
-					<li key={link.href}>
-						<Link
-							href={link.href}
-							className={cn(
-								"text-white text-lg hover:underline",
-								pathname === link.href && "font-bold underline",
-							)}
-						>
-							{link.label}
-						</Link>
-					</li>
-				))}
-			</ul>
+		<nav className="p-4 bg-card">
+			<div className="container mx-auto flex justify-between items-center">
+				<ul className="flex space-x-4">
+					{navigationLinks.map((link) => (
+						<li key={link.href}>
+							<Link
+								href={link.href}
+								className={cn(
+									"text-lg hover:underline",
+									pathname === link.href && "font-bold underline",
+								)}
+							>
+								{link.label}
+							</Link>
+						</li>
+					))}
+				</ul>
+				<ThemeToggle />
+			</div>
 		</nav>
 	);
 }
