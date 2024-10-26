@@ -21,8 +21,8 @@ const teamMembers = [
 		coffeeOrder: "Pumpkin Spice Latte",
 		techTool: "Tailwind CSS",
 		techToolLink: "https://tailwindcss.com/",
-		instaLink: "",
-		linkedInLink: "",
+		instaLink: "https://www.instagram.com/ilseloehr/?hl=de",
+		linkedInLink: "https://de.linkedin.com/in/ilse-l%C3%B6hr-687b681b8?trk=people-guest_people_search-card",
 	},
 	{
 		name: "Ketjona Lepuri",

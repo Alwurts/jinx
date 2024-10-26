@@ -3,6 +3,8 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import Link from 'next/link'
 import { Badge } from "@/components/ui/badge";
+import InstaIcon from "@/components/icons/logo-insta";
+import LinkedInIcon from "../icons/logo-linkedIn";
 
 const Card = React.forwardRef<
 	HTMLDivElement,
@@ -96,7 +98,7 @@ const CardMemberInfo = ({
 <div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-border pt-6 lg:pt-0 items-center lg:items-start">
   <div className="flex flex-col items-center lg:items-start mb-2">
     <h2 className="text-2xl font-semibold mb-2">{name}</h2>
-	<Badge className="mt-1 mb-3 text-sm">{role}</Badge>
+	<Badge className="mt-1 mb-4 text-sm">{role}</Badge>
 	</div>
     <p className="text-sm">
       <strong>Coffee Order:</strong> {coffeeOrder || "Not provided"}
@@ -111,12 +113,12 @@ const CardMemberInfo = ({
         techTool || "Not provided"
       )}
     </p>
-    <div className="flex space-x-4 mt-4">
-      <Link href={instaLink || "#"} className="hover:underline text-sm text-gray-500 dark:text-gray-400">
-        Instagram
+    <div className="flex space-x-1 mt-4">
+      <Link href={instaLink || "#"} className="hover:text-primary text-sm">
+        <InstaIcon className="p-[1px] h-12 lg:h-6"/>
       </Link>
-      <Link href={linkedInLink || "#"} className="hover:underline text-sm text-gray-500 dark:text-gray-400">
-        LinkedIn
+      <Link href={linkedInLink || "#"} className="hover:text-primary text-sm">
+        <LinkedInIcon className="h-12 lg:h-6"/>
       </Link>
     </div>
 </div>	
