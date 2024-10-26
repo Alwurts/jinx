@@ -1,8 +1,6 @@
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardMemberInfo } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import Link from 'next/link'
 import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
@@ -40,7 +38,7 @@ const teamMembers = [
 		name: "Xhesika Samarxhiu",
 		role: "CMO",
 		image: "/xhesika_adult.jpg",
-		coffeeOrder: "Cappucino with oat milk",
+		coffeeOrder: "Cappucino",
 		techTool: "",
 		techToolLink: "",
 		instaLink: "",
@@ -50,7 +48,7 @@ const teamMembers = [
 		name: "Amirali Shaban Khamseh",
 		role: "CTO",
 		image: "/amir_adult.jpg",
-		coffeeOrder: "mericano",
+		coffeeOrder: "Americano",
 		techTool: "",
 		techToolLink: "",
 		instaLink: "",
@@ -99,44 +97,7 @@ export default function Home() {
 							</div>
 
 							{/* Member Info */}
-							<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-border pt-6 lg:pt-0 items-center lg:items-start">
-								<div className="flex flex-col items-center lg:items-start mb-2">
-									<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
-									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
-								</div>
-								<p className="text-sm">
-									<strong>Coffee Order:</strong>{" "}
-									{member.coffeeOrder || "Not provided"}
-								</p>
-								<p className="text-sm">
-									<strong>Favorite Tech-Tool:</strong>{" "}
-									{(
-										<Link className="underline hover:text-foreground" href={member.techToolLink}>
-											{member.techTool}
-										</Link>
-									) || "Not provided"}
-								</p>
-								<div className="mt-4">
-									<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
-										<li>
-											<Link
-												href={member.instaLink}
-												className="hover:underline me-4 md:me-6"
-											>
-												Insta
-											</Link>
-										</li>
-										<li>
-											<Link
-												href={member.linkedInLink}
-												className="hover:underline me-4 md:me-6"
-											>
-												LinkedIn
-											</Link>
-										</li>
-									</ul>
-								</div>
-							</div>
+							<CardMemberInfo {...member}/>
 						</CardContent>
 					</Card>
 				))}
