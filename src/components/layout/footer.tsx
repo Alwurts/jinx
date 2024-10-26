@@ -13,23 +13,23 @@ export default function Footer() {
 					</a>
 					<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
 						<li>
-							<a href="/" className="hover:underline me-4 md:me-6">
+							<a href="/" className="hover:underline hover:text-foreground me-4 md:me-6">
 								Home
 							</a>
 						</li>
 						<li>
-							<a href="/blog" className="hover:underline me-4 md:me-6">
+							<a href="/blog" className="hover:underline hover:text-foreground me-4 md:me-6">
 								Blog
 							</a>
 						</li>
 						<li>
-							<a href="/" className="hover:underline me-4 md:me-6">
+							<a href="/" className="hover:underline hover:text-foreground me-4 md:me-6">
 								Impressum
 							</a>
 						</li>
 					</ul>
 				</div>
-				<hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+				<hr className="my-6 border-border sm:mx-auto lg:my-8" />
 				<span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
 					University Chemnitz Planspiel Project 2024
 				</span>

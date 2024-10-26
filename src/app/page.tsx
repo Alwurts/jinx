@@ -93,12 +93,12 @@ export default function Home() {
 									alt={member.name}
 									width={220}
 									height={220}
-									className="rounded-full border-2 border-grey-800 shadow-lg lg:-ml-12"
+									className="rounded-full border-2 border-border shadow-lg lg:-ml-12"
 								/>
 							</div>
 
 							{/* Member Info */}
-							<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 dark:border-gray-700 pt-6 lg:pt-0 items-center lg:items-start">
+							<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-border pt-6 lg:pt-0 items-center lg:items-start">
 								<div className="flex flex-col items-center lg:items-start mb-2">
 									<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
 									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
@@ -110,7 +110,7 @@ export default function Home() {
 								<p className="text-sm">
 									<strong>Favorite Tech-Tool:</strong>{" "}
 									{(
-										<a className="hover:underline" href={member.techToolLink}>
+										<a className="underline hover:text-foreground" href={member.techToolLink}>
 											{member.techTool}
 										</a>
 									) || "Not provided"}
