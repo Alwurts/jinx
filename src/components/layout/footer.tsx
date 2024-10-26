@@ -1,5 +1,5 @@
 import LogoText from "@/components/icons/logo-text";
-import Link from 'next/link'
+import Link from "next/link";
 
 export default function Footer() {
 	return (
@@ -14,17 +14,26 @@ export default function Footer() {
 					</Link>
 					<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
 						<li>
-							<Link href="/" className="hover:underline hover:text-foreground me-4 md:me-6">
+							<Link
+								href="/"
+								className="hover:underline hover:text-foreground me-4 md:me-6"
+							>
 								Home
 							</Link>
 						</li>
 						<li>
-							<Link href="/blog" className="hover:underline hover:text-foreground me-4 md:me-6">
+							<Link
+								href="/blog"
+								className="hover:underline hover:text-foreground me-4 md:me-6"
+							>
 								Blog
 							</Link>
 						</li>
 						<li>
-							<Link href="/" className="hover:underline hover:text-foreground me-4 md:me-6">
+							<Link
+								href="/"
+								className="hover:underline hover:text-foreground me-4 md:me-6"
+							>
 								Impressum
 							</Link>
 						</li>
