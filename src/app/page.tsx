@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import Link from 'next/link'
 import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
@@ -110,28 +111,28 @@ export default function Home() {
 								<p className="text-sm">
 									<strong>Favorite Tech-Tool:</strong>{" "}
 									{(
-										<a className="underline hover:text-foreground" href={member.techToolLink}>
+										<Link className="underline hover:text-foreground" href={member.techToolLink}>
 											{member.techTool}
-										</a>
+										</Link>
 									) || "Not provided"}
 								</p>
 								<div className="mt-4">
 									<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
 										<li>
-											<a
+											<Link
 												href={member.instaLink}
 												className="hover:underline me-4 md:me-6"
 											>
 												Insta
-											</a>
+											</Link>
 										</li>
 										<li>
-											<a
+											<Link
 												href={member.linkedInLink}
 												className="hover:underline me-4 md:me-6"
 											>
 												LinkedIn
-											</a>
+											</Link>
 										</li>
 									</ul>
 								</div>
