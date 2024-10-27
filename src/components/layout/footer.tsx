@@ -62,11 +62,11 @@ export default function Footer() {
 					</div>
 				</div>
 				<hr className="my-6 border-border sm:mx-auto lg:my-8" />
-                <div className="flex justify-center">
-                    <span className="text-sm w-fit text-center text-gray-500 dark:text-gray-400">
-                        University Chemnitz Planspiel Project 2024
-                    </span>
-                </div>
+				<div className="flex justify-center">
+					<span className="text-sm w-fit text-center text-gray-500 dark:text-gray-400">
+						University Chemnitz Planspiel Project 2024
+					</span>
+				</div>
 			</div>
 		</footer>
 	);
