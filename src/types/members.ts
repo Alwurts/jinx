@@ -1,10 +1,11 @@
-export type Member = {
+export interface Member {
 	name: string;
-	role: string;
 	image: string;
+	youngImage: string;
+	role: string;
 	coffeeOrder?: string;
 	techTool?: string;
 	techToolLink?: string;
-	instaLink?: string;
 	linkedInLink?: string;
-};
+	xLink?: string;
+}
