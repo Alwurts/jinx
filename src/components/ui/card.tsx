@@ -112,8 +112,8 @@ const CardMemberInfo = ({
 				techTool || "Not provided"
 			)}
 		</p>
-		<div className="flex space-x-1 mt-4">
-			<Link href={linkedInLink || "#"} className="hover:text-primary text-sm">
+		<div className="flex space-x-1 mt-4 text-gray-500 dark:text-gray-400">
+			<Link href={linkedInLink || "#"} className="hover:text-foreground text-sm">
 				<LinkedInIcon className="h-12 lg:h-6" />
 			</Link>
 		</div>
