@@ -11,7 +11,6 @@ const teamMembers = [
 		coffeeOrder: "Espresso",
 		techTool: "v0",
 		techToolLink: "https://v0.dev/",
-		instaLink: "https://www.instagram.com",
 		linkedInLink: "https://www.linkedin.com/in/alejandrowurts/",
 	},
 	{
@@ -21,7 +20,6 @@ const teamMembers = [
 		coffeeOrder: "Caramel Latte Macchiato",
 		techTool: "Tailwind CSS",
 		techToolLink: "https://tailwindcss.com/",
-		instaLink: "https://www.instagram.com/ilseloehr/?hl=de",
 		linkedInLink: "https://de.linkedin.com/in/ilse-l%C3%B6hr-687b681b8?trk=people-guest_people_search-card",
 	},
 	{
@@ -31,7 +29,6 @@ const teamMembers = [
 		coffeeOrder: "Espresso",
 		techTool: "Angular",
 		techToolLink: "https://angular.dev/",
-		instaLink: "https://www.instagram.com/ket_lepuri/profilecard/?igsh=MTJvcDQ1OGRlNDduMQ%3D%3D",
 		linkedInLink: "https://www.linkedin.com/in/ketjona-lepuri-6bb2a81b7/",
 	},
 	{
@@ -41,7 +38,6 @@ const teamMembers = [
 		coffeeOrder: "Cappuccino",
 		techTool: "React",
 		techToolLink: "https://react.dev/",
-		instaLink: "https://www.instagram.com/xhesi.samarxhiu/",
 		linkedInLink: "https://www.linkedin.com/in/xhesika-samarxhiu-23066b1a9/",
 	},
 	{
@@ -51,7 +47,6 @@ const teamMembers = [
 		coffeeOrder: "Flat White",
 		techTool: "React",
 		techToolLink: "https://react.dev/",
-		instaLink: "https://www.instagram.com/amirali._.khamseh/",
 		linkedInLink: "https://www.linkedin.com/in/amirali-khamseh/",
 	},
 ];

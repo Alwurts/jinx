@@ -3,7 +3,6 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import InstaIcon from "@/components/icons/logo-insta";
 import LinkedInIcon from "../icons/logo-linkedIn";
 
 const Card = React.forwardRef<
@@ -114,9 +113,6 @@ const CardMemberInfo = ({
 			)}
 		</p>
 		<div className="flex space-x-1 mt-4">
-			<Link href={instaLink || "#"} className="hover:text-primary text-sm">
-				<InstaIcon className="p-[1px] h-12 lg:h-6" />
-			</Link>
 			<Link href={linkedInLink || "#"} className="hover:text-primary text-sm">
 				<LinkedInIcon className="h-12 lg:h-6" />
 			</Link>
