@@ -25,6 +25,7 @@ export function MemberImage({
 					<Image
 						src={showYoungImage ? youngImage : currentImage}
 						alt={name}
+						quality={100}
 						fill
 						sizes="220px"
 						className="rounded-full object-cover transition-opacity duration-300"
