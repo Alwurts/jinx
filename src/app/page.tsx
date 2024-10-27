@@ -1,22 +1,27 @@
 import Image from "next/image";
-import { Card, CardContent, CardMemberInfo } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { CardMemberInfo } from "@/components/members/member-info";
 import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
+import type { Member } from "@/types/members";
 
-const teamMembers = [
+const teamMembers: Member[] = [
 	{
 		name: "Alejandro Wurts",
 		role: "CEO",
 		image: "/alwurts_adult.jpg",
+		youngImage: "/alwurts_young.jpg",
 		coffeeOrder: "Espresso",
 		techTool: "v0",
 		techToolLink: "https://v0.dev/",
 		linkedInLink: "https://www.linkedin.com/in/alejandrowurts/",
+		xLink: "https://x.com/alwurts",
 	},
 	{
 		name: "Ilse Löhr",
 		role: "PM & CCO",
 		image: "/ilse_adult.jpg",
+		youngImage: "/ilse_young.jpg",
 		coffeeOrder: "Caramel Latte Macchiato",
 		techTool: "Tailwind CSS",
 		techToolLink: "https://tailwindcss.com/",
@@ -27,6 +32,7 @@ const teamMembers = [
 		name: "Ketjona Lepuri",
 		role: "CFO & HoS",
 		image: "/ketjona_adult.jpg",
+		youngImage: "/ketjona_young.jpg",
 		coffeeOrder: "Espresso",
 		techTool: "Angular",
 		techToolLink: "https://angular.dev/",
@@ -36,6 +42,7 @@ const teamMembers = [
 		name: "Xhesika Samarxhiu",
 		role: "CMO",
 		image: "/xhesika_adult.jpg",
+		youngImage: "/xhesika_young.jpg",
 		coffeeOrder: "Cappuccino",
 		techTool: "React",
 		techToolLink: "https://react.dev/",
@@ -45,6 +52,7 @@ const teamMembers = [
 		name: "Amirali Shaban Khamseh",
 		role: "CTO",
 		image: "/amir_adult.jpg",
+		youngImage: "/amir_young.jpg",
 		coffeeOrder: "Flat White",
 		techTool: "React",
 		techToolLink: "https://react.dev/",
@@ -76,26 +84,7 @@ export default function Home() {
 
 			<div className="flex flex-col items-start mb-5">
 				{teamMembers.map((member) => (
-					<Card
-						key={member.name}
-						className="mb-10 w-full max-w-2xl mx-auto py-10"
-					>
-						<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
-							{/* Profile Picture */}
-							<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
-								<Image
-									src={member.image}
-									alt={member.name}
-									width={220}
-									height={220}
-									className="rounded-full border-2 border-border shadow-lg lg:-ml-12"
-								/>
-							</div>
-
-							{/* Member Info */}
-							<CardMemberInfo {...member} />
-						</CardContent>
-					</Card>
+					<CardMemberInfo key={member.name} {...member} />
 				))}
 			</div>
 		</main>
