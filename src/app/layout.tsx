@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/layout/navigation-bar"; // Import the Navbar component
 import { ThemeProvider } from "@/components/theme/theme-provider";
+import Footer from "@/components/layout/footer";
 
 export const metadata: Metadata = {
 	title: "Jinx",
@@ -25,6 +26,7 @@ export default function RootLayout({
 					<Navbar /> {/* Add the Navbar component here */}
 					{children}
 				</ThemeProvider>
+				<Footer />
 			</body>
 		</html>
 	);

@@ -1,30 +1,54 @@
 import Image from "next/image";
-import { Card, CardContent } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardMemberInfo } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
 
 const teamMembers = [
-	{ name: "Alejandro Wurts", role: "CEO", image: "/alwurts_adult.jpg" },
+	{
+		name: "Alejandro Wurts",
+		role: "CEO",
+		image: "/alwurts_adult.jpg",
+		coffeeOrder: "Espresso",
+		techTool: "v0",
+		techToolLink: "https://v0.dev/",
+		linkedInLink: "https://www.linkedin.com/in/alejandrowurts/",
+	},
 	{
 		name: "Ilse Löhr",
 		role: "PM & CCO",
 		image: "/ilse_adult.jpg",
+		coffeeOrder: "Caramel Latte Macchiato",
+		techTool: "Tailwind CSS",
+		techToolLink: "https://tailwindcss.com/",
+		linkedInLink:
+			"https://de.linkedin.com/in/ilse-l%C3%B6hr-687b681b8?trk=people-guest_people_search-card",
 	},
 	{
 		name: "Ketjona Lepuri",
 		role: "CFO & HoS",
 		image: "/ketjona_adult.jpg",
+		coffeeOrder: "Espresso",
+		techTool: "Angular",
+		techToolLink: "https://angular.dev/",
+		linkedInLink: "https://www.linkedin.com/in/ketjona-lepuri-6bb2a81b7/",
 	},
 	{
 		name: "Xhesika Samarxhiu",
 		role: "CMO",
 		image: "/xhesika_adult.jpg",
+		coffeeOrder: "Cappuccino",
+		techTool: "React",
+		techToolLink: "https://react.dev/",
+		linkedInLink: "https://www.linkedin.com/in/xhesika-samarxhiu-23066b1a9/",
 	},
 	{
 		name: "Amirali Shaban Khamseh",
 		role: "CTO",
 		image: "/amir_adult.jpg",
+		coffeeOrder: "Flat White",
+		techTool: "React",
+		techToolLink: "https://react.dev/",
+		linkedInLink: "https://www.linkedin.com/in/amirali-khamseh/",
 	},
 ];
 
@@ -64,24 +88,12 @@ export default function Home() {
 									alt={member.name}
 									width={220}
 									height={220}
-									className="rounded-full border-2 border-grey-800 shadow-lg lg:-ml-12"
+									className="rounded-full border-2 border-border shadow-lg lg:-ml-12"
 								/>
 							</div>
 
 							{/* Member Info */}
-							<div className="flex-grow flex flex-col w-full lg:w-2/3 lg:pl-16 border-t lg:border-t-0 lg:border-l-[1.5px] border-gray-200 dark:border-gray-700 pt-6 lg:pt-0 items-center lg:items-start">
-								<div className="flex flex-col items-center lg:items-start mb-2">
-									<h2 className="text-2xl font-semibold mb-2">{member.name}</h2>
-									<Badge className="mt-1 mb-3 text-sm">{member.role}</Badge>
-								</div>
-								<p className="text-sm">
-									<strong>Fact 1:</strong> Here comes fact 1.
-								</p>
-								<p className="text-sm">
-									<strong>Best Tech Tool:</strong> Here comes fact 2.
-								</p>
-								<p className="text-sm mt-5">My social media accounts.</p>
-							</div>
+							<CardMemberInfo {...member} />
 						</CardContent>
 					</Card>
 				))}
