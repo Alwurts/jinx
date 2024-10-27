@@ -113,7 +113,10 @@ const CardMemberInfo = ({
 			)}
 		</p>
 		<div className="flex space-x-1 mt-4 text-gray-500 dark:text-gray-400">
-			<Link href={linkedInLink || "#"} className="hover:text-foreground text-sm">
+			<Link
+				href={linkedInLink || "#"}
+				className="hover:text-foreground text-sm"
+			>
 				<LinkedInIcon className="h-12 lg:h-6" />
 			</Link>
 		</div>
