@@ -11,7 +11,7 @@ const teamMembers = [
 		coffeeOrder: "Espresso",
 		techTool: "v0",
 		techToolLink: "https://v0.dev/",
-		instaLink: "https://www.instagram.com/alejandrowurts/",
+		instaLink: "https://www.instagram.com",
 		linkedInLink: "https://www.linkedin.com/in/alejandrowurts/",
 	},
 	{
@@ -41,18 +41,18 @@ const teamMembers = [
 		coffeeOrder: "Cappuccino",
 		techTool: "React",
 		techToolLink: "https://react.dev/",
-		instaLink: "",
+		instaLink: "https://www.instagram.com/xhesi.samarxhiu/",
 		linkedInLink: "https://www.linkedin.com/in/xhesika-samarxhiu-23066b1a9/",
 	},
 	{
 		name: "Amirali Shaban Khamseh",
 		role: "CTO",
 		image: "/amir_adult.jpg",
-		coffeeOrder: "Americano",
-		techTool: "",
-		techToolLink: "",
-		instaLink: "",
-		linkedInLink: "",
+		coffeeOrder: "Flat White",
+		techTool: "React",
+		techToolLink: "https://react.dev/",
+		instaLink: "https://www.instagram.com/amirali._.khamseh/",
+		linkedInLink: "https://www.linkedin.com/in/amirali-khamseh/",
 	},
 ];
 
