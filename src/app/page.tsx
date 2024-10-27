@@ -1,9 +1,11 @@
 import Image from "next/image";
-import { Card, CardContent, CardMemberInfo } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { CardMemberInfo } from "@/components/members/member-info";
 import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
+import type { Member } from "@/types/members";
 
-const teamMembers = [
+const teamMembers: Member[] = [
 	{
 		name: "Alejandro Wurts",
 		role: "CEO",
@@ -76,26 +78,7 @@ export default function Home() {
 
 			<div className="flex flex-col items-start mb-5">
 				{teamMembers.map((member) => (
-					<Card
-						key={member.name}
-						className="mb-10 w-full max-w-2xl mx-auto py-10"
-					>
-						<CardContent className="flex flex-col lg:flex-row items-center lg:space-x-8 space-y-6 lg:space-y-0 px-2 lg:px-0">
-							{/* Profile Picture */}
-							<div className="relative lg:w-1/3 w-full flex justify-center lg:justify-start">
-								<Image
-									src={member.image}
-									alt={member.name}
-									width={220}
-									height={220}
-									className="rounded-full border-2 border-border shadow-lg lg:-ml-12"
-								/>
-							</div>
-
-							{/* Member Info */}
-							<CardMemberInfo {...member} />
-						</CardContent>
-					</Card>
+					<CardMemberInfo key={member.name} {...member} />
 				))}
 			</div>
 		</main>
