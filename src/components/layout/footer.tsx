@@ -5,7 +5,7 @@ import XIcon from "../icons/logo-x";
 
 export default function Footer() {
 	return (
-		<footer className="p-4 bg-card">
+		<footer className="p-4 bg-card mt-auto">
 			<div className="container max-w-screen-xl mx-auto p-4 md:py-8">
 				<div className="flex flex-col justify-center">
 					<div className="sm:flex sm:items-center sm:justify-between">

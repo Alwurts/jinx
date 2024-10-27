@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className="min-h-screen ">
+			<body className="min-h-screen flex flex-col">
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"
@@ -25,8 +25,8 @@ export default function RootLayout({
 				>
 					<Navbar /> {/* Add the Navbar component here */}
 					{children}
+					<Footer />
 				</ThemeProvider>
-				<Footer />
 			</body>
 		</html>
 	);
