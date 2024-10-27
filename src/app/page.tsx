@@ -20,7 +20,8 @@ const teamMembers = [
 		coffeeOrder: "Caramel Latte Macchiato",
 		techTool: "Tailwind CSS",
 		techToolLink: "https://tailwindcss.com/",
-		linkedInLink: "https://de.linkedin.com/in/ilse-l%C3%B6hr-687b681b8?trk=people-guest_people_search-card",
+		linkedInLink:
+			"https://de.linkedin.com/in/ilse-l%C3%B6hr-687b681b8?trk=people-guest_people_search-card",
 	},
 	{
 		name: "Ketjona Lepuri",
