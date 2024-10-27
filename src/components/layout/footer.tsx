@@ -8,7 +8,7 @@ export default function Footer() {
 		<footer className="p-4 bg-card mt-auto">
 			<div className="container max-w-screen-xl mx-auto p-4 md:py-8">
 				<div className="flex flex-col justify-center">
-					<div className="sm:flex sm:items-center sm:justify-between">
+					<div className="flex flex-col items-center sm:justify-between md:flex-row">
 						<Link
 							href="https://jinx-team.vercel.app/"
 							className="flex items-center mb-4 sm:mb-0 space-x-3 rtl:space-x-reverse"
@@ -62,9 +62,11 @@ export default function Footer() {
 					</div>
 				</div>
 				<hr className="my-6 border-border sm:mx-auto lg:my-8" />
-				<span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-					University Chemnitz Planspiel Project 2024
-				</span>
+                <div className="flex justify-center">
+                    <span className="text-sm w-fit text-center text-gray-500 dark:text-gray-400">
+                        University Chemnitz Planspiel Project 2024
+                    </span>
+                </div>
 			</div>
 		</footer>
 	);
