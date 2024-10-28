@@ -34,7 +34,7 @@ export default function Footer() {
 							</li>
 							<li>
 								<Link
-									href="/"
+									href="/impressum"
 									className="hover:underline hover:text-foreground me-4 md:me-6"
 								>
 									Impressum
