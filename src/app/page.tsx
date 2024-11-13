@@ -64,10 +64,9 @@ const teamMembers: Member[] = [
 export default function Home() {
 	return (
 		<main className="container mx-auto px-4 py-4">
-	
-		<HeroSection />
+			<HeroSection />
 
-		{/*
+			{/*
 			<div className="text-center mb-12">
 				<LogoText className="w-full h-44 mx-auto text-foreground" />
 				<h1 className="sr-only">Jinx</h1>
