@@ -4,6 +4,7 @@ import { CardMemberInfo } from "@/components/members/member-info";
 import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
 import type { Member } from "@/types/members";
+import HeroSection from "@/components/herosection/hero";
 
 const teamMembers: Member[] = [
 	{
@@ -63,6 +64,9 @@ const teamMembers: Member[] = [
 export default function Home() {
 	return (
 		<main className="container mx-auto px-4 py-4">
+			<HeroSection />
+
+			{/*
 			<div className="text-center mb-12">
 				<LogoText className="w-full h-44 mx-auto text-foreground" />
 				<h1 className="sr-only">Jinx</h1>
@@ -70,6 +74,7 @@ export default function Home() {
 					Pioneering AI Web Applications - We’re the Ones Solving the Unsolved.
 				</p>
 			</div>
+		 */}
 
 			<Separator className="mt-4" />
 
