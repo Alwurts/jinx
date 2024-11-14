@@ -63,20 +63,19 @@ export default function page() {
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
-					{data &&
-						data.map((item) => (
-							<div className="space-y-8" key={item.id}>
-								<div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 border-2 border-slate-600 dark:border-white">
-									{item.icon}
-								</div>
-								<h3 className="mb-2 text-xl font-bold dark:text-white">
-									{item.title}
-								</h3>
-								<p className="text-gray-500 dark:text-gray-400">
-									{item.description}
-								</p>
+					{data?.map((item) => (
+						<div className="space-y-8" key={item.id}>
+							<div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 border-2 border-slate-600 dark:border-white">
+								{item.icon}
 							</div>
-						))}
+							<h3 className="mb-2 text-xl font-bold dark:text-white">
+								{item.title}
+							</h3>
+							<p className="text-gray-500 dark:text-gray-400">
+								{item.description}
+							</p>
+						</div>
+					))}
 				</div>
 			</div>
 		</section>
