@@ -21,6 +21,10 @@ export default function Navbar() {
 			href: "/contact",
 			label: "Contact",
 		},
+		{
+			href: "/about",
+			label: "About Jinx",
+		},
 	];
 	return (
 		<nav className="p-4 bg-card">
@@ -32,7 +36,7 @@ export default function Navbar() {
 							<Link
 								href={link.href}
 								className={cn(
-									"text-lg hover:underline ",
+									"text-lg hover:underline whitespace-nowrap",
 									pathname === link.href && "font-bold underline",
 								)}
 							>
