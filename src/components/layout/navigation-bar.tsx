@@ -24,7 +24,7 @@ export default function Navbar() {
 		{
 			href: "/contact",
 			label: "Contact",
-		}
+		},
 	];
 	return (
 		<nav className="p-4 bg-card">
