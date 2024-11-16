@@ -15,13 +15,13 @@ export default function HeroSection() {
 					</p>
 					<div className="flex space-y-6 flex-col md:space-y-0 md:flex-row md:space-x-3">
 						<Link
-							href="/"
+							href="/about"
 							className="inline-flex items-center justify-center px-5 py-3 text-primary-foreground text-base font-semibold rounded-xl bg-primary hover:bg-primary/80 focus:ring-2 focus:ring-primary dark:hover:bg-primary/80"
 						>
 							Learn More About Us
 						</Link>
 						<Link
-							href="/"
+							href="https://www.linkedin.com/in/jinx-team-a3251b338/"
 							className="inline-flex items-center justify-center px-5 py-3 text-base font-semibold text-center border border-gray-300 rounded-xl hover:border-secondary hover:underline focus:ring-4 focus:ring-secondary dark:focus:ring-secondary"
 						>
 							Connect on LinkedIn

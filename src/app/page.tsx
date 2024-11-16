@@ -66,16 +66,6 @@ export default function Home() {
 		<main className="container mx-auto px-4 py-4">
 			<HeroSection />
 
-			{/*
-			<div className="text-center mb-12">
-				<LogoText className="w-full h-44 mx-auto text-foreground" />
-				<h1 className="sr-only">Jinx</h1>
-				<p className="text-xl">
-					Pioneering AI Web Applications - We’re the Ones Solving the Unsolved.
-				</p>
-			</div>
-		 */}
-
 			<Separator className="mt-4" />
 
 			<div className="mt-24 mb-16 text-center">
