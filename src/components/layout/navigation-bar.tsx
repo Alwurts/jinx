@@ -18,12 +18,12 @@ export default function Navbar() {
 			label: "Blog",
 		},
 		{
-			href: "/contact",
-			label: "Contact",
+			href: "/about",
+			label: "About Us",
 		},
 		{
-			href: "/about",
-			label: "About Jinx",
+			href: "/contact",
+			label: "Contact",
 		},
 	];
 	return (

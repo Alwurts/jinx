@@ -1,6 +1,7 @@
 import LogoText from "@/components/icons/logo-text";
 import Link from "next/link";
 import InstaIcon from "@/components/icons/logo-insta";
+import LinkedInIcon from "@/components/icons/logo-linkedIn";
 import XIcon from "../icons/logo-x";
 
 export default function Footer() {
@@ -34,6 +35,22 @@ export default function Footer() {
 							</li>
 							<li>
 								<Link
+									href="/about"
+									className="hover:underline hover:text-foreground me-4 md:me-6"
+								>
+									About Us
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="/contact"
+									className="hover:underline hover:text-foreground me-4 md:me-6"
+								>
+									Contact
+								</Link>
+							</li>
+							<li>
+								<Link
 									href="/impressum"
 									className="hover:underline hover:text-foreground me-4 md:me-6"
 								>
@@ -56,6 +73,14 @@ export default function Footer() {
 									className="hover:text-foreground"
 								>
 									<InstaIcon className="p-[1px] h-12 lg:h-6" />
+								</Link>
+							</li>
+							<li>
+								<Link
+									href="https://www.linkedin.com/in/jinx-team-a3251b338/"
+									className="hover:text-foreground"
+								>
+									<LinkedInIcon className="h-12 lg:h-6" />
 								</Link>
 							</li>
 						</ul>

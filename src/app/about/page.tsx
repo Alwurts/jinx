@@ -3,6 +3,7 @@ import { AiOutlineCluster } from "react-icons/ai";
 import { FaHandshake } from "react-icons/fa";
 import { HiOutlineLightBulb } from "react-icons/hi";
 import { MdPeopleOutline } from "react-icons/md";
+import { Separator } from "@/components/ui/separator";
 import { RiCustomerService2Fill, RiSpeedLine } from "react-icons/ri";
 const data = [
 	{
@@ -53,13 +54,14 @@ export default function page() {
 	return (
 		<section>
 			<div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-				<div className="max-w-screen-md mb-8 lg:mb-16">
-					<h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-						Jinx with you all the way
-					</h2>
-					<p className="text-gray-500 sm:text-xl dark:text-gray-400">
-						Our values, missions, and perspective
+				<div className="text-center mb-10">
+					<h1 className="mb-4 text-4xl lg:text-5xl tracking-tight font-bold">
+						jinx All The Way
+					</h1>
+					<p className="text-secondary-foreground text-2xl">
+						Our vision, mission, and values
 					</p>
+					<Separator className="mt-4" />
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
