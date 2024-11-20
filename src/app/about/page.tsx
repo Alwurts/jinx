@@ -1,52 +1,47 @@
 import React from "react";
-import { AiOutlineCluster } from "react-icons/ai";
-import { FaHandshake } from "react-icons/fa";
-import { HiOutlineLightBulb } from "react-icons/hi";
-import { MdPeopleOutline } from "react-icons/md";
-import { Separator } from "@/components/ui/separator";
-import { RiCustomerService2Fill, RiSpeedLine } from "react-icons/ri";
+import { AiOutlineBulb } from "react-icons/ai";
+import { FaGem } from "react-icons/fa";
+import { FiTarget } from "react-icons/fi";
+import { MdGroup, MdTrendingUp } from "react-icons/md";
+
+
 const data = [
 	{
 		id: 1,
-		title: "Innovation-Driven",
-		icon: <HiOutlineLightBulb size={30} />,
+		title: "Our Vission",
+		icon: <AiOutlineBulb size={30} />,
 		description:
-			"We believe in pushing the boundaries of business process management by integrating cutting-edge AI and automation. Innovation is at the core of everything we do to empower businesses to work smarter and faster.",
+			"Smartify Your Business Processes! means upgrading your traditional workflows with smart, AI-driven solutions that enhance efficiency and decision-making. We help businesses automate repetitive tasks, optimize operations, and utilize data-driven insights to stay ahead in a competitive market.",
 	},
 	{
 		id: 2,
-		title: "Customer-Centric Solutions",
-		icon: <RiCustomerService2Fill size={30} />,
+		title: " Our Mission",
+		icon: <FiTarget  size={30} />,
 		description:
-			"Our customers are our inspiration. We design every feature with their needs in mind, delivering intuitive, user-centered solutions that simplify complex workflows and drive real results.",
+			"We transform business processes into successful, AI-enhanced automated workflows by incorporating advanced AI technologies. This allows companies to streamline operations, reduce errors, and improve efficiency.",
 	},
 	{
 		id: 3,
-		title: "Efficiency and Scalability",
-		icon: <AiOutlineCluster size={30} />,
+		title: "Our Purpose",
+		icon: <MdTrendingUp size={30} />,
 		description:
-			"We prioritize efficiency to help organizations streamline their processes effortlessly. Our solutions are built to scale, enabling businesses of all sizes to achieve optimized workflows at every stage of growth.",
+			"We help businesses seamlessly optimize their core processes to achieve their strategic objectives by implementing tailored, intelligent solutions. This enables more efficient operations, better resource allocation, and enhanced productivity, aligning everyday activities with long-term goals.",
+
 	},
 	{
 		id: 4,
-		title: "Transparency and Trust",
-		icon: <FaHandshake size={30} />,
+		title: "Our Values",
+		icon: <FaGem size={30} />,
 		description:
-			"We operate with integrity and transparency, building trust with our clients through honest communication and reliable solutions that they can depend on as they scale their operations.",
+			"Our values drive us to communicate openly, transform challenges into innovations, work diligently while enjoying the process, exceed expectations, and maintain a confident, 'act-as-if' mindset to fuel our creative and strategic advancements.",
 	},
 	{
 		id: 5,
-		title: "Agile Adaptation",
-		icon: <RiSpeedLine size={30} />,
+		title: "Our Principles",
+		icon: <MdGroup size={30} />,
 		description:
-			"In a fast-paced world, adaptability is key. We are committed to continuously evolving and enhancing our tools to meet the dynamic needs of modern businesses, always staying one step ahead.",
-	},
-	{
-		id: 6,
-		title: "Empowering Collaboration",
-		icon: <MdPeopleOutline size={30} />,
-		description:
-			"Collaboration is at the heart of business success. Our solutions foster seamless teamwork, enabling cross-functional collaboration to turn complex processes into cohesive, productive workflows.",
+			"We commit to transparent communication, value diverse perspectives, and embrace learning from mistakes to foster continuous growth and respect among all stakeholders.",
+
 	},
 ];
 
@@ -54,14 +49,10 @@ export default function page() {
 	return (
 		<section>
 			<div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-				<div className="text-center mb-10">
-					<h1 className="mb-4 text-4xl lg:text-5xl tracking-tight font-bold">
-						jinx All The Way
-					</h1>
-					<p className="text-secondary-foreground text-2xl">
-						Our vision, mission, and values
-					</p>
-					<Separator className="mt-4" />
+				<div className="max-w-screen-md mb-8 lg:mb-16">
+					<h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+					Jinx - Your Partner in Progress
+					</h2>
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
