@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import React from "react";
 import { AiOutlineBulb } from "react-icons/ai";
 import { FaGem } from "react-icons/fa";
@@ -49,10 +50,11 @@ export default function page() {
 	return (
 		<section>
 			<div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
-				<div className="max-w-screen-md mb-8 lg:mb-16">
-					<h2 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-					Jinx - Your Partner in Progress
-					</h2>
+				<div className="text-center mb-10">
+					<h1 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+					jinx - Your Partner in Progress
+					</h1>
+					<Separator className="mt-4" />
 				</div>
 
 				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
