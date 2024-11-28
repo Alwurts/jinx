@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { defDiagram } from "@/lib/defaults";
 import db from "@/server/db";
 import { directory, diagram } from "@/server/db/schema";
 import { type NextRequest, NextResponse } from "next/server";
@@ -21,8 +22,6 @@ export async function POST(request: NextRequest) {
 		const json = await request.json();
 		const validated = createWorkspaceItemSchema.parse(json);
 
-		console.log("validated", validated);
-
 		if (validated.type === "directory") {
 			console.log("creating directory");
 			const newDirectory = await db
@@ -42,7 +41,7 @@ export async function POST(request: NextRequest) {
 				.insert(diagram)
 				.values({
 					title: validated.title,
-					content: "",
+					content: defDiagram,
 					directoryId: validated.directoryId,
 					userId: session.user.id,
 				})
