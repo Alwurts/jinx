@@ -1,5 +1,4 @@
 import LogoIcon from "@/components/icons/logo-icon";
-import Image from "next/image";
 import { ImageResponse } from "next/og";
 
 // Image metadata
