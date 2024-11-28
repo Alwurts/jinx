@@ -33,7 +33,10 @@ export default function Dashboard() {
 		mutationFn: async ({
 			type,
 			title,
-		}: { type: "directory" | "diagram"; title: string }) => {
+		}: {
+			type: "directory" | "diagram";
+			title: string;
+		}) => {
 			const response = await fetch("/api/workspace", {
 				method: "POST",
 				headers: {
@@ -117,7 +120,7 @@ export default function Dashboard() {
 							href={
 								item.type === "directory"
 									? `/dashboard?directoryId=${item.id}`
-									: `/diagram/${item.id}`
+									: `/dashboard/diagram/${item.id}`
 							}
 							key={item.id}
 						>
