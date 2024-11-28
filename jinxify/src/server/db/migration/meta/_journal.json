@@ -8,6 +8,13 @@
 			"when": 1732790560331,
 			"tag": "0000_useful_shinobi_shaw",
 			"breakpoints": true
+		},
+		{
+			"idx": 1,
+			"version": "7",
+			"when": 1732802221392,
+			"tag": "0001_dry_luckman",
+			"breakpoints": true
 		}
 	]
 }
