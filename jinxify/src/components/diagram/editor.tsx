@@ -8,6 +8,7 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
+import { GenerateDiagramDialog } from "./generate-diagram-dialog";
 type Props = {
 	id: string;
 };
@@ -16,6 +17,8 @@ export default function Editor({ id }: Props) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const modelerRef = useRef<BpmnModeler | null>(null);
 	const isMounted = useRef(false);
+
+	const [isGenerateDialogOpen, setIsGenerateDialogOpen] = useState(false);
 
 	const { isError, isLoading, data } = useQuery<TDiagram>({
 		queryKey: ["diagram", id],
@@ -117,6 +120,13 @@ export default function Editor({ id }: Props) {
 
 	return (
 		<div className="w-screen h-screen flex flex-col">
+			<GenerateDiagramDialog
+				open={isGenerateDialogOpen}
+				onOpenChange={setIsGenerateDialogOpen}
+				onGenerated={async (xml) => {
+					await importXml(xml);
+				}}
+			/>
 			<div className="flex justify-between items-center h-14 px-4 border-b">
 				<div className="flex items-center gap-4">
 					<Button variant="outline" asChild>
@@ -131,6 +141,9 @@ export default function Editor({ id }: Props) {
 				<div className="flex items-center gap-2">
 					<Button disabled={updateDiagram.isPending} onClick={saveDocument}>
 						Save
+					</Button>
+					<Button onClick={() => setIsGenerateDialogOpen(true)}>
+						Generate
 					</Button>
 				</div>
 			</div>
