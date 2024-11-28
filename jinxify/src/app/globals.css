@@ -30,6 +30,14 @@
 		--chart4: 261.8181818181818 100.00000000000003% 97.84313725490196%;
 		--chart5: 60 4.761904761904755% 95.88235294117646%;
 		--radius: 0.5rem;
+		--sidebar-background: 0 0% 98%;
+		--sidebar-foreground: 240 5.3% 26.1%;
+		--sidebar-primary: 240 5.9% 10%;
+		--sidebar-primary-foreground: 0 0% 98%;
+		--sidebar-accent: 240 4.8% 95.9%;
+		--sidebar-accent-foreground: 240 5.9% 10%;
+		--sidebar-border: 220 13% 91%;
+		--sidebar-ring: 217.2 91.2% 59.8%;
 	}
 	.dark {
 		--background: 255.2941176470588 38.32736565980292% 11.648254358986142%;
@@ -58,6 +66,14 @@
 		--chart4: 266.0956990124282 84.6847056527945% 92.03004629693922%;
 		--chart5: 252.59569798245988 22.44808180196148% 38.203434592780056%;
 		--radius: 0.5rem;
+		--sidebar-background: 240 5.9% 10%;
+		--sidebar-foreground: 240 4.8% 95.9%;
+		--sidebar-primary: 224.3 76.3% 48%;
+		--sidebar-primary-foreground: 0 0% 100%;
+		--sidebar-accent: 240 3.7% 15.9%;
+		--sidebar-accent-foreground: 240 4.8% 95.9%;
+		--sidebar-border: 240 3.7% 15.9%;
+		--sidebar-ring: 217.2 91.2% 59.8%;
 	}
 }
 @layer base {
