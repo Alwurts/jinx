@@ -1,4 +1,4 @@
-import { auth } from "@/auth";
+import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
 
 export default async function RootLayout({
@@ -9,7 +9,7 @@ export default async function RootLayout({
 	const session = await auth();
 
 	if (!session || !session.user) {
-		redirect("/");
+		signIn("google");
 	}
 
 	return children;

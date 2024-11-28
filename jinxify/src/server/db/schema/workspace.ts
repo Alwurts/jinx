@@ -36,6 +36,9 @@ export const diagram = pgTable("diagram", {
 	id: uuid("id").defaultRandom().primaryKey(),
 	title: text("title").notNull(),
 	content: text("content").notNull(),
+	type: text("type", { enum: ["diagram"] })
+		.notNull()
+		.default("diagram"),
 	directoryId: uuid("directoryId"), // If this is null then that means is the home directory
 	userId: text("userId")
 		.references(() => users.id, { onDelete: "cascade" })

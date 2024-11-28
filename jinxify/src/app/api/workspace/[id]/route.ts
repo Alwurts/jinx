@@ -10,8 +10,6 @@ export async function GET(
 ) {
 	const id = params.id;
 
-	console.log("id", id);
-
 	const session = await auth();
 
 	if (!session || !session.user?.id) {
@@ -27,15 +25,20 @@ export async function GET(
 			with: {
 				parent: true,
 				directories: true,
+				diagrams: true,
 			},
 		});
 		return NextResponse.json(homeDirectory);
 	}
 
-	const subDirectory = db.query.directory.findFirst({
+	const subDirectory = await db.query.directory.findFirst({
 		where: and(eq(directory.userId, session.user.id), eq(directory.id, id)),
+		with: {
+			parent: true,
+			directories: true,
+			diagrams: true,
+		},
 	});
 
-	// Use the id to fetch data or perform operations
 	return NextResponse.json(subDirectory);
 }
