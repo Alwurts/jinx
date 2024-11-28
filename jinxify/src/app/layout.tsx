@@ -4,7 +4,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
 	title: "jinx app",
-	description: "Our product jinxify for smarter BPMN business processes with help of AI.",
+	description:
+		"Our product jinxify for smarter BPMN business processes with help of AI.",
 };
 
 export default function RootLayout({
