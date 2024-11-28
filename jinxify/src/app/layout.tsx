@@ -3,7 +3,7 @@ import "./globals.css";
 import { QueryProvider } from "@/components/query/query-provider";
 
 export const metadata: Metadata = {
-	title: "jinx app",
+	title: "jinxify",
 	description:
 		"Our product jinxify for smarter BPMN business processes with help of AI.",
 };
