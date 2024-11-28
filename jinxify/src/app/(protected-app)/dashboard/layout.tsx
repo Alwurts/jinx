@@ -1,5 +1,6 @@
 import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 
 export default async function RootLayout({
 	children,
@@ -12,5 +13,5 @@ export default async function RootLayout({
 		signIn("google");
 	}
 
-	return children;
+	return <SidebarProvider>{children}</SidebarProvider>;
 }

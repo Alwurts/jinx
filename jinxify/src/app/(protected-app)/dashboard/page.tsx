@@ -9,9 +9,11 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
-import { Folder, FileText, Plus } from "lucide-react";
+import { Folder, FileText, Plus, Sidebar } from "lucide-react";
 import Link from "next/link";
 import type { TDirectory } from "@/types/db";
+import { AppSidebar } from "@/components/dashboard/sidebar";
+import { SidebarTrigger } from "@/components/ui/sidebar";
 
 export default function Dashboard() {
 	const queryClient = useQueryClient();
@@ -82,64 +84,68 @@ export default function Dashboard() {
 	];
 
 	return (
-		<div className="p-6">
-			<div className="flex justify-between items-center mb-6">
-				<h1 className="text-2xl font-bold">
-					{currentDirectory?.title || "My Workspace"}
-				</h1>
-				<div className="space-x-2">
-					<Button
-						disabled={createWorkspaceItem.isPending}
-						variant="outline"
-						onClick={handleCreateFolder}
-					>
-						<Plus className="w-4 h-4 mr-2" />
-						New Folder
-					</Button>
-					<Button
-						disabled={createWorkspaceItem.isPending}
-						onClick={handleCreateDiagram}
-					>
-						<Plus className="w-4 h-4 mr-2" />
-						New Diagram
-					</Button>
-				</div>
-			</div>
-
-			{items.length === 0 ? (
-				<div className="text-center text-muted-foreground py-8">
-					No folders or diagrams yet. Create one to get started!
-				</div>
-			) : (
-				<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-					{items.map((item) => (
-						<Link
-							href={
-								item.type === "directory"
-									? `/dashboard?directoryId=${item.id}`
-									: `/diagram/${item.id}`
-							}
-							key={item.id}
+		<div className="flex h-screen w-screen">
+			<AppSidebar />
+			<main className="flex-1 flex flex-col">
+				<div className="flex justify-between items-center mb-6">
+					<h1 className="text-2xl font-bold">
+						{currentDirectory?.title || "My Workspace"}
+					</h1>
+					<SidebarTrigger className="md:hidden" />
+					<div className="space-x-2">
+						<Button
+							disabled={createWorkspaceItem.isPending}
+							variant="outline"
+							onClick={handleCreateFolder}
 						>
-							<Card className="hover:bg-accent transition-colors cursor-pointer">
-								<CardHeader>
-									<CardTitle className="flex items-center">
-										{item.type === "directory" ? (
-											<Folder className="w-4 h-4 mr-2" />
-										) : (
-											<FileText className="w-4 h-4 mr-2" />
-										)}
-										{item.title}
-									</CardTitle>
-									<CardDescription>
-										{item.type === "directory" ? "Folder" : "Diagram"}
-									</CardDescription>
-								</CardHeader>
-							</Card>
-						</Link>
-					))}
+							<Plus className="w-4 h-4 mr-2" />
+							New Folder
+						</Button>
+						<Button
+							disabled={createWorkspaceItem.isPending}
+							onClick={handleCreateDiagram}
+						>
+							<Plus className="w-4 h-4 mr-2" />
+							New Diagram
+						</Button>
+					</div>
 				</div>
-			)}
+
+				{items.length === 0 ? (
+					<div className="text-center text-muted-foreground py-8">
+						No folders or diagrams yet. Create one to get started!
+					</div>
+				) : (
+					<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+						{items.map((item) => (
+							<Link
+								href={
+									item.type === "directory"
+										? `/dashboard?directoryId=${item.id}`
+										: `/diagram/${item.id}`
+								}
+								key={item.id}
+							>
+								<Card className="hover:bg-accent transition-colors cursor-pointer">
+									<CardHeader>
+										<CardTitle className="flex items-center">
+											{item.type === "directory" ? (
+												<Folder className="w-4 h-4 mr-2" />
+											) : (
+												<FileText className="w-4 h-4 mr-2" />
+											)}
+											{item.title}
+										</CardTitle>
+										<CardDescription>
+											{item.type === "directory" ? "Folder" : "Diagram"}
+										</CardDescription>
+									</CardHeader>
+								</Card>
+							</Link>
+						))}
+					</div>
+				)}
+			</main>
 		</div>
 	);
 }
