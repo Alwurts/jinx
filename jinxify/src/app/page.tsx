@@ -1,3 +1,4 @@
+import { SignIn } from "@/components/auth/sign-in";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -19,6 +20,7 @@ export default function Home() {
 			<CardContent>
 				<p>Card Content</p>
 				<Button>Click Me!</Button>
+				<SignIn />
 			</CardContent>
 			<CardFooter>
 				<p>Card Footer</p>
