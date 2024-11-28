@@ -15,10 +15,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 	}),
 	events: {
 		async createUser({ user }) {
-			console.log("createUser event triggered");
 			try {
 				const userId = user.id;
-				console.log("User ID:", userId);
 				if (!userId) {
 					throw new Error("User ID not found on createUser event");
 				}

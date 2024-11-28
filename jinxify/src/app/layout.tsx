@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { QueryProvider } from "@/components/query/query-provider";
 
 export const metadata: Metadata = {
 	title: "jinx app",
@@ -15,7 +15,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body>{children}</body>
+			<body>
+				<QueryProvider>{children}</QueryProvider>
+			</body>
 		</html>
 	);
 }

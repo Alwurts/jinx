@@ -1,0 +1,1 @@
+ALTER TABLE "diagram" ADD COLUMN "type" text DEFAULT 'diagram' NOT NULL;

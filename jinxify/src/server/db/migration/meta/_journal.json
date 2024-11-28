@@ -15,6 +15,13 @@
 			"when": 1732802221392,
 			"tag": "0001_dry_luckman",
 			"breakpoints": true
+		},
+		{
+			"idx": 2,
+			"version": "7",
+			"when": 1732806923758,
+			"tag": "0002_dizzy_lyja",
+			"breakpoints": true
 		}
 	]
 }
