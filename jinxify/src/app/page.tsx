@@ -14,20 +14,10 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <>
       <div className="container relative h-screen flex-col items-center justify-center p-4 md:p-0 grid max-w-full lg:max-w-none lg:grid-cols-2 lg:px-0">
         <div className="absolute left-6 top-8">
 			<Icon className="h-12 w-12 mr-2" />
 		</div>
-		<Link
-          href="/examples/authentication"
-          className={cn(
-            buttonVariants({ variant: "ghost" }),
-            "absolute right-6 top-10 bg-secondary"
-          )}
-        >
-          Login
-        </Link> 
         <div className="relative hidden h-full flex-col bg-muted p-10 dark:border-r lg:flex">
           <div className="absolute inset-0 bg-primary opacity-85 z-10" />
 		  	<Image
@@ -47,7 +37,7 @@ export default function Home() {
 				By turning BPMN diagrams into actionable tasks and reducing manual work, 
 				it has enhanced our efficiency and productivity significantly.&rdquo;
               </p>
-              <footer className="text-sm not-italic">Staffbase</footer>
+              <footer className="text-sm not-italic">Pedro - Sales professional</footer>
             </blockquote>
           </div>
         </div>
@@ -58,7 +48,7 @@ export default function Home() {
                 Enter the jinxify Portal
               </h1>
               <p className="text-sm text-muted-foreground">
-                Sign up seamlessly with your GitHub credentials
+                Log in or create an account with GitHub
               </p>
             </div>
             <UserAuthForm />
@@ -82,6 +72,5 @@ export default function Home() {
           </div>
         </div>
       </div>
-    </>
   );
 }

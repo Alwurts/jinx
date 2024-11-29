@@ -3,11 +3,12 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
-import { Icons } from "../ui/icons"
 import { Input } from "../ui/input"
 import { Label } from "../ui/label"
 import { Button } from "../ui/button"
 import { signIn } from 'next-auth/react'
+import { FaGithub } from "react-icons/fa";
+import { ImSpinner2 } from "react-icons/im";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -58,9 +59,10 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             disabled={isLoading}
             >
             {isLoading ? (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                <ImSpinner2 className="mr-2 h-4 w-4 animate-spin" />
             ) : (
-                <Icons.gitHub className="mr-2 h-4 w-4" />
+                <FaGithub className="mr-2 h-4 w-4" />
+
             )}
             GitHub
             </Button>
