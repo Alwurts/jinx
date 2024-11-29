@@ -6,12 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "check": "biome check ./src",
-    "check:fix": "biome check --write ./src",
-    "format": "biome format ./src",
-    "format:fix": "biome format --write ./src",
-    "lint": "biome lint ./src",
-    "lint:fix": "biome lint --write ./src",
+    "check": "biome check --write ./src",
     "prepare": "husky"
   },
   "dependencies": {

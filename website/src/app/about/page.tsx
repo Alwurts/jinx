@@ -5,7 +5,6 @@ import { FaGem } from "react-icons/fa";
 import { FiTarget } from "react-icons/fi";
 import { MdGroup, MdTrendingUp } from "react-icons/md";
 
-
 const data = [
 	{
 		id: 1,
@@ -17,7 +16,7 @@ const data = [
 	{
 		id: 2,
 		title: " Our Mission",
-		icon: <FiTarget  size={30} />,
+		icon: <FiTarget size={30} />,
 		description:
 			"We transform business processes into successful, AI-enhanced automated workflows by incorporating advanced AI technologies. This allows companies to streamline operations, reduce errors, and improve efficiency.",
 	},
@@ -27,7 +26,6 @@ const data = [
 		icon: <MdTrendingUp size={30} />,
 		description:
 			"We help businesses seamlessly optimize their core processes to achieve their strategic objectives by implementing tailored, intelligent solutions. This enables more efficient operations, better resource allocation, and enhanced productivity, aligning everyday activities with long-term goals.",
-
 	},
 	{
 		id: 4,
@@ -42,7 +40,6 @@ const data = [
 		icon: <MdGroup size={30} />,
 		description:
 			"We commit to transparent communication, value diverse perspectives, and embrace learning from mistakes to foster continuous growth and respect among all stakeholders.",
-
 	},
 ];
 
@@ -52,7 +49,7 @@ export default function page() {
 			<div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
 				<div className="text-center mb-10">
 					<h1 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-					jinx - Your Partner in Progress
+						jinx - Your Partner in Progress
 					</h1>
 					<Separator className="mt-4" />
 				</div>
