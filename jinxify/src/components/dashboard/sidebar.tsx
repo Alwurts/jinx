@@ -1,32 +1,57 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import {
+	Calendar,
+	Folder,
+	Heart,
+	Home,
+	Inbox,
+	Search,
+	Settings,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
 	Sidebar,
 	SidebarContent,
+	SidebarFooter,
 	SidebarGroup,
 	SidebarGroupContent,
 	SidebarGroupLabel,
+	SidebarHeader,
 	SidebarMenu,
 	SidebarMenuButton,
 	SidebarMenuItem,
+	SidebarRail,
+	SidebarSeparator,
 } from "@/components/ui/sidebar";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuLabel,
+	DropdownMenuSeparator,
+	DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "../ui/dialog";
+import { Button } from "../ui/button";
 
 // Menu items.
 const items = [
 	{
 		title: "Home",
-		url: "#",
+		url: "/dashboard",
 		icon: Home,
 	},
 	{
-		title: "Inbox",
+		title: "Recent files",
 		url: "#",
-		icon: Inbox,
-	},
-	{
-		title: "Calendar",
-		url: "#",
-		icon: Calendar,
+		icon: Folder,
 	},
 	{
 		title: "Search",
@@ -34,25 +59,43 @@ const items = [
 		icon: Search,
 	},
 	{
-		title: "Settings",
+		title: "Favorites",
 		url: "#",
-		icon: Settings,
+		icon: Heart,
 	},
 ];
 
 export function AppSidebar() {
 	return (
-		<Sidebar>
-			<SidebarContent>
+		<Sidebar className=" h-screen flex flex-col">
+			<SidebarHeader className="p-4 flex items-center justify-between">
+				<div className="flex items-center space-x-2">
+					<img
+						src="/images/logo_icon_single.svg"
+						alt="Logo"
+						className="w-6 h-6"
+					/>
+					<h1 className="text-lg font-semibold">jinxify</h1>
+				</div>
+			</SidebarHeader>
+
+			<SidebarSeparator />
+
+			<SidebarContent className="flex-1 overflow-y-auto">
 				<SidebarGroup>
-					<SidebarGroupLabel>Application</SidebarGroupLabel>
+					<SidebarGroupLabel className="text-gray-400 text-xs uppercase px-4 py-2">
+						Application
+					</SidebarGroupLabel>
 					<SidebarGroupContent>
 						<SidebarMenu>
 							{items.map((item) => (
 								<SidebarMenuItem key={item.title}>
 									<SidebarMenuButton asChild>
-										<a href={item.url}>
-											<item.icon />
+										<a
+											href={item.url}
+											className="flex items-center space-x-2 p-2 rounded-md"
+										>
+											{item.icon && <item.icon />}
 											<span>{item.title}</span>
 										</a>
 									</SidebarMenuButton>
@@ -62,6 +105,57 @@ export function AppSidebar() {
 					</SidebarGroupContent>
 				</SidebarGroup>
 			</SidebarContent>
+
+			<SidebarSeparator />
+
+			<SidebarFooter className=" p-4 flex flex-col items-center">
+				<Avatar>
+					<AvatarImage
+						src="/images/jinx.jpg"
+						alt="User Avatar"
+						className="w-20 h-15 rounded-full"
+					/>
+					<AvatarFallback>User</AvatarFallback>
+				</Avatar>
+				<div className="mt-2 text-center">
+					<p className="text-sm font-medium">Good Day, jinx!</p>
+				</div>
+				<DropdownMenu>
+					<DropdownMenuTrigger className="mt-2 text-sm">
+						<Button variant="outline" className="px-2 py-1 text-xs rounded-md">
+							User Profile
+						</Button>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent
+						className="bg-white text-black border border-gray-200 shadow-lg rounded-md ml- 4 mb-14"
+						side="right"
+						align="start"
+					>
+						<DropdownMenuLabel>My Account</DropdownMenuLabel>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem>Settings</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Dialog>
+								<DialogTrigger className="w-full text-left">
+									Delete Account
+								</DialogTrigger>
+								<DialogContent>
+									<DialogHeader>
+										<DialogTitle>Are you absolutely sure?</DialogTitle>
+										<DialogDescription>
+											This action cannot be undone. This will permanently delete
+											your account and remove your data from our servers.
+										</DialogDescription>
+									</DialogHeader>
+								</DialogContent>
+							</Dialog>
+						</DropdownMenuItem>
+					</DropdownMenuContent>
+					<Button className="px-2 py-1 text-xs rounded-md">Log Out</Button>
+				</DropdownMenu>
+			</SidebarFooter>
+
+			<SidebarRail />
 		</Sidebar>
 	);
 }
