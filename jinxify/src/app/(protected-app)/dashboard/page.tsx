@@ -14,6 +14,7 @@ import Link from "next/link";
 import type { TDirectory } from "@/types/db";
 import { AppSidebar } from "@/components/dashboard/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
+import { FaFolder, FaRegFileAlt } from "react-icons/fa";
 
 export default function Dashboard() {
 	const queryClient = useQueryClient();
@@ -87,9 +88,9 @@ export default function Dashboard() {
 	];
 
 	return (
-		<div className="flex h-screen w-screen">
+		<div className="flex h-screen w-screen bg-gray-50">
 			<AppSidebar />
-			<main className="flex-1 flex flex-col">
+			<main className="flex-1 flex flex-col ml-4 mr-4 mt-4 mb-4 p-4 bg-white shadow-xl rounded-lg border border-gray-200">
 				<div className="flex justify-between items-center mb-6">
 					<h1 className="text-2xl font-bold">
 						{currentDirectory?.title || "My Workspace"}
@@ -101,51 +102,105 @@ export default function Dashboard() {
 							variant="outline"
 							onClick={handleCreateFolder}
 						>
-							<Plus className="w-4 h-4 mr-2" />
-							New Folder
+							<FaFolder className="w-5 h-5 text-purple-1000" />
 						</Button>
 						<Button
 							disabled={createWorkspaceItem.isPending}
 							onClick={handleCreateDiagram}
 						>
-							<Plus className="w-4 h-4 mr-2" />
-							New Diagram
+							<FaRegFileAlt className="w-5 h-5" />
 						</Button>
 					</div>
 				</div>
 
 				{items.length === 0 ? (
-					<div className="text-center text-muted-foreground py-8">
-						No folders or diagrams yet. Create one to get started!
+					<div className="text-center text-gray-500 py-8">
+						<p className="mb-4">
+							No folders or diagrams yet. Create one to get started!
+						</p>
+						<Button onClick={handleCreateFolder}>
+							<Plus className="w-4 h-4 mr-2" />
+							Create Your First Folder
+						</Button>
 					</div>
 				) : (
-					<div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
-						{items.map((item) => (
-							<Link
-								href={
-									item.type === "directory"
-										? `/dashboard?directoryId=${item.id}`
-										: `/dashboard/diagram/${item.id}`
-								}
-								key={item.id}
-							>
-								<Card className="hover:bg-accent transition-colors cursor-pointer">
-									<CardHeader>
-										<CardTitle className="flex items-center">
-											{item.type === "directory" ? (
-												<Folder className="w-4 h-4 mr-2" />
-											) : (
-												<FileText className="w-4 h-4 mr-2" />
-											)}
-											{item.title}
-										</CardTitle>
-										<CardDescription>
-											{item.type === "directory" ? "Folder" : "Diagram"}
-										</CardDescription>
-									</CardHeader>
-								</Card>
-							</Link>
-						))}
+					<div className="space-y-8">
+						<div>
+							<h2 className="text-xl font-semibold">Folders</h2>
+							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+								{items
+									.filter((item) => item.type === "directory")
+									.map((item) => (
+										<Link
+											href={`/dashboard?directoryId=${item.id}`}
+											key={item.id}
+										>
+											<Card className="mt-3 p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:shadow-md transition-shadow cursor-pointer">
+												<CardHeader>
+													<CardTitle className="flex items-center">
+														<svg
+															className="w-5 h-5 mr-2 text-purple-900"
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															stroke="currentColor"
+														>
+															<title id="folderIconTitle">Folder Icon</title>
+															<path
+																strokeLinecap="round"
+																strokeLinejoin="round"
+																strokeWidth={2}
+																d="M3 7v4h1.586a1 1 0 00.707-.293l1.414-1.414A1 1 0 017.414 9H20a1 1 0 011 1v6a1 1 0 01-1 1H3v-8z"
+															/>
+														</svg>
+														{item.title}
+													</CardTitle>
+													<CardDescription className="text-sm text-gray-400">
+														Folder
+													</CardDescription>
+												</CardHeader>
+											</Card>
+										</Link>
+									))}
+							</div>
+						</div>
+
+						<div>
+							<h2 className="text-xl font-semibold ">Diagrams</h2>
+							<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+								{items
+									.filter((item) => item.type === "diagram")
+									.map((item) => (
+										<Link href={`/dashboard/diagram/${item.id}`} key={item.id}>
+											<Card className="mt-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:shadow-md transition-shadow cursor-pointer">
+												<CardHeader>
+													<CardTitle className="flex items-center">
+														<svg
+															className="w-5 h-5 mr-2  text-purple-900"
+															xmlns="http://www.w3.org/2000/svg"
+															fill="none"
+															viewBox="0 0 24 24"
+															stroke="currentColor"
+														>
+															<title id="folderIconTitle">Diagram Icon</title>
+															<path
+																strokeLinecap="round"
+																strokeLinejoin="round"
+																strokeWidth={2}
+																d="M9 12h6m-6 4h6m2 4H7a2 2 0 01-2-2V6a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2z"
+															/>
+														</svg>
+														{item.title}
+													</CardTitle>
+													<CardDescription className="text-sm text-gray-400">
+														Diagram
+													</CardDescription>
+												</CardHeader>
+											</Card>
+										</Link>
+									))}
+							</div>
+						</div>
 					</div>
 				)}
 			</main>

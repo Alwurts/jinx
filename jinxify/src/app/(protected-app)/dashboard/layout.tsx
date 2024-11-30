@@ -1,6 +1,6 @@
 import { auth, signIn } from "@/auth";
 import { redirect } from "next/navigation";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
 
 export default async function RootLayout({
 	children,
