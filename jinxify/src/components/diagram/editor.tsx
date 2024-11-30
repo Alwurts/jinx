@@ -8,7 +8,8 @@ import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
 import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
-import { GenerateDiagramDialog } from "./generate-diagram-dialog";
+import { normalizeXML } from "@/lib/bpmn";
+import { GenerateDiagramSidebar } from "./generate-diagram-sidebar";
 type Props = {
 	id: string;
 };
@@ -17,8 +18,6 @@ export default function Editor({ id }: Props) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const modelerRef = useRef<BpmnModeler | null>(null);
 	const isMounted = useRef(false);
-
-	const [isGenerateDialogOpen, setIsGenerateDialogOpen] = useState(false);
 
 	const { isError, isLoading, data } = useQuery<TDiagram>({
 		queryKey: ["diagram", id],
@@ -81,8 +80,10 @@ export default function Editor({ id }: Props) {
 		if (!modelerRef.current) {
 			throw new Error("Modeler not initialized");
 		}
+		const normalizedXML = normalizeXML(xml);
+		console.log("normalizedXML", normalizedXML);
 		try {
-			await modelerRef.current.importXML(xml);
+			await modelerRef.current.importXML(normalizedXML);
 
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			const canvas = modelerRef.current.get("canvas") as any;
@@ -120,13 +121,6 @@ export default function Editor({ id }: Props) {
 
 	return (
 		<div className="w-screen h-screen flex flex-col">
-			<GenerateDiagramDialog
-				open={isGenerateDialogOpen}
-				onOpenChange={setIsGenerateDialogOpen}
-				onGenerated={async (xml) => {
-					await importXml(xml);
-				}}
-			/>
 			<div className="flex justify-between items-center h-14 px-4 border-b">
 				<div className="flex items-center gap-4">
 					<Button variant="outline" asChild>
@@ -142,19 +136,17 @@ export default function Editor({ id }: Props) {
 					<Button disabled={updateDiagram.isPending} onClick={saveDocument}>
 						Save
 					</Button>
-					<Button onClick={() => setIsGenerateDialogOpen(true)}>
-						Generate
-					</Button>
 				</div>
 			</div>
 
-			<div className="flex-1 flex relative overflow-auto">
+			<div className="flex-1 flex relative overflow-hidden">
 				{isLoading && (
 					<div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10">
 						Loading document...
 					</div>
 				)}
-				<div ref={containerRef} className="w-full" />
+				<div ref={containerRef} className="flex-1" />
+				<GenerateDiagramSidebar onGenerated={importXml} />
 			</div>
 		</div>
 	);
