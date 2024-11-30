@@ -4,7 +4,10 @@ import React, { useEffect, useRef, useState } from "react";
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
-import { COFFEE_MAKING_PROCESS, MANUFACTURING_PROCESS_WITH_LANES } from "@/lib/bpmn-examples";
+import {
+	COFFEE_MAKING_PROCESS,
+	MANUFACTURING_PROCESS_WITH_LANES,
+} from "@/lib/bpmn-examples";
 import { normalizeXML } from "@/lib/bpmn";
 
 export default function BPMNEditor() {
@@ -24,10 +27,9 @@ export default function BPMNEditor() {
 				height: "100%",
 			});
 
-			
 			modelerRef.current = bpmnModeler;
 			isMounted.current = true;
-			
+
 			importXml(COFFEE_MAKING_PROCESS);
 		}
 
@@ -46,7 +48,6 @@ export default function BPMNEditor() {
 			throw new Error("Modeler not initialized");
 		}
 		const normalizedXML = normalizeXML(xml);
-		console.log("normalizedXML", normalizedXML);
 		try {
 			await modelerRef.current.importXML(normalizedXML);
 

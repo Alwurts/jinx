@@ -10,6 +10,7 @@ import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { normalizeXML } from "@/lib/bpmn";
 import { GenerateDiagramSidebar } from "./generate-diagram-sidebar";
+import { DiagramChatSidebar } from "./diagram-chat-sidebar";
 type Props = {
 	id: string;
 };
@@ -81,7 +82,6 @@ export default function Editor({ id }: Props) {
 			throw new Error("Modeler not initialized");
 		}
 		const normalizedXML = normalizeXML(xml);
-		console.log("normalizedXML", normalizedXML);
 		try {
 			await modelerRef.current.importXML(normalizedXML);
 
@@ -146,7 +146,7 @@ export default function Editor({ id }: Props) {
 					</div>
 				)}
 				<div ref={containerRef} className="flex-1" />
-				<GenerateDiagramSidebar onGenerated={importXml} />
+				<DiagramChatSidebar onGenerated={importXml} />
 			</div>
 		</div>
 	);

@@ -171,19 +171,41 @@ export const MANUFACTURING_PROCESS_WITH_LANES = `<?xml version="1.0" encoding="U
             <bpmndi:BPMNEdge bpmnElement="Flow_M_1" id="Flow_M_1_di">
                 <di:waypoint x="136" y="98"/>
                 <di:waypoint x="200" y="90"/>
-        `;
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="Flow_M_2" id="Flow_M_2_di">
+                <di:waypoint x="300" y="90"/>
+                <di:waypoint x="300" y="150"/>
+                <di:waypoint x="200" y="240"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="Flow_M_3" id="Flow_M_3_di">
+                <di:waypoint x="300" y="240"/>
+                <di:waypoint x="400" y="240"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="Flow_M_4" id="Flow_M_4_di">
+                <di:waypoint x="500" y="240"/>
+                <di:waypoint x="500" y="300"/>
+                <di:waypoint x="200" y="390"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="Flow_M_5" id="Flow_M_5_di">
+                <di:waypoint x="300" y="390"/>
+                <di:waypoint x="400" y="390"/>
+            </bpmndi:BPMNEdge>
+            <bpmndi:BPMNEdge bpmnElement="Flow_M_6" id="Flow_M_6_di">
+                <di:waypoint x="500" y="390"/>
+                <di:waypoint x="618" y="378"/>
+            </bpmndi:BPMNEdge>
+        </bpmndi:BPMNPlane>
+    </bpmndi:BPMNDiagram>
+</definitions>`;
 
 /**
  * Process for making coffee
  * This example shows a simple process for making coffee
  */
 export const COFFEE_MAKING_PROCESS = `<?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" 
-xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://www.example.org/CoffeeMaking" id="Definitions_Coffee">
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" targetNamespace="http://www.example.org/CoffeeMaking" id="Definitions_Coffee">
     
-    <process id="CoffeeProcess" 
-        name="Coffee Making Process" 
-        isExecutable="true">
+    <process id="CoffeeProcess" name="Coffee Making Process" isExecutable="true">
         <startEvent id="StartEvent_1" name="Start">
             <outgoing>Flow_1</outgoing>
         </startEvent>

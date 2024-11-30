@@ -84,8 +84,6 @@ function GenerateDiagramForm({
 
 	useEffect(() => {
 		if (object?.xml) {
-			console.log("object", object);
-			console.log("-------------------------------------------------------");
 			onGenerated(object.xml);
 		}
 	}, [object, onGenerated]);
