@@ -4,8 +4,6 @@ import Link from "next/link";
 
 import { UserAuthForm } from "../components/auth/user-auth-form";
 import Icon from "../components/icons/logo-icon";
-import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
 
 export const metadata: Metadata = {
 	title: "Authentication",

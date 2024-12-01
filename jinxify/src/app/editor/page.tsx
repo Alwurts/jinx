@@ -4,6 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import BpmnModeler from "bpmn-js/lib/Modeler";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
+import {
+	COFFEE_MAKING_PROCESS,
+	MANUFACTURING_PROCESS_WITH_LANES,
+} from "@/lib/bpmn-examples";
+import { normalizeXML } from "@/lib/bpmn";
 
 export default function BPMNEditor() {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -24,6 +29,8 @@ export default function BPMNEditor() {
 
 			modelerRef.current = bpmnModeler;
 			isMounted.current = true;
+
+			importXml(COFFEE_MAKING_PROCESS);
 		}
 
 		// Small delay to ensure the container is properly mounted
@@ -35,6 +42,22 @@ export default function BPMNEditor() {
 			}
 		};
 	}, []);
+
+	const importXml = async (xml: string) => {
+		if (!modelerRef.current) {
+			throw new Error("Modeler not initialized");
+		}
+		const normalizedXML = normalizeXML(xml);
+		try {
+			await modelerRef.current.importXML(normalizedXML);
+
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			const canvas = modelerRef.current.get("canvas") as any;
+			canvas.zoom("fit-viewport");
+		} catch (err) {
+			console.error("Error importing BPMN diagram:", err);
+		}
+	};
 
 	return <div className="w-screen h-screen" ref={containerRef} />;
 }

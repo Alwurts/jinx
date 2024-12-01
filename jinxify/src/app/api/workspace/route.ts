@@ -23,7 +23,6 @@ export async function POST(request: NextRequest) {
 		const validated = createWorkspaceItemSchema.parse(json);
 
 		if (validated.type === "directory") {
-			console.log("creating directory");
 			const newDirectory = await db
 				.insert(directory)
 				.values({
