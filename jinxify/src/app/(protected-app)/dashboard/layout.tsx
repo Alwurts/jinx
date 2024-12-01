@@ -9,7 +9,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await auth();
-  console.log(session?.user);
+  s;
   if (!session || !session.user) {
     redirect("/");
   }
