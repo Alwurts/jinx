@@ -8,8 +8,6 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -23,6 +21,9 @@ import {
 } from "@/components/ui/form";
 import { Textarea } from "../ui/textarea";
 import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { experimental_useObject as useObject } from "ai/react";
 
 export function GenerateDiagramDialog({
 	open,
@@ -67,30 +68,29 @@ function GenerateDiagramForm({
 		},
 	});
 
-	const generateDiagramMutation = useMutation({
-		mutationFn: async (values: z.infer<typeof generateDiagramSchema>) => {
-			const res = await fetch("/api/ai", {
-				method: "POST",
-				body: JSON.stringify(values),
-			});
-			return await res.json();
-		},
-		onSuccess: async ({ xml }) => {
-			console.log("xml", xml);
-			await onGenerated(xml);
-			form.reset();
-			setOpen(false);
-		},
+	const {
+		object,
+		submit,
+		isLoading: isGenerating,
+		stop,
+	} = useObject({
+		api: "/api/stream-ai",
+		schema: z.object({
+			xml: z
+				.string()
+				.describe("The BPMN 2.0 XML for the given process description."),
+		}),
 	});
+
+	useEffect(() => {
+		if (object?.xml) {
+			onGenerated(object.xml);
+		}
+	}, [object, onGenerated]);
 
 	return (
 		<Form {...form}>
-			<form
-				onSubmit={form.handleSubmit((values) =>
-					generateDiagramMutation.mutate(values),
-				)}
-				className="space-y-8"
-			>
+			<form onSubmit={form.handleSubmit(submit)} className="space-y-8">
 				<FormField
 					control={form.control}
 					name="input"
@@ -99,7 +99,7 @@ function GenerateDiagramForm({
 							<FormLabel>Your idea</FormLabel>
 							<FormControl>
 								<Textarea
-									disabled={generateDiagramMutation.isPending}
+									disabled={isGenerating}
 									placeholder="Example..."
 									{...field}
 								/>
@@ -111,15 +111,17 @@ function GenerateDiagramForm({
 						</FormItem>
 					)}
 				/>
+
+				<div className="h-64 w-[370px] border-2 border-border rounded-lg max-h-64 overflow-y-auto p-2 text-xs">
+					<pre>{object?.xml}</pre>
+				</div>
+
 				<Button
-					disabled={generateDiagramMutation.isPending}
+					disabled={isGenerating}
 					type="submit"
-					className={cn(
-						"w-full",
-						generateDiagramMutation.isPending && "animate-pulse",
-					)}
+					className={cn("w-full", isGenerating && "animate-pulse")}
 				>
-					{generateDiagramMutation.isPending ? "Generating..." : "Generate"}
+					{isGenerating ? "Generating..." : "Generate"}
 				</Button>
 			</form>
 		</Form>

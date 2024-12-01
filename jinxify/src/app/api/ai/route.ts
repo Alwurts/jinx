@@ -37,7 +37,5 @@ export async function POST(request: NextRequest) {
 		prompt: input,
 	});
 
-	console.log("object", object);
-
 	return NextResponse.json(object);
 }
