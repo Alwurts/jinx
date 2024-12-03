@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { QueryProvider } from "@/components/query/query-provider";
+import { poppins } from "@/components/ui/fonts";
 
 export const metadata: Metadata = {
 	title: "jinxify",
@@ -14,7 +15,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" className = {`${poppins.variable}`}>
 			<body>
 				<QueryProvider>{children}</QueryProvider>
 			</body>
