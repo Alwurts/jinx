@@ -18,6 +18,7 @@ import { FaFolder, FaRegFileAlt } from "react-icons/fa";
 import { SessionProvider } from "next-auth/react";
 
 import { useSession } from "next-auth/react";
+import Loading from "@/components/ui/loading-skeleton";
 export default function Dashboard() {
   const queryClient = useQueryClient();
   const searchParams = useSearchParams();
@@ -82,7 +83,7 @@ export default function Dashboard() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   const items = [
