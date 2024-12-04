@@ -42,8 +42,10 @@ import {
 } from "../ui/dialog";
 import { Button } from "../ui/button";
 import { Session } from "next-auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { signOut } from "next-auth/react";
+import { EditProfile, User } from "@/app/(protected-app)/dashboard/editProfile";
+import { toast } from "react-toastify";
 
 // Menu items.
 const items = [
@@ -71,9 +73,36 @@ const items = [
 type Props = {
   session: Session | null;
 };
+
 export function AppSidebar({ session }: Props) {
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState<User>();
+  useEffect(() => {
+    const userData = async () => {
+      try {
+        const response = await fetch("/api/get-user");
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data");
+        }
+        const userData = await response.json();
+        setUser(userData.user);
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+        toast.error("Something went wrong!", {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    };
 
+    userData();
+  }, []);
   const handleLogout = async () => {
     setIsLoading(true);
     try {
@@ -137,9 +166,7 @@ export function AppSidebar({ session }: Props) {
           <AvatarFallback>User</AvatarFallback>
         </Avatar>
         <div className="mt-2 text-center">
-          <p className="text-sm font-medium">
-            {session?.user?.name}'s workspace
-          </p>
+          <p className="text-sm font-medium">{user?.name}'s workspace</p>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger className="mt-2 text-sm w-full ">
@@ -157,7 +184,9 @@ export function AppSidebar({ session }: Props) {
           >
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+
+            <EditProfile />
+
             <DropdownMenuItem>
               <Dialog>
                 <DialogTrigger className="w-full text-left">
