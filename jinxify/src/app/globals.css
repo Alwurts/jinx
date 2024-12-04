@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 @layer base {
+	body {
+		font-family: var(--font-poppins), sans-serif;
+	}
 	:root {
 		--background: 0 0% 100%;
 		--foreground: 255.2941176470588 41.463414634146325% 24.117647058823533%;

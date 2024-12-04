@@ -3,6 +3,8 @@ import "./globals.css";
 import { QueryProvider } from "@/components/query/query-provider";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { poppins } from "@/components/ui/fonts";
+
 export const metadata: Metadata = {
   title: "jinxify",
   description:
@@ -15,10 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${poppins.variable}`}>
       <body>
-        <ToastContainer />
-        <QueryProvider>{children}</QueryProvider>
+        <QueryProvider>
+          <ToastContainer />
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
