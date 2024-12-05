@@ -124,7 +124,9 @@ export default function Editor({ id }: Props) {
 			<div className="flex justify-between items-center h-14 px-4 border-b">
 				<div className="flex items-center gap-4">
 					<Button variant="outline" asChild>
-						<Link href="/">Back</Link>
+						<Link href={`/dashboard?directoryId=${data?.directoryId}`}>
+							Back
+						</Link>
 					</Button>
 					<Separator orientation="vertical" />
 					<h1 className="text-2xl font-bold">
