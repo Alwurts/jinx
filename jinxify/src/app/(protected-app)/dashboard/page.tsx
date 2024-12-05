@@ -12,7 +12,7 @@ import {
 import { Folder, FileText, Plus, Sidebar, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import type { TDirectory } from "@/types/db";
-import { AppSidebar } from "@/components/dashboard/sidebar";
+import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { FaFolder, FaProjectDiagram, FaRegFileAlt } from "react-icons/fa";
 import { SessionProvider } from "next-auth/react";
