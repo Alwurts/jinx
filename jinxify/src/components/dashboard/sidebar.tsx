@@ -49,6 +49,7 @@ import {
 	type User,
 } from "@/app/(protected-app)/dashboard/editProfile";
 import { toast } from "react-toastify";
+import { useQuery } from "@tanstack/react-query";
 
 // Menu items.
 const items = [
@@ -77,35 +78,21 @@ type Props = {
 	session: Session | null;
 };
 
+async function fetchUserData() {
+	const response = await fetch("/api/get-user");
+	if (!response.ok) {
+		throw new Error("Failed to fetch user data");
+	}
+	return response.json();
+}
+
 export function AppSidebar({ session }: Props) {
 	const [isLoading, setIsLoading] = useState(false);
-	const [user, setUser] = useState<User>();
-	useEffect(() => {
-		const userData = async () => {
-			try {
-				const response = await fetch("/api/get-user");
-				if (!response.ok) {
-					throw new Error("Failed to fetch user data");
-				}
-				const userData = await response.json();
-				setUser(userData.user);
-			} catch (error) {
-				console.error("Failed to fetch user data:", error);
-				toast.error("Something went wrong!", {
-					position: "top-right",
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
-			}
-		};
+	const { data: userData, error: userError } = useQuery({
+		queryKey: ["user"],
+		queryFn: fetchUserData,
+	});
 
-		userData();
-	}, []);
 	const handleLogout = async () => {
 		setIsLoading(true);
 		try {
@@ -117,6 +104,22 @@ export function AppSidebar({ session }: Props) {
 			setIsLoading(false);
 		}
 	};
+
+	useEffect(() => {
+		if (userError) {
+			toast.error("Failed to load user data", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
+		}
+	}, [userError]);
+
 	return (
 		<Sidebar className=" h-screen flex flex-col">
 			<SidebarHeader className="p-4 flex items-center justify-between">
@@ -169,7 +172,9 @@ export function AppSidebar({ session }: Props) {
 					<AvatarFallback>User</AvatarFallback>
 				</Avatar>
 				<div className="mt-2 text-center">
-					<p className="text-sm font-medium">{user?.name}'s workspace</p>
+					<p className="text-sm font-medium">
+						{isLoading ? "Loading..." : `${userData?.user?.name}'s workspace`}
+					</p>
 				</div>
 				<DropdownMenu>
 					<DropdownMenuTrigger className="mt-2 text-sm w-full " asChild>
