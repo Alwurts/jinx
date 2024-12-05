@@ -6,24 +6,24 @@ import "react-toastify/dist/ReactToastify.css";
 import { poppins } from "@/components/ui/fonts";
 
 export const metadata: Metadata = {
-  title: "jinxify",
-  description:
-    "Our product jinxify for smarter BPMN business processes with help of AI.",
+	title: "jinxify",
+	description:
+		"Our product jinxify for smarter BPMN business processes with help of AI.",
 };
 
 export default function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  return (
-    <html lang="en" className={`${poppins.variable}`}>
-      <body>
-        <QueryProvider>
-          <ToastContainer />
-          {children}
-        </QueryProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="en" className={`${poppins.variable}`}>
+			<body>
+				<QueryProvider>
+					<ToastContainer />
+					{children}
+				</QueryProvider>
+			</body>
+		</html>
+	);
 }

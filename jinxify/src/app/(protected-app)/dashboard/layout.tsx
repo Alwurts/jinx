@@ -4,19 +4,19 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { SessionProvider } from "next-auth/react";
 
 export default async function RootLayout({
-  children,
+	children,
 }: Readonly<{
-  children: React.ReactNode;
+	children: React.ReactNode;
 }>) {
-  const session = await auth();
+	const session = await auth();
 
-  if (!session || !session.user) {
-    redirect("/");
-  }
+	if (!session || !session.user) {
+		redirect("/");
+	}
 
-  return (
-    <SessionProvider>
-      <SidebarProvider>{children}</SidebarProvider>
-    </SessionProvider>
-  );
+	return (
+		<SessionProvider>
+			<SidebarProvider>{children}</SidebarProvider>
+		</SessionProvider>
+	);
 }
