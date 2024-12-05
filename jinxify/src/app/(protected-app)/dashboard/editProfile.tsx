@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 export type User = {
 	id: string;
@@ -23,84 +24,63 @@ export type User = {
 };
 
 export function EditProfile() {
-	const [user, setUser] = useState<User | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
+	const queryClient = useQueryClient();
 
 	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
+
+	const userQuery = useQuery({
+		queryKey: ["user"],
+		queryFn: async () => {
+			const response = await fetch("/api/get-user");
+			if (!response.ok) {
+				throw new Error("Failed to fetch user");
+			}
+			return response.json();
+		},
+	});
 
 	useEffect(() => {
-		const getUser = async () => {
-			try {
-				const response = await fetch("/api/get-user");
+		if (userQuery.data) {
+			console.log("test", userQuery.data);
 
-				if (!response.ok) {
-					throw new Error("Failed to fetch user");
-				}
+			setName(userQuery.data.user.name);
+		}
+	}, [userQuery.data]);
 
-				const data = await response.json();
+	const modifyUser = useMutation({
+		mutationFn: async (updatedUser: {
+			id: string;
+			name: string;
+		}) => {
+			console.log("updatedUser", updatedUser);
+			const response = await fetch("/api/user-update", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(updatedUser),
+			});
 
-				setUser(data.user);
-				setName(data.user.name || "");
-				setEmail(data.user.email || "");
-
-				setIsLoading(false);
-			} catch (error) {
-				toast.error("Something went wrong!", {
-					position: "top-right",
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
-				console.error("Failed to fetch user data:", error);
-				setIsLoading(false);
+			if (!response.ok) {
+				const errorData = await response.json();
+				throw new Error(errorData.message || "Failed to update profile");
 			}
-		};
-
-		getUser();
-	}, []);
-
-	const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-
-		try {
-			if (user) {
-				const response = await fetch("/api/user-update", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json",
-					},
-					body: JSON.stringify({
-						id: user.id,
-						name,
-						email,
-					}),
-				});
-
-				if (!response.ok) {
-					const errorData = await response.json();
-					throw new Error(errorData.message || "Failed to update profile");
-				}
-				toast.success("User Data Updated", {
-					position: "top-right",
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined,
-					theme: "dark",
-				});
-
-				const updatedUser = await response.json();
-
-				setUser(updatedUser.user);
-			}
-		} catch (error) {
+			return response.json();
+		},
+		onSuccess: (data) => {
+			queryClient.invalidateQueries({ queryKey: ["user"] });
+			toast.success("User Data Updated", {
+				position: "top-right",
+				autoClose: 5000,
+				hideProgressBar: false,
+				closeOnClick: true,
+				pauseOnHover: true,
+				draggable: true,
+				progress: undefined,
+				theme: "dark",
+			});
+		},
+		onError: (error) => {
 			console.error("Error updating profile:", error);
 			toast.error("Something went wrong!", {
 				position: "top-right",
@@ -112,14 +92,22 @@ export function EditProfile() {
 				progress: undefined,
 				theme: "dark",
 			});
+		},
+	});
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log("userQuery.data", userQuery.data.user.id);
+		if (userQuery.data) {
+			modifyUser.mutate({ id: userQuery.data.user.id, name });
 		}
 	};
 
-	if (isLoading) {
+	if (userQuery.isLoading) {
 		return <p>Loading...</p>;
 	}
 
-	if (!user) {
+	if (!userQuery.data) {
 		return <p>No user data available</p>;
 	}
 
@@ -148,21 +136,11 @@ export function EditProfile() {
 							className="col-span-3"
 						/>
 					</div>
-					<div className="grid grid-cols-4 items-center gap-4">
-						<Label htmlFor="email" className="text-right">
-							Email
-						</Label>
-						<Input
-							id="email"
-							name="email"
-							value={email}
-							onChange={(e) => setEmail(e.target.value)}
-							className="col-span-3"
-						/>
-					</div>
 
 					<DialogFooter>
-						<Button type="submit">Save Changes</Button>
+						<Button type="submit" disabled={modifyUser.isPending}>
+							{modifyUser.isPending ? "Saving..." : "Save Changes"}
+						</Button>
 					</DialogFooter>
 				</form>
 			</DialogContent>

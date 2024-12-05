@@ -8,7 +8,6 @@ import { z } from "zod";
 const UpdateProfileSchema = z.object({
 	id: z.string(),
 	name: z.string().min(2, "Name must be at least 2 characters"),
-	email: z.string().email("Invalid email address"),
 });
 
 export async function POST(request: Request) {
@@ -19,9 +18,9 @@ export async function POST(request: Request) {
 	}
 
 	try {
-		const { id, name, email } = await request.json();
+		const { id, name } = await request.json();
 
-		const validationResult = UpdateProfileSchema.safeParse({ id, name, email });
+		const validationResult = UpdateProfileSchema.safeParse({ id, name });
 		if (!validationResult.success) {
 			return NextResponse.json(
 				{
@@ -43,7 +42,6 @@ export async function POST(request: Request) {
 			.update(users)
 			.set({
 				name,
-				email,
 			})
 			.where(eq(users.id, id))
 			.returning();
