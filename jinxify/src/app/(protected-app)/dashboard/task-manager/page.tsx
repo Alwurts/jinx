@@ -16,12 +16,14 @@ import {
 	CardContent,
 	CardFooter,
 } from "@/components/ui/card";
-import { Plus, Sidebar } from "lucide-react";
+import { Plus, Sidebar, Link as LinkIcon } from "lucide-react";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 import type { TTask } from "@/types/db";
+import { TaskDialog } from "./task-dialog";
+import { useState } from "react";
 
 const statusColumns = [
 	{ id: "TODO", label: "To Do" },
@@ -35,6 +37,7 @@ type StatusType = (typeof statusColumns)[number]["id"];
 export default function TaskManager() {
 	const { data: session, status } = useSession();
 	const queryClient = useQueryClient();
+	const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
 
 	const { data: tasks, isLoading } = useQuery<TTask[]>({
 		queryKey: ["tasks"],
@@ -157,6 +160,10 @@ export default function TaskManager() {
 						</div>
 					</div>
 
+					<TaskDialog
+						taskId={selectedTaskId}
+						onClose={() => setSelectedTaskId(null)}
+					/>
 					<div className="flex-1 overflow-x-auto">
 						<DragDropContext onDragEnd={handleDragEnd}>
 							<div className="flex gap-4 h-full min-h-[calc(100vh-12rem)]">
@@ -200,15 +207,34 @@ export default function TaskManager() {
 																			snapshot.isDragging ? "opacity-50" : ""
 																		}`}
 																	>
-																		<Card className="bg-white">
+																		<Card
+																			className="bg-white cursor-pointer hover:shadow-md transition-shadow"
+																			onClick={() => setSelectedTaskId(task.id)}
+																		>
 																			<CardHeader className="p-4">
 																				<CardTitle className="text-sm font-medium">
 																					{task.title}
 																				</CardTitle>
-																				<CardDescription className="text-xs mt-1">
+																				<CardDescription className="text-xs mt-1 line-clamp-2">
 																					{task.description}
 																				</CardDescription>
 																			</CardHeader>
+																			<CardContent className="px-4 pb-2">
+																				{task.diagram ? (
+																					<div className="flex items-center gap-1 text-xs text-gray-600">
+																						<LinkIcon className="h-3 w-3" />
+																						<span>
+																							{task.diagram.title ||
+																								"Untitled Diagram"}
+																						</span>
+																					</div>
+																				) : (
+																					<div className="flex items-center gap-1 text-xs text-gray-400 italic">
+																						<LinkIcon className="h-3 w-3" />
+																						<span>No diagram linked</span>
+																					</div>
+																				)}
+																			</CardContent>
 																			<CardFooter className="p-4 pt-0 flex justify-between text-xs text-gray-500">
 																				<span>
 																					Created:{" "}

@@ -10,4 +10,10 @@ export type TDirectory = InferQueryModel<
 		diagrams: true;
 	}
 >;
-export type TTask = InferQueryModel<"task">;
+export type TTask = InferQueryModel<
+	"task",
+	undefined,
+	{
+		diagram: true;
+	}
+>;
