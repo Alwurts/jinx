@@ -4,13 +4,21 @@ import Link from "next/link";
 
 import { UserAuthForm } from "../components/auth/user-auth-form";
 import Icon from "../components/icons/logo-icon";
+import { auth } from "@/auth";
 
 export const metadata: Metadata = {
 	title: "Authentication",
 	description: "Authentication forms built using the components.",
 };
 
-export default function Home() {
+export default async function Home() {
+	const session = await auth();
+
+	if (session) {
+		// TODO: Make it nice
+		return <div>You are logged in</div>;
+	}
+
 	return (
 		<div className="container relative h-screen flex-col items-center justify-center p-4 md:p-0 grid max-w-full lg:max-w-none lg:grid-cols-2 lg:px-0">
 			<div className="absolute left-6 top-8">
