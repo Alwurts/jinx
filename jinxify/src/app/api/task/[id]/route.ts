@@ -11,6 +11,11 @@ const updateTaskSchema = z.object({
 	status: z.enum(["TODO", "IN_PROGRESS", "IN_REVIEW", "DONE"]).optional(),
 });
 
+// Add this new schema for linking diagram
+const linkDiagramSchema = z.object({
+	diagramId: z.string().uuid(),
+});
+
 // GET a single task
 export async function GET(
 	request: NextRequest,
@@ -75,4 +80,38 @@ export async function DELETE(
 		.returning();
 
 	return NextResponse.json(deletedTask[0]);
+}
+
+// LINK task to diagram
+export async function PUT(
+	request: NextRequest,
+	{ params }: { params: { id: string } },
+) {
+	const id = params.id;
+	const session = await auth();
+
+	if (!session?.user?.id) {
+		return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+	}
+
+	const json = await request.json();
+	const validated = linkDiagramSchema.parse(json);
+
+	const updatedTask = await db
+		.update(task)
+		.set({
+			createdFromDiagramId: validated.diagramId,
+			updatedAt: new Date(),
+		})
+		.where(and(eq(task.id, id), eq(task.userId, session.user.id)))
+		.returning();
+
+	if (!updatedTask[0]) {
+		return NextResponse.json(
+			{ message: "Task not found or unauthorized" },
+			{ status: 404 },
+		);
+	}
+
+	return NextResponse.json(updatedTask[0]);
 }

@@ -8,6 +8,7 @@ import {
 	Search,
 	Settings,
 } from "lucide-react";
+import { GrTask } from "react-icons/gr";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 import {
@@ -62,6 +63,11 @@ const items = [
 		title: "Recent files",
 		url: "#",
 		icon: Folder,
+	},
+	{
+		title: "Task Manager",
+		url: "/dashboard/task-manager",
+		icon: GrTask,
 	},
 	{
 		title: "Search",
