@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 	const { messages }: { messages: Message[] } = await req.json();
 
 	const result = streamText({
-		model: openai("gpt-4o"),
+		model: openai("gpt-4o-mini"),
 		system: DIAGRAM_CHAT_SYSTEM_PROMPT,
 		messages,
 		tools: {
