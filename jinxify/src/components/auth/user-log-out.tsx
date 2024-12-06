@@ -5,10 +5,10 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import { signOut } from "next-auth/react";
 
-export function UserLogOut() { 
-  const [isLoading, setIsLoading] = useState(false);
+export function UserLogOut() {
+	const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogout = async () => {
+	const handleLogout = async () => {
 		setIsLoading(true);
 		try {
 			await signOut({
@@ -21,13 +21,14 @@ export function UserLogOut() {
 	};
 
 	return (
-         <Button
-            className="px-1"
-            type="button"
+		<Button
+			className="px-1"
+			type="button"
 			onClick={handleLogout}
 			disabled={isLoading}
-			variant="link">
+			variant="link"
+		>
 			{isLoading ? "Logging out..." : "Logout"}
-		  </Button>
+		</Button>
 	);
 }
