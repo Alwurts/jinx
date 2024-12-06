@@ -1,17 +1,18 @@
 import React from "react";
 import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 // Define the props for the component
 type ImageOverlayHeaderProps = {
 	imageSrc: string;
 	title: string;
-	overlayOpacity?: number;
+	className?: string;
 };
 
 export default function ImageOverlayHeader({
 	imageSrc,
 	title,
-	overlayOpacity = 85,
+	className,
 }: ImageOverlayHeaderProps) {
 	return (
 		<div className="relative">
@@ -24,11 +25,10 @@ export default function ImageOverlayHeader({
 			/>
 
 			<div
-				className="rounded-t-lg absolute inset-0 z-10"
-				style={{
-					backgroundColor: "#723FDF",
-					opacity: overlayOpacity / 100,
-				}}
+				className={cn(
+					"absolute inset-0 z-10 rounded-t-lg bg-[#723FDF] opacity-85",
+					className,
+				)}
 			/>
 
 			<h1 className="relative p-8 text-secondary text-3xl font-bold mb-1 z-20">

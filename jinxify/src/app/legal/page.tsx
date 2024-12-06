@@ -9,7 +9,6 @@ export default function LegalPage() {
 				<ImageOverlayHeader
 					imageSrc="/images/diamonds_3d_photo.png"
 					title="Legal Information"
-					overlayOpacity={85}
 				/>
 
 				<div className="p-8">

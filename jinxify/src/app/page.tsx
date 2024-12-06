@@ -5,8 +5,8 @@ import Link from "next/link";
 import { UserAuthForm } from "../components/auth/user-auth-form";
 import Icon from "../components/icons/logo-icon";
 import { auth } from "@/auth";
-import { UserLoggedIn } from "@/components/auth/user-logged-in";
 import { UserLogOut } from "@/components/auth/user-log-out";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
 	title: "Authentication",
@@ -49,7 +49,15 @@ export default async function Home() {
 								<p className="text-sm text-muted-foreground">
 									You're all set and ready to dive into your workspace.
 								</p>
-								<UserLoggedIn />
+								<Button
+									size="lg"
+									asChild
+									variant="default"
+									type="button"
+									className="w-full"
+								>
+									<Link href="/dashboard">Enter Your jinxify Portal</Link>
+								</Button>
 							</div>
 
 							{/* Log Out Option */}
