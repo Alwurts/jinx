@@ -34,7 +34,7 @@ export default function Header() {
 	];
 
 	return (
-		<nav className="p-4 bg-card">
+		<nav className="p-4 lg:p-0 bg-card">
 			<div className="container mx-auto flex justify-between items-center">
 				{/* Logo and Navigation for Desktop */}
 				<div className="flex items-center space-x-4">
