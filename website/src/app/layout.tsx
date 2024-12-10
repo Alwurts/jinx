@@ -4,6 +4,7 @@ import Navbar from "@/components/layout/navigation-bar"; // Import the Navbar co
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import Footer from "@/components/layout/footer";
 import { poppins } from "@/components/ui/fonts";
+import Header from "@/components/layout/header";
 
 export const metadata: Metadata = {
 	title: "Jinx",
@@ -16,7 +17,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className= {`${poppins.variable}`}>
+		<html lang="en" className={`${poppins.variable}`}>
 			<body className="min-h-screen flex flex-col">
 				<ThemeProvider
 					attribute="class"
@@ -24,7 +25,7 @@ export default function RootLayout({
 					enableSystem
 					disableTransitionOnChange
 				>
-					<Navbar /> {/* Add the Navbar component here */}
+					<Header />
 					{children}
 					<Footer />
 				</ThemeProvider>
