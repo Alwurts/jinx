@@ -48,7 +48,9 @@ export default function page() {
 		<section>
 			<div className="container mx-auto px-4 py-8 sm:py-16">
 				<div className="text-center mb-10">
-					<h1 className="text-4xl md:text-5xl font-bold mb-8">What drives jinx</h1>
+					<h1 className="text-4xl md:text-5xl font-bold mb-8">
+						What drives jinx
+					</h1>
 					<Separator className="mt-4" />
 				</div>
 

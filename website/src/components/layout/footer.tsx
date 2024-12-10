@@ -16,7 +16,7 @@ export default function Footer() {
 						>
 							<LogoText className="w-full h-24 mx-auto text-foreground" />
 						</Link>
-						<ul className="flex flex-wrap items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+						<ul className="flex flex-wrap justify-center items-center mb-6 text-sm font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
 							<li>
 								<Link
 									href="/"
