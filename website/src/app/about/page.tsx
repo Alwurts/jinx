@@ -46,24 +46,22 @@ const data = [
 export default function page() {
 	return (
 		<section>
-			<div className="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+			<div className="container mx-auto px-4 py-8 sm:py-16">
 				<div className="text-center mb-10">
-					<h1 className="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-						jinx - Your Partner in Progress
-					</h1>
+					<h1 className="text-4xl md:text-5xl font-bold mb-8">What drives jinx</h1>
 					<Separator className="mt-4" />
 				</div>
 
-				<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 w-full">
+				<div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
 					{data?.map((item) => (
-						<div className="space-y-8" key={item.id}>
+						<div className="space-y-6" key={item.id}>
 							<div className="flex justify-center items-center mb-4 w-10 h-10 rounded-full bg-primary-100 lg:h-12 lg:w-12 border-2 border-slate-600 dark:border-white">
 								{item.icon}
 							</div>
 							<h3 className="mb-2 text-xl font-bold dark:text-white">
 								{item.title}
 							</h3>
-							<p className="text-gray-500 dark:text-gray-400">
+							<p className="text-secondary-foreground dark:text-gray-400">
 								{item.description}
 							</p>
 						</div>
