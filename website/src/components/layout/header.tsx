@@ -60,7 +60,10 @@ export default function Header() {
 						</Button>
 					</DrawerTrigger>
 
-					<DrawerContent className="max-h-[60svh] p-0">
+					<DrawerContent
+						className="max-h-[60svh] p-0"
+						aria-describedby={undefined}
+					>
 						<div className="overflow-auto p-6">
 							<div className="flex flex-col space-y-3 p-1 text-center">
 								{navigationLinks.map((link) => (

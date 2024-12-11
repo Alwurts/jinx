@@ -51,8 +51,7 @@ export default function USPSection() {
 									alt={usp.title}
 									height={180}
 									width={180}
-									objectFit="contain"
-									className="rounded-lg"
+									className="rounded-lg object-cover"
 								/>
 							</div>
 							<Separator className="mt-4" />
