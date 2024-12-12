@@ -58,7 +58,7 @@ export function TaskStatusChart() {
 		{
 			name: "In Progress",
 			value: tasks.filter((t) => t.status === "IN_PROGRESS").length,
-				fill: pieChartConfig.IN_PROGRESS.color,
+			fill: pieChartConfig.IN_PROGRESS.color,
 		},
 		{
 			name: "In Review",
