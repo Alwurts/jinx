@@ -5,6 +5,7 @@ import { Separator } from "@/components/ui/separator";
 import LogoText from "@/components/icons/logo-text";
 import type { Member } from "@/types/members";
 import HeroSection from "@/components/herosection/hero";
+import USPSection from "@/components/usp/usp-section";
 
 const teamMembers: Member[] = [
 	{
@@ -68,9 +69,13 @@ export default function Home() {
 
 			<Separator className="mt-4" />
 
+			<USPSection />
+
+			<Separator className="mt-4" />
+
 			<div className="mt-24 mb-16 text-center">
 				<p className="scroll-m-20 text-lg font-extrabold tracking-tight mb-1.5">
-					The Investigators
+					We make the magic happen
 				</p>
 				<h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
 					Meet Our Team
