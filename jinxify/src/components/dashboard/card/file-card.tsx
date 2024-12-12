@@ -54,8 +54,8 @@ export default function FileCard({ item }: Props) {
 			<Link
 				href={
 					item.type === "diagram"
-						? `/dashboard/diagram/${item.id}`
-						: `/dashboard?directoryId=${item.id}`
+						? `/diagram/${item.id}`
+						: `/dashboard/files?directoryId=${item.id}`
 				}
 				key={item.id}
 			>

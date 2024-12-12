@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import db from "@/server/db";
 import { task } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
@@ -22,7 +23,7 @@ export async function GET() {
 	}
 
 	const tasks = await db.query.task.findMany({
-		where: (task, { eq }) => eq(task.userId, userId),
+		where: eq(task.userId, userId),
 		with: {
 			diagram: true,
 		},

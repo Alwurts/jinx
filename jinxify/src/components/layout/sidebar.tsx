@@ -43,13 +43,13 @@ import Link from "next/link";
 // Menu items.
 const applicationItems = [
 	{
-		title: "Home",
-		url: "/dashboard",
+		title: "Dashbord",
+		url: "/dashboard/home",
 		icon: Home,
 	},
 	{
-		title: "Recent Files",
-		url: "#",
+		title: "Files",
+		url: "/dashboard/files",
 		icon: Folder,
 	},
 	{
