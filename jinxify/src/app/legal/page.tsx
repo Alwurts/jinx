@@ -6,10 +6,7 @@ export default function LegalPage() {
 	return (
 		<div className="min-h-screen bg-white p-6 md:p-12">
 			<div className="max-w-4xl mx-auto bg-white shadow-md rounded-lg border border-gray-200">
-				<ImageOverlayHeader
-					imageSrc="/images/diamonds_3d_photo.png"
-					title="Legal Information"
-				/>
+				<ImageOverlayHeader title="Legal Information" />
 
 				<div className="p-8">
 					<p className="mb-4">

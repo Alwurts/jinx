@@ -14,7 +14,7 @@ export async function GET(request: NextRequest) {
 
 		const diagrams = await db.query.diagram.findMany({
 			where: eq(diagram.userId, session.user.id),
-			orderBy: (diagram, { desc }) => [desc(diagram.createdAt)],
+			orderBy: (diagram, { desc }) => [desc(diagram.updatedAt)],
 		});
 
 		return NextResponse.json(diagrams);
