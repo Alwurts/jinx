@@ -19,6 +19,8 @@ export async function POST(request: NextRequest) {
 	const data = await request.json();
 	const { input } = generateDiagramSchema.parse(data);
 
+	console.log("input", input);
+
 	const result = await streamObject({
 		model: openai("gpt-4o"),
 		schema: z.object({
