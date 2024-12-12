@@ -16,7 +16,13 @@ import {
 	CardContent,
 	CardFooter,
 } from "@/components/ui/card";
-import { Plus, Sidebar, Link as LinkIcon, EyeIcon } from "lucide-react";
+import {
+	Plus,
+	Sidebar,
+	Link as LinkIcon,
+	EyeIcon,
+	FilterIcon,
+} from "lucide-react";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
@@ -25,6 +31,15 @@ import type { TTask } from "@/types/db";
 import { TaskDialog } from "./task-dialog";
 import { useState } from "react";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
+import { useSearchParams, useRouter } from "next/navigation";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { GenerateTasksDialog } from "./generate-tasks-dialog";
 
 const statusColumns = [
 	{ id: "TODO", label: "To Do" },
@@ -39,6 +54,10 @@ export default function TaskManager() {
 	const { data: session, status } = useSession();
 	const queryClient = useQueryClient();
 	const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null);
+	const [isGenerateTasksOpen, setIsGenerateTasksOpen] = useState(false);
+	const searchParams = useSearchParams();
+	const router = useRouter();
+	const currentDiagramId = searchParams.get("diagramId");
 
 	const { data: tasks, isLoading } = useQuery<TTask[]>({
 		queryKey: ["tasks"],
@@ -138,6 +157,39 @@ export default function TaskManager() {
 		});
 	};
 
+	// Get unique diagrams from tasks for the filter dropdown
+	const uniqueDiagrams = tasks
+		? Array.from(
+				new Map(
+					tasks
+						.filter((task) => task.diagram)
+						.map((task) => [
+							task.diagram?.id,
+							{
+								id: task.diagram?.id,
+								title: task.diagram?.title || "Untitled Diagram",
+							},
+						]),
+				).values(),
+			)
+		: [];
+
+	const handleDiagramFilter = (diagramId: string) => {
+		const params = new URLSearchParams(searchParams);
+		if (diagramId === "all") {
+			params.delete("diagramId");
+		} else {
+			params.set("diagramId", diagramId);
+		}
+		router.push(`?${params.toString()}`);
+	};
+
+	// Filter tasks by diagram if a diagram is selected
+	const filteredTasks = tasks?.filter((task) => {
+		if (!currentDiagramId) return true;
+		return task.diagram?.id === currentDiagramId;
+	});
+
 	return (
 		<>
 			<ImageOverlayHeader
@@ -145,15 +197,46 @@ export default function TaskManager() {
 				icon={<EyeIcon className="size-8 text-secondary z-20" />}
 				leftToolbar={<SidebarTrigger className="md:hidden z-10 bg-secondary" />}
 				rightToolbar={
-					<Button
-						onClick={handleCreateTask}
-						variant="secondary"
-						className="flex items-center gap-2"
-					>
-						<Plus className="w-4 h-4" />
-						Add Task
-					</Button>
+					<div className="flex items-center gap-2">
+						<Select
+							value={currentDiagramId || "all"}
+							onValueChange={handleDiagramFilter}
+						>
+							<SelectTrigger className="w-[200px] bg-secondary">
+								<SelectValue placeholder="Filter by diagram" />
+							</SelectTrigger>
+							<SelectContent>
+								<SelectItem value="all">All diagrams</SelectItem>
+								{uniqueDiagrams.map((diagram) => (
+									<SelectItem key={diagram.id} value={diagram.id ?? ""}>
+										{diagram.title}
+									</SelectItem>
+								))}
+							</SelectContent>
+						</Select>
+						<Button
+							onClick={() => setIsGenerateTasksOpen(true)}
+							variant="secondary"
+							className="flex items-center gap-2"
+						>
+							<Plus className="w-4 h-4" />
+							Generate Tasks
+						</Button>
+						<Button
+							onClick={handleCreateTask}
+							variant="secondary"
+							className="flex items-center gap-2"
+						>
+							<Plus className="w-4 h-4" />
+							Add Task
+						</Button>
+					</div>
 				}
+			/>
+
+			<GenerateTasksDialog
+				open={isGenerateTasksOpen}
+				onOpenChange={setIsGenerateTasksOpen}
 			/>
 
 			<TaskDialog
@@ -186,7 +269,7 @@ export default function TaskManager() {
 												snapshot.isDraggingOver ? "bg-gray-100" : ""
 											}`}
 										>
-											{tasks
+											{filteredTasks
 												?.filter((task) => task.status === column.id)
 												.map((task, index) => (
 													<Draggable

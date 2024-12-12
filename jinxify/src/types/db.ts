@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type { InferQueryModel } from "./infer-database";
 
 export type TDiagram = InferQueryModel<"diagram">;
@@ -10,6 +11,7 @@ export type TDirectory = InferQueryModel<
 		diagrams: true;
 	}
 >;
+
 export type TTask = InferQueryModel<
 	"task",
 	undefined,
@@ -17,3 +19,8 @@ export type TTask = InferQueryModel<
 		diagram: true;
 	}
 >;
+
+export const TTaskSchema = z.object({
+	title: z.string().min(1),
+	description: z.string().min(1),
+});
