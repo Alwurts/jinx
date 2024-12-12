@@ -7,7 +7,12 @@ import { ThemeToggle } from "../theme/theme-toggle";
 import LogoIconMystical from "@/components/icons/logo-icon-mystical";
 import { Button } from "@/components/ui/button";
 import { FaGripLines } from "react-icons/fa6";
-import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
+import {
+	Drawer,
+	DrawerContent,
+	DrawerTitle,
+	DrawerTrigger,
+} from "@/components/ui/drawer";
 import { cn } from "@/lib/utils";
 import Navbar from "./navigation-bar";
 
@@ -64,6 +69,7 @@ export default function Header() {
 						className="max-h-[60svh] p-0"
 						aria-describedby={undefined}
 					>
+						<DrawerTitle className=" sr-only">Mobile Menu</DrawerTitle>
 						<div className="overflow-auto p-6">
 							<div className="flex flex-col space-y-3 p-1 text-center">
 								{navigationLinks.map((link) => (
