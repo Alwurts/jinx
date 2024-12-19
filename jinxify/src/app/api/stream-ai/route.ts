@@ -5,6 +5,8 @@ import { openai } from "@ai-sdk/openai";
 import { streamObject } from "ai";
 import { GENERATE_BPMN_PROMPT } from "@/lib/prompts";
 
+export const maxDuration = 60;
+
 const generateDiagramSchema = z.object({
 	input: z.string().min(1),
 });
