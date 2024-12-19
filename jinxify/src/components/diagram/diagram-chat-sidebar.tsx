@@ -21,10 +21,6 @@ export function DiagramChatSidebar({
 		maxSteps: 2,
 	});
 
-	useEffect(() => {
-		console.log("messages", messages);
-	}, [messages]);
-
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
 	// Auto-resize textarea
@@ -133,8 +129,8 @@ function ChatMessage({
 			className={cn(
 				"p-4 rounded-lg prose prose-invert max-w-none",
 				message.role === "user"
-					? "bg-primary text-primary-foreground ml-8 prose-p:text-primary-foreground prose-li:text-primary-foreground prose-strong:text-primary-foreground prose-code:text-primary-foreground"
-					: "bg-muted text-foreground mr-8 prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-code:text-foreground",
+					? "bg-primary text-primary-foreground ml-8 prose-headings:text-primary-foreground prose-p:text-primary-foreground prose-li:text-primary-foreground prose-strong:text-primary-foreground prose-code:text-primary-foreground"
+					: "bg-muted text-foreground mr-8 prose-headings:text-foreground prose-p:text-foreground prose-li:text-foreground prose-strong:text-foreground prose-code:text-foreground",
 			)}
 		>
 			<ReactMarkdown>{message.content}</ReactMarkdown>

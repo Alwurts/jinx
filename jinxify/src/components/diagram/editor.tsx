@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
 import type { TDiagram } from "@/types/db";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import BpmnModeler from "bpmn-js/lib/Modeler";
@@ -9,8 +10,11 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import { Separator } from "../ui/separator";
 import { normalizeXML } from "@/lib/bpmn";
-import { GenerateDiagramSidebar } from "./generate-diagram-sidebar";
 import { DiagramChatSidebar } from "./diagram-chat-sidebar";
+import { Input } from "../ui/input";
+import { ExportXmlDialog } from "./export-xml-dialog";
+import { ImportXmlDialog } from "./import-xml-dialog";
+
 type Props = {
 	id: string;
 };
@@ -87,7 +91,7 @@ export default function Editor({ id }: Props) {
 
 			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 			const canvas = modelerRef.current.get("canvas") as any;
-			canvas.zoom("fit-viewport");
+			//canvas.zoom("fit-viewport");
 		} catch (err) {
 			console.error("Error importing BPMN diagram:", err);
 		}
@@ -119,6 +123,17 @@ export default function Editor({ id }: Props) {
 		}); */
 	};
 
+	const getXml = async () => {
+		if (!modelerRef.current) {
+			throw new Error("Modeler not initialized");
+		}
+		const { xml } = await modelerRef.current.saveXML({ format: true });
+		if (!xml) {
+			throw new Error("Failed to get XML");
+		}
+		return xml;
+	};
+
 	return (
 		<div className="w-screen h-screen flex flex-col">
 			<div className="flex justify-between items-center h-14 px-4 border-b">
@@ -135,6 +150,11 @@ export default function Editor({ id }: Props) {
 				</div>
 
 				<div className="flex items-center gap-2">
+					<ImportXmlDialog onImport={importXml} />
+					<ExportXmlDialog
+						getXml={getXml}
+						fileName={`${data?.title || "diagram"}.bpmn`}
+					/>
 					<Button disabled={updateDiagram.isPending} onClick={saveDocument}>
 						Save
 					</Button>
