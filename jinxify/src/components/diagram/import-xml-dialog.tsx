@@ -27,7 +27,7 @@ export function ImportXmlDialog({ onImport }: ImportXmlDialogProps) {
 
 	const handleImport = async () => {
 		if (!xml.trim()) return;
-		
+
 		setIsLoading(true);
 		try {
 			await onImport(xml);
@@ -86,7 +86,10 @@ export function ImportXmlDialog({ onImport }: ImportXmlDialogProps) {
 							className="h-[400px] font-mono"
 						/>
 					</TabsContent>
-					<TabsContent value="upload" className="flex flex-col items-center justify-center h-[400px] border rounded-md">
+					<TabsContent
+						value="upload"
+						className="flex flex-col items-center justify-center h-[400px] border rounded-md"
+					>
 						<Input
 							type="file"
 							accept=".bpmn,.xml"
@@ -96,7 +99,9 @@ export function ImportXmlDialog({ onImport }: ImportXmlDialogProps) {
 						/>
 						<Button
 							variant="outline"
-							onClick={() => document.getElementById("dialog-file-upload")?.click()}
+							onClick={() =>
+								document.getElementById("dialog-file-upload")?.click()
+							}
 							className="w-48"
 						>
 							<Upload className="mr-2 h-4 w-4" />
@@ -110,10 +115,7 @@ export function ImportXmlDialog({ onImport }: ImportXmlDialogProps) {
 						<Button variant="outline" onClick={() => setOpen(false)}>
 							Cancel
 						</Button>
-						<Button
-							onClick={handleImport}
-							disabled={!xml.trim() || isLoading}
-						>
+						<Button onClick={handleImport} disabled={!xml.trim() || isLoading}>
 							Import
 						</Button>
 					</div>
@@ -121,4 +123,4 @@ export function ImportXmlDialog({ onImport }: ImportXmlDialogProps) {
 			</DialogContent>
 		</Dialog>
 	);
-} 
+}
