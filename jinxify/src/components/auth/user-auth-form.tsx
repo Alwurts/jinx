@@ -54,7 +54,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 			<Button
 				variant="default"
 				type="button"
-				onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
+				onClick={() => signIn("github", { callbackUrl: "/dashboard/home" })}
 				className="w-full"
 				disabled={isLoading}
 			>

@@ -56,7 +56,7 @@ export default async function Home() {
 									type="button"
 									className="w-full"
 								>
-									<Link href="/dashboard">Enter Your jinxify Portal</Link>
+									<Link href="/dashboard/home">Enter Your jinxify Portal</Link>
 								</Button>
 							</div>
 
