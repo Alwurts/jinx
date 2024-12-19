@@ -1,39 +1,46 @@
-import React from "react";
+import React, { type ReactNode } from "react";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
+import { HomeIcon } from "lucide-react";
+import { Button } from "../ui/button";
 
 // Define the props for the component
 type ImageOverlayHeaderProps = {
-	imageSrc: string;
 	title: string;
 	className?: string;
+	leftToolbar?: ReactNode;
+	rightToolbar?: ReactNode;
+	icon?: ReactNode;
 };
 
 export default function ImageOverlayHeader({
-	imageSrc,
 	title,
 	className,
+	icon,
+	leftToolbar,
+	rightToolbar,
 }: ImageOverlayHeaderProps) {
 	return (
-		<div className="relative">
+		<div className="relative flex items-center justify-between p-10 gap-4">
 			<Image
-				src={imageSrc}
+				src="/images/diamonds_3d_photo.png"
 				width={1200}
 				height={200}
 				alt="Background Image"
 				className="absolute top-0 left-0 w-full h-full object-cover rounded-t-lg"
 			/>
-
-			<div
-				className={cn(
-					"absolute inset-0 z-10 rounded-t-lg bg-[#723FDF] opacity-85",
-					className,
-				)}
-			/>
-
-			<h1 className="relative p-8 text-secondary text-3xl font-bold mb-1 z-20">
-				{title}
-			</h1>
+			<div className="flex z-20 gap-4">
+				{leftToolbar}
+				<div
+					className={cn(
+						"absolute inset-0 rounded-t-lg bg-[#723FDF] opacity-85",
+						className,
+					)}
+				/>
+				{icon}
+				<h1 className="text-secondary text-3xl z-10 font-bold">{title}</h1>
+			</div>
+			<div className="z-20">{rightToolbar}</div>
 		</div>
 	);
 }

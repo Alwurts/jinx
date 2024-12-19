@@ -241,7 +241,7 @@ export function TaskDialogContent({ taskId, onClose }: TaskDialogContentProps) {
 								{task.diagram.title || "Untitled Diagram"}
 							</span>
 							<Link
-								href={`/dashboard/diagram/${task.diagram.id}`}
+								href={`/diagram/${task.diagram.id}`}
 								className="text-blue-600 hover:text-blue-800"
 							>
 								<ExternalLink className="h-4 w-4" />

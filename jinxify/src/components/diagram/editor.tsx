@@ -139,7 +139,7 @@ export default function Editor({ id }: Props) {
 			<div className="flex justify-between items-center h-14 px-4 border-b">
 				<div className="flex items-center gap-4">
 					<Button variant="outline" asChild>
-						<Link href={`/dashboard?directoryId=${data?.directoryId}`}>
+						<Link href={`/dashboard/files?directoryId=${data?.directoryId}`}>
 							Back
 						</Link>
 					</Button>

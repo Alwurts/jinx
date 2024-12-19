@@ -6,26 +6,10 @@ import { usePathname } from "next/navigation";
 import { ThemeToggle } from "../theme/theme-toggle";
 import LogoIconMystical from "@/components/icons/logo-icon-mystical";
 
-export default function Navbar() {
+export default function Navbar({
+	navigationLinks = [],
+}: { navigationLinks: { href: string; label: string }[] }) {
 	const pathname = usePathname();
-	const navigationLinks = [
-		{
-			href: "/",
-			label: "Home",
-		},
-		{
-			href: "/blog",
-			label: "Blog",
-		},
-		{
-			href: "/about",
-			label: "About Us",
-		},
-		{
-			href: "/contact",
-			label: "Contact",
-		},
-	];
 	return (
 		<nav className="p-4 bg-card">
 			<div className="container mx-auto flex justify-between items-center">
@@ -45,8 +29,16 @@ export default function Navbar() {
 						</li>
 					))}
 				</ul>
-				<ThemeToggle />
 			</div>
 		</nav>
 	);
 }
+
+Navbar.defaultProps = {
+	navigationLinks: [
+		{ href: "/", label: "Home" },
+		{ href: "/blog", label: "Blog" },
+		{ href: "/about", label: "About Us" },
+		{ href: "/contact", label: "Contact" },
+	],
+};

@@ -4,6 +4,10 @@ import {
 	PIZZA_ORDERING_SIMPLE,
 } from "./bpmn-examples";
 
+export const GENERATE_TODOS_OUTOF_DIAGRAM_PROMPT = `You are a helpful assistant that allows users to interact with BPMN diagrams. Here are your guidelines:
+- You will be provided with a BPMN 2.0 diagram in XML format and you will need to generate a list of todos / tasks based on the diagram.
+- You will take the tasks found on the BPMN Diagram and generate a list of todos one for each.`;
+
 export const DIAGRAM_CHAT_SYSTEM_PROMPT = `# BPMN Diagram expert
 
 You are a helpful assistant that allows users to interact with BPMN diagrams
