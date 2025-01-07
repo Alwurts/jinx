@@ -1,86 +1,66 @@
-"use client"
+"use client";
 
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import type { Session } from "next-auth";
+import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
-import { cn } from "@/lib/utils"
 import { VscAccount } from "react-icons/vsc";
-import { toast } from "@/hooks/use-toast"
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
+import { toast } from "@/hooks/use-toast";
 
-const accountFormSchema = z.object({
-  name: z
-    .string()
-    .min(2, {
-      message: "Name must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Name must not be longer than 30 characters.",
-    })
-})
+type Props = {
+  session: Session | null;
+};
 
-type AccountFormValues = z.infer<typeof accountFormSchema>
+async function fetchUserData() {
+  const response = await fetch("/api/get-user");
+  if (!response.ok) {
+    throw new Error("Failed to fetch user data");
+  }
+  return response.json();
+}
 
-export function AccountForm() {
-  const form = useForm<AccountFormValues>({
-    resolver: zodResolver(accountFormSchema),
-  })
+export const AccountForm = ({ session }: Props) => {
+  const [isLoading, setIsLoading] = useState(false);
 
-  function onSubmit(data: AccountFormValues) {
+  const { data: userData, error: userError } = useQuery({
+    queryKey: ["user"],
+    queryFn: fetchUserData,
+  });
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (userError) {
+    // Trigger a toast notification and render an error message
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+      title: "Failed to load user data",
+    });
+
+    return (
+      <div className="pt-8 pb-2">
+        <p className="text-red-500">Failed to load user data. Please try again later.</p>
+      </div>
+    );
   }
 
   return (
-     <div className="pb-8">
-        <div className="pt-8 pb-2">
-            <div className="flex items-center space-x-2">
-                <VscAccount className="w-4 h-4" />
-                <h3 id="account-form" className="text-xl font-semibold">Account</h3>
-            </div>
-            <p className="text-sm text-muted-foreground">
-            Check your account settings:
-            </p>
+    <div className="pb-8">
+      <div className="pt-8 pb-2">
+        <div className="flex items-center space-x-2">
+          <VscAccount className="w-6 h-6" />
+          <h3 id="account-form" className="text-2xl font-semibold">Account</h3>
         </div>
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Name</FormLabel>
-              <FormControl>
-                <Input placeholder="Your name" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is the name that will be displayed on your profile and in
-                emails.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Update account</Button>
-      </form>
-    </Form>
+        <p className="text-sm text-muted-foreground">Check your profile data:</p>
+        <div className="text-sm mt-4 space-y-4">
+          <p>
+            <span className="font-semibold">Name:</span> {userData?.user?.name || "User"}
+          </p>
+          <p>
+            <span className="font-semibold">Email:</span> {userData?.user?.email || "User Email"}
+          </p>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};

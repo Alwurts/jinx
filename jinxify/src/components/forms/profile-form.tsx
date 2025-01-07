@@ -58,8 +58,8 @@ export function ProfileForm() {
     <div>
         <div className="pt-8 pb-2">
             <div className="flex items-center space-x-2">
-                <FiEdit className="w-4 h-4" />
-                <h3 id="edit-profile-form" className="text-xl font-semibold">Edit Profile</h3>
+                <FiEdit className="w-6 h-6" />
+                <h3 id="edit-profile-form" className="text-2xl font-semibold">Edit Profile</h3>
             </div>
             <p className="text-sm text-muted-foreground">
             Manage your profile data here:
@@ -74,7 +74,7 @@ export function ProfileForm() {
                 <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                    <Input placeholder="name" {...field} />
+                    <Input placeholder="Your name" {...field} />
                 </FormControl>
                 <FormDescription>
                     This is your public display name. It can be your real name or a
