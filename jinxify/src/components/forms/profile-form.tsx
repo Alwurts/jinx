@@ -1,11 +1,10 @@
 "use client"
 
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
+import { useState } from "react";
 import { z } from "zod"
-
-import { cn } from "@/lib/utils"
-import { toast } from "@/hooks/use-toast"
+import type { Session } from "next-auth";
+import type { FormEvent } from "react";
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -18,6 +17,12 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { FiEdit } from "react-icons/fi"
+import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
+
+type Props = {
+  session: Session | null;
+};
 
 const profileFormSchema = z.object({
   username: z
@@ -28,7 +33,7 @@ const profileFormSchema = z.object({
     .max(30, {
       message: "Username must not be longer than 30 characters.",
     }),
-  email: z
+    email: z
     .string({
       required_error: "Please enter an email.",
     })
@@ -37,21 +42,78 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>
 
-export function ProfileForm() {
+export function ProfileForm({ session }: Props) {
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     mode: "onChange",
-  })
+  });
 
-  function onSubmit(data: ProfileFormValues) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsLoading(true);
+
+     if (!session || !session.user) {
+      toast({
+        title: "Unauthorized",
+        description: "Please log in to update your profile.",
+        variant: "destructive",
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    const formData = new FormData(event.currentTarget);
+    const payload = {
+      id: session.user?.id, // Fetch the user's ID from the session
+      name: formData.get("username") as string, // Map "username" to "name"
+    };
+
+    try {
+       if (!payload.id) {
+        toast({
+          title: "Error",
+          description: "Invalid session. Unable to update profile.",
+          variant: "destructive",
+        });
+        setIsLoading(false);
+        return;
+      }
+
+      const response = await fetch("/api/user-update", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        toast({
+          title: "Update failed",
+          description: errorData.message || "An error occurred.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const responseData = await response.json();
+      toast({
+        title: "Profile updated",
+        description: `Your username has been updated to ${responseData.user.name}`,
+      });
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "An error occurred",
+        description: "Unable to update your profile at this time.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -66,15 +128,15 @@ export function ProfileForm() {
             </p>
         </div>
         <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="py-4 space-y-8">
+        <form onSubmit={handleSubmit} className="py-4 space-y-8">
             <FormField
             control={form.control}
             name="username"
             render={({ field }) => (
                 <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Username*</FormLabel>
                 <FormControl>
-                    <Input placeholder="Your name" {...field} />
+                    <Input placeholder="Enter new username" {...field} type="text" name="username" required/>
                 </FormControl>
                 <FormDescription>
                     This is your public display name. It can be your real name or a
@@ -91,16 +153,16 @@ export function ProfileForm() {
                 <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                    <Input placeholder="e-mail" {...field} />
+                    <Input placeholder="name@gmail.com" {...field} type="email" name="email" disabled/>
                 </FormControl>
                 <FormDescription>
-                    You can modify your verified email address here.
+                    We're sorry, but for authentication reasons, you're unable to update your email address at this time.
                 </FormDescription>
                 <FormMessage />
                 </FormItem>
             )}
             />
-            <Button type="submit">Update profile</Button>
+            <Button type="submit" disabled={isLoading}>{isLoading ? "Updating..." : "Update profile"}</Button>
         </form>
         </Form>
     </div>

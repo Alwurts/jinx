@@ -22,7 +22,7 @@ export default async function SettingsProfilePage() {
       <Separator/>
       <AccountForm session={session ?? null} />
       <Separator/>
-      <ProfileForm/>
+      <ProfileForm session={session ?? null}/>
       </div>
     </div>
   )
