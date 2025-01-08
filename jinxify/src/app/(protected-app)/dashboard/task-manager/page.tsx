@@ -27,6 +27,7 @@ import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
+import { TaskLoadingSkeleton } from "./task-skeleton";
 import type { TTask } from "@/types/db";
 import { TaskDialog } from "./task-dialog";
 import { useState } from "react";
@@ -189,7 +190,11 @@ export default function TaskManager() {
 		if (!currentDiagramId) return true;
 		return task.diagram?.id === currentDiagramId;
 	});
-
+	
+	if(isLoading){
+		return <TaskLoadingSkeleton />;
+  }
+	
 	return (
 		<>
 			<ImageOverlayHeader
