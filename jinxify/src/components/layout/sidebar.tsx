@@ -135,9 +135,9 @@ export function AppSidebar({ session }: Props) {
 	return (
 		<Sidebar className="h-screen rounded-tr-lg flex flex-col">
 			<SidebarHeader className="p-9 bg-[url('/images/diamond.png')] bg-cover bg-top rounded-tr-lg">
-				<div className="flex items-center space-x-3">
+				<div className="flex items-center space-x-">
 					<Logo className="w-10 h-10 brightness-0 invert" />
-					<h1 className="text-xl font-semibold text-white">jinxify Portal</h1>
+					<h1 className="text-xl  text-white">jinxify Portal</h1>
 				</div>
 			</SidebarHeader>
 
@@ -207,7 +207,7 @@ export function AppSidebar({ session }: Props) {
 				</SidebarGroupLabel>
 				<DropdownMenu>
 					<DropdownMenuTrigger className="w-full rounded-lg focus:outline-none">
-						<div className="flex items-center space-x-3 p-4 mb-3 rounded-md bg-gray-50 border border-gray-200 shadow-md hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
+						<div className="flex items-center space-x-3 p-4 mb-3 rounded-md  border border-gray-100 shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md">
 							<Avatar>
 								<AvatarImage
 									src={session?.user?.image ?? "/images/jinx.png"}
@@ -224,37 +224,41 @@ export function AppSidebar({ session }: Props) {
 						</div>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent
-						className="w-56 mb-12 bg-gray-50"
+						className="w-56 mb-12 bg-white"
 						side="right"
 						align="start"
 						alignOffset={-70}
 						sideOffset={10}
 					>
-						<div className="flex items-center space-x-3 p-4 mb-1  rounded-md bg-[url('/images/diamond.png')] bg-cover bg-center border border-gray-50 shadow-sm hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
+						<div className="flex items-center space-x-3 p-4 mb-1 rounded-md bg-[url('/images/diamond.png')] bg-cover bg-center border border-gray-50 shadow-sm hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
 							<div className="flex-1 text-center">
 								<p className="text-sm font-medium text-white">User Profile</p>
 							</div>
 						</div>
 
-						<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
-							<VscAccount className="w-4 h-4" />
-							<span>Account</span>
+						<DropdownMenuItem className="group/item flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg transition-all duration-200">
+							<VscAccount className="w-5 h-5 text-gray-700 group-hover/item:text-purple-700" />
+							<span className="group-hover/item:text-purple-700">Account</span>
 						</DropdownMenuItem>
 						<DropdownMenuSeparator />
 
 						<div className="py-1">
-							<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
-								<FiEdit className="w-4 h-4" />
-								<span>Edit Profile</span>
+							<DropdownMenuItem className="group/item flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg transition-all duration-200">
+								<FiEdit className="w-5 h-5 text-gray-700 group-hover/item:text-purple-700" />
+								<span className="group-hover/item:text-purple-700">
+									Edit Profile
+								</span>
 							</DropdownMenuItem>
 
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
-								className="flex items-center space-x-2 px-3 py-2 "
+								className="group/item flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg transition-all duration-200"
 								onClick={handleLogout}
 							>
-								<CgLogOut className="w-4 h-4 space-x-2" />
-								<span>{isLoading ? "Logging out..." : "Log out"}</span>
+								<CgLogOut className="w-5 h-5 text-gray-700 group-hover/item:text-purple-700" />
+								<span className="group-hover/item:text-purple-700">
+									{isLoading ? "Logging out..." : "Log out"}
+								</span>
 							</DropdownMenuItem>
 						</div>
 					</DropdownMenuContent>

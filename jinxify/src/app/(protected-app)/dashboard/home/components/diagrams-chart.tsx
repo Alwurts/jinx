@@ -1,38 +1,29 @@
 "use client";
 
+import { TrendingUp } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import {
 	Card,
 	CardContent,
 	CardDescription,
+	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@/components/ui/card";
+import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from "recharts";
 import {
-	Bar,
-	BarChart,
-	CartesianGrid,
-	LabelList,
-	XAxis,
-	YAxis,
-} from "recharts";
-import {
-	type ChartConfig,
 	ChartContainer,
 	ChartTooltip,
 	ChartTooltipContent,
 } from "@/components/ui/chart";
 import type { TDiagram } from "@/types/db";
 
-const barChartConfig = {
+const chartConfig = {
 	diagrams: {
 		label: "Diagrams",
 		color: "hsl(var(--chart1))",
 	},
-	label: {
-		color: "hsl(var(--foreground))",
-	},
-} satisfies ChartConfig;
+};
 
 export function DiagramsChart() {
 	const { data: diagrams = [] } = useQuery({
@@ -40,8 +31,7 @@ export function DiagramsChart() {
 		queryFn: async () => {
 			const response = await fetch("/api/diagram");
 			if (!response.ok) throw new Error("Failed to fetch diagrams");
-			const json = (await response.json()) as TDiagram[];
-			return json;
+			return (await response.json()) as TDiagram[];
 		},
 	});
 
@@ -64,60 +54,40 @@ export function DiagramsChart() {
 	);
 
 	return (
-		<Card className="xl:col-span-2">
+		<Card>
 			<CardHeader>
-				<CardTitle>Diagrams Created by Month</CardTitle>
+				<CardTitle>Bar Chart</CardTitle>
 				<CardDescription>{new Date().getFullYear()}</CardDescription>
 			</CardHeader>
 			<CardContent>
-				<ChartContainer config={barChartConfig}>
-					<BarChart
-						data={barChartData}
-						layout="vertical"
-						margin={{
-							right: 16,
-						}}
-					>
-						<CartesianGrid horizontal={false} />
-						<YAxis
+				<ChartContainer config={chartConfig}>
+					<BarChart accessibilityLayer data={barChartData}>
+						<CartesianGrid vertical={false} />
+						<XAxis
 							dataKey="month"
-							type="category"
 							tickLine={false}
 							tickMargin={10}
 							axisLine={false}
 							tickFormatter={(value) => value.slice(0, 3)}
-							hide
 						/>
-						<XAxis dataKey="diagrams" type="number" hide />
+						<YAxis hide />
 						<ChartTooltip
 							cursor={false}
-							content={<ChartTooltipContent indicator="line" />}
+							content={<ChartTooltipContent hideLabel />}
 						/>
 						<Bar
 							dataKey="diagrams"
-							layout="vertical"
-							fill={barChartConfig.diagrams.color}
-							radius={4}
-							stroke="hsl(var(--background))"
-						>
-							<LabelList
-								dataKey="month"
-								position="insideLeft"
-								offset={8}
-								className="fill-foreground"
-								fontSize={12}
-							/>
-							<LabelList
-								dataKey="diagrams"
-								position="right"
-								offset={8}
-								className="fill-foreground"
-								fontSize={12}
-							/>
-						</Bar>
+							fill={chartConfig.diagrams.color}
+							radius={8}
+						/>
 					</BarChart>
 				</ChartContainer>
 			</CardContent>
+			<CardFooter className="flex-col items-start gap-2 text-sm">
+				<div className="leading-none text-muted-foreground">
+					Showing diagrams created per month for {new Date().getFullYear()}
+				</div>
+			</CardFooter>
 		</Card>
 	);
 }
