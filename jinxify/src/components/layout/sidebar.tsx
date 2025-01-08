@@ -238,20 +238,20 @@ export function AppSidebar({ session }: Props) {
 						</div>
 
 						<Link href="/dashboard/preferences/#account-form">
-						<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
-							<VscAccount className="w-4 h-4" />
-							<span>Account</span>
-						</DropdownMenuItem>
+							<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
+								<VscAccount className="w-4 h-4" />
+								<span>Account</span>
+							</DropdownMenuItem>
 						</Link>
 
 						<DropdownMenuSeparator />
 
 						<div className="py-1">
 							<Link href="/dashboard/preferences/#edit-profile-form">
-							<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
-								<FiEdit className="w-4 h-4" />
-								<span>Edit Profile</span>
-							</DropdownMenuItem>
+								<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
+									<FiEdit className="w-4 h-4" />
+									<span>Edit Profile</span>
+								</DropdownMenuItem>
 							</Link>
 
 							<DropdownMenuSeparator />
