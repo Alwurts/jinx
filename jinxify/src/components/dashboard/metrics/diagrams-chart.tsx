@@ -54,7 +54,7 @@ export function DiagramsChart() {
 	);
 
 	return (
-		<Card>
+		<Card className="bg-white border border-gray-200 rounded-lg shadow-md transition-shadow">
 			<CardHeader>
 				<CardTitle>Bar Chart</CardTitle>
 				<CardDescription>{new Date().getFullYear()}</CardDescription>

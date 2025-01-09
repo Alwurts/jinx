@@ -190,11 +190,11 @@ export default function TaskManager() {
 		if (!currentDiagramId) return true;
 		return task.diagram?.id === currentDiagramId;
 	});
-	
-	if(isLoading){
+
+	if (isLoading) {
 		return <TaskLoadingSkeleton />;
-  }
-	
+	}
+
 	return (
 		<>
 			<ImageOverlayHeader

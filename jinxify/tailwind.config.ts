@@ -10,6 +10,9 @@ const config: Config = {
 	theme: {
 		extend: {
 			colors: {
+				'creamy': '#F8F4FF',
+				'mystical': '#312457',
+				'royal-purple': '#723FDF',
 				background: "hsl(var(--background))",
 				foreground: "hsl(var(--foreground))",
 				card: {
