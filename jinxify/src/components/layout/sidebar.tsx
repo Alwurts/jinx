@@ -8,6 +8,7 @@ import { GrTask } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { CgLogOut } from "react-icons/cg";
 import { VscSettings } from "react-icons/vsc";
+import { FaRegLightbulb } from "react-icons/fa";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
@@ -78,9 +79,9 @@ const settingsItems = [
 		icon: VscSettings,
 	},
 	{
-		title: "Help",
-		url: "https://jinx-team.vercel.app/contact",
-		icon: TbHelpSquare,
+		title: "FAQs",
+		url: "/dashboard/faq",
+		icon: FaRegLightbulb,
 	},
 	{
 		title: "About jinx",
