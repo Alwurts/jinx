@@ -50,6 +50,7 @@ import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import Logo from "../icons/logo-icon";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 // Menu items.
@@ -119,6 +120,7 @@ export function AppSidebar({ session }: Props) {
 		queryKey: ["user"],
 		queryFn: fetchUserData,
 	});
+	const pathname = usePathname();
 
 	async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
 		try {
@@ -163,6 +165,10 @@ export function AppSidebar({ session }: Props) {
 		}
 	};
 
+	const isActive = (url: string) => {
+		return pathname === url;
+	};
+
 	useEffect(() => {
 		if (userError) {
 			toast.error("Failed to load user data", {
@@ -177,8 +183,9 @@ export function AppSidebar({ session }: Props) {
 			});
 		}
 	}, [userError]);
+
 	return (
-		<Sidebar className="h-screen rounded-tr-lg flex flex-col">
+		<Sidebar className="h-screen rounded-tr-lg flex flex-col bg-white border border-gray-200">
 			{searchBoxOpen && (
 				<Dialog open={searchBoxOpen} onOpenChange={setSearchBoxOpen}>
 					<DialogContent>
@@ -186,57 +193,21 @@ export function AppSidebar({ session }: Props) {
 							<DialogTitle>Search</DialogTitle>
 						</DialogHeader>
 						<input type="text" onChange={handleSearch} />
-						<div>
-							<ul>
-								{searchResults
-									.slice(currentIndex, currentIndex + 5)
-									.map((result, index) => (
-										<li key={result.id} className="mb-2">
-											<Link href={`/dashboard/home/${result.id}`}>
-												{currentIndex + index} : {result.title}
-											</Link>
-										</li>
-									))}
-							</ul>
-							<div className="mt-4 flex justify-between gap-2">
-								<button
-									type="button"
-									onClick={handlePrevious}
-									disabled={currentIndex === 0}
-									className="group/item flex-1 flex items-center justify-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-								>
-									<span className="group-hover/item:text-purple-700 disabled:group-hover/item:text-gray-700">
-										Previous
-									</span>
-								</button>
-
-								<button
-									type="button"
-									onClick={handleNext}
-									disabled={currentIndex + 5 >= searchResults.length}
-									className="group/item flex-1 flex items-center justify-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-								>
-									<span className="group-hover/item:text-purple-700 disabled:group-hover/item:text-gray-700">
-										Next
-									</span>
-								</button>
-							</div>
-							</div>
 					</DialogContent>
 				</Dialog>
 			)}
 			<SidebarHeader className="p-9 bg-[url('/images/diamond.png')] bg-cover bg-top rounded-tr-lg">
-				<div className="flex items-center space-x-">
-					<Logo className="w-10 h-10 brightness-0 invert" />
-					<h1 className="text-xl  text-white">jinxify Portal</h1>
+				<div className="flex items-center space-x-3 text-secondary">
+					<Logo className="w-10 h-10" />
+					<h1 className="text-xl font-semibold">jinxify Portal</h1>
 				</div>
 			</SidebarHeader>
 
 			<SidebarSeparator />
 
-			<SidebarContent className="flex-1">
+			<SidebarContent className="flex-1 bg-white">
 				<SidebarGroup>
-					<SidebarGroupLabel className="text-gray-400 text-sm px-4 py-2 mt-2 mb-2 font-semibold">
+					<SidebarGroupLabel className="text-mystical/65 text-xs px-4 py-2 mb-2 font-semibold">
 						Application
 					</SidebarGroupLabel>
 					<SidebarGroupContent>
@@ -246,17 +217,22 @@ export function AppSidebar({ session }: Props) {
 									<SidebarMenuButton asChild>
 										<Link
 											href={item.url}
-											className="group/item  flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg transition-all duration-200"
-											onClick={() => {
-												if (item.title === "Search") {
-													setSearchBoxOpen((prev) => !prev);
-												}
-											}}
+											className={`group/item flex items-center space-x-3 px-4 py-2 cursor-pointer w-full rounded-lg ${
+												isActive(item.url)
+													? "text-royal-purple"
+													: "text-black hover:bg-creamy"
+											}`}
 										>
-											<span className="text-gray-700 group-hover/item:text-purple-700">
+											<span
+												className={`text-black group-hover/item:text-royal-purple ${
+													isActive(item.url)
+														? "text-royal-purple"
+														: "text-black hover:bg-creamy"
+												}`}
+											>
 												<item.icon className="w-5 h-5" />
 											</span>
-											<span className="group-hover/item:text-purple-700">
+											<span className="group-hover/item:text-royal-purple text-md">
 												{item.title}
 											</span>
 										</Link>
@@ -268,7 +244,7 @@ export function AppSidebar({ session }: Props) {
 				</SidebarGroup>
 
 				<SidebarGroup className="mt-20">
-					<SidebarGroupLabel className="text-gray-400 text-sm px-4 py-2 mb-2 font-semibold">
+					<SidebarGroupLabel className="text-mystical/65 text-xs px-4 py-2 mb-2 font-semibold">
 						Settings
 					</SidebarGroupLabel>
 					<SidebarGroupContent>
@@ -278,12 +254,22 @@ export function AppSidebar({ session }: Props) {
 									<SidebarMenuButton asChild>
 										<a
 											href={item.url}
-											className="group/item  flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg"
+											className={`group/item flex items-center space-x-3 px-4 py-2 cursor-pointer w-full rounded-lg ${
+												isActive(item.url)
+													? "text-royal-purple"
+													: "text-black hover:bg-creamy"
+											}`}
 										>
-											<div className="text-gray-700 group-hover/item:text-purple-700">
+											<span
+												className={`text-black group-hover/item:text-royal-purple ${
+													isActive(item.url)
+														? "text-royal-purple"
+														: "text-black hover:bg-creamy"
+												}`}
+											>
 												<item.icon className="w-5 h-5" />
-											</div>
-											<span className="group-hover/item:text-purple-700">
+											</span>
+											<span className="group-hover/item:text-royal-purple text-md">
 												{item.title}
 											</span>
 										</a>
@@ -298,12 +284,12 @@ export function AppSidebar({ session }: Props) {
 				<SidebarSeparator />
 			</div>
 			<SidebarFooter className="p-6 mb-4 ">
-				<SidebarGroupLabel className="text-gray-400 text-sm px-4 py-5 font-semibold">
+				<SidebarGroupLabel className="text-mystical/65 text-xs px-2 py-2 font-semibold">
 					Profile
 				</SidebarGroupLabel>
 				<DropdownMenu>
 					<DropdownMenuTrigger className="w-full rounded-lg focus:outline-none">
-						<div className="flex items-center space-x-3 p-4 mb-3 rounded-md  border border-gray-100 shadow-sm cursor-pointer transition-all duration-200 hover:shadow-md">
+						<div className="flex items-center space-x-3 p-4 mb-3 rounded-md bg-white border border-gray-200 shadow-md transition-shadow hover:bg-gray-50 cursor-pointer">
 							<Avatar>
 								<AvatarImage
 									src={session?.user?.image ?? "/images/jinx.png"}
@@ -312,7 +298,7 @@ export function AppSidebar({ session }: Props) {
 								<AvatarFallback>User</AvatarFallback>
 							</Avatar>
 							<div className="flex-1 text-left">
-								<p className="text-sm font-medium">
+								<p className="text-sm font-medium text-mystical">
 									{userData?.user?.name || "User"}
 								</p>
 								<p className="text-xs text-gray-500">My Workspace</p>
@@ -326,14 +312,14 @@ export function AppSidebar({ session }: Props) {
 						alignOffset={-70}
 						sideOffset={10}
 					>
-						<div className="flex items-center space-x-3 p-4 mb-1 rounded-md bg-[url('/images/diamond.png')] bg-cover bg-center border border-gray-50 shadow-sm hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
+						<div className="flex items-center space-x-3 p-4 mb-1  rounded-md bg-[url('/images/diamond.png')] bg-cover bg-center border border-gray-50 shadow-sm hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
 							<div className="flex-1 text-center">
 								<p className="text-sm font-medium text-white">User Profile</p>
 							</div>
 						</div>
 
 						<Link href="/dashboard/preferences/#account-form">
-							<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 ">
+							<DropdownMenuItem className="flex items-center space-x-2 px-3 py-2 bg-white">
 								<VscAccount className="w-4 h-4" />
 								<span>Account</span>
 							</DropdownMenuItem>
@@ -351,13 +337,11 @@ export function AppSidebar({ session }: Props) {
 
 							<DropdownMenuSeparator />
 							<DropdownMenuItem
-								className="group/item flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg transition-all duration-200"
+								className="flex items-center space-x-2 px-3 py-2"
 								onClick={handleLogout}
 							>
-								<CgLogOut className="w-5 h-5 text-gray-700 group-hover/item:text-purple-700" />
-								<span className="group-hover/item:text-purple-700">
-									{isLoading ? "Logging out..." : "Log out"}
-								</span>
+								<CgLogOut className="w-4 h-4 space-x-2" />
+								<span>{isLoading ? "Logging out..." : "Log out"}</span>
 							</DropdownMenuItem>
 						</div>
 					</DropdownMenuContent>

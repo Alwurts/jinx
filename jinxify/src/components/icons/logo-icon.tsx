@@ -21,7 +21,7 @@ const Logo = (props: React.SVGProps<SVGSVGElement>) => {
 					borderWidth: "0",
 				}}
 			>
-				Jinx Logo
+				jinx Logo
 			</title>
 			<path
 				fillRule="evenodd"

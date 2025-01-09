@@ -25,7 +25,7 @@ export function RecentDiagrams() {
 	});
 
 	return (
-		<Card className="xl:col-span-2">
+		<Card className="xl:col-span-2 bg-white border border-gray-200 rounded-lg shadow-md transition-shadow">
 			<CardHeader className="flex flex-row items-center">
 				<div className="grid gap-2">
 					<CardTitle>Recent Diagrams</CardTitle>

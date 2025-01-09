@@ -14,6 +14,7 @@ import { DiagramChatSidebar } from "./diagram-chat-sidebar";
 import { Input } from "../ui/input";
 import { ExportXmlDialog } from "./export-xml-dialog";
 import { ImportXmlDialog } from "./import-xml-dialog";
+import ToggleEditor from "./toogle-editor";
 
 type Props = {
 	id: string;
@@ -150,6 +151,7 @@ export default function Editor({ id }: Props) {
 				</div>
 
 				<div className="flex items-center gap-2">
+					<ToggleEditor />
 					<ImportXmlDialog onImport={importXml} />
 					<ExportXmlDialog
 						getXml={getXml}
