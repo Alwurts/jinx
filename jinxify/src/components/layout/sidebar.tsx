@@ -1,7 +1,6 @@
 "use client";
 import { Folder, Heart, Home, Search } from "lucide-react";
 import { TbHelpSquare } from "react-icons/tb";
-import { GiSettingsKnobs } from "react-icons/gi";
 import { GoPeople } from "react-icons/go";
 import { VscAccount } from "react-icons/vsc";
 import { GrTask } from "react-icons/gr";
@@ -10,6 +9,17 @@ import { CgLogOut } from "react-icons/cg";
 import { VscSettings } from "react-icons/vsc";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+type DiagramType = {
+	id: string;
+	title: string;
+	content: string; // The BPMN XML content as a string
+	type: "diagram";
+	directoryId: string;
+	userId: string;
+	createdAt: string;
+	updatedAt: string;
+};
 
 import {
 	Sidebar,
@@ -41,6 +51,7 @@ import { useQuery } from "@tanstack/react-query";
 import Logo from "../icons/logo-icon";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 // Menu items.
 const applicationItems = [
@@ -100,14 +111,47 @@ async function fetchUserData() {
 	}
 	return response.json();
 }
-
 export function AppSidebar({ session }: Props) {
+	const [searchBoxOpen, setSearchBoxOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [searchResults, setSearchResults] = useState<DiagramType[]>([]);
+	const [currentIndex, setCurrentIndex] = useState(0);
 	const { data: userData, error: userError } = useQuery({
 		queryKey: ["user"],
 		queryFn: fetchUserData,
 	});
 	const pathname = usePathname();
+
+	async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+		try {
+			const response = await fetch("/api/search", {
+				method: "POST",
+				body: JSON.stringify(e.target.value),
+			});
+			if (!response.ok) {
+				throw new Error("Something went wrong!");
+			}
+			const result = await response.json();
+			/*TODO */
+			setSearchResults(result.data);
+			console.log(Array.isArray(searchResults));
+
+			console.log(searchResults);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	const handleNext = () => {
+		if (currentIndex + 5 < searchResults.length) {
+			setCurrentIndex(currentIndex + 5);
+		}
+	};
+
+	const handlePrevious = () => {
+		if (currentIndex - 5 >= 0) {
+			setCurrentIndex(currentIndex - 5);
+		}
+	};
 
 	const handleLogout = async () => {
 		setIsLoading(true);
@@ -142,6 +186,16 @@ export function AppSidebar({ session }: Props) {
 
 	return (
 		<Sidebar className="h-screen rounded-tr-lg flex flex-col bg-white border border-gray-200">
+			{searchBoxOpen && (
+				<Dialog open={searchBoxOpen} onOpenChange={setSearchBoxOpen}>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Search</DialogTitle>
+						</DialogHeader>
+						<input type="text" onChange={handleSearch} />
+					</DialogContent>
+				</Dialog>
+			)}
 			<SidebarHeader className="p-9 bg-[url('/images/diamond.png')] bg-cover bg-top rounded-tr-lg">
 				<div className="flex items-center space-x-3 text-secondary">
 					<Logo className="w-10 h-10" />
