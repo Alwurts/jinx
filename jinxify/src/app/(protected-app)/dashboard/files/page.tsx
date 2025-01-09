@@ -20,6 +20,8 @@ import {
 	DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
+import { MdMyLocation } from "react-icons/md";
+import { IoIosArrowForward } from "react-icons/io";
 
 export default function Dashboard() {
 	const queryClient = useQueryClient();
@@ -149,10 +151,13 @@ export default function Dashboard() {
 				}
 			/>
 
-			<div className="flex items-center gap-4">
-				<h1 className="text-2xl font-bold">
-					{currentDirectory?.title || "My Workspace"}
-				</h1>
+			<div className="flex items-center gap-4 py-4 px-4 pb-8">
+				<div className="flex items-center space-x-1 text-muted-foreground">
+					<IoIosArrowForward className="w-4 h-4" />
+					<h1 className="text-sm">
+						{currentDirectory?.title || "My Workspace"}
+					</h1>
+				</div>
 			</div>
 
 			{currentDirectory?.directories.length === 0 &&
@@ -168,7 +173,7 @@ export default function Dashboard() {
 				</div>
 			) : (
 				currentDirectory && (
-					<div className="space-y-8">
+					<div className="space-y-8 px-4">
 						<DirectoryTable currentDirectory={currentDirectory} />
 						{directoryId !== "root" && (
 							<DiagramTable currentDirectory={currentDirectory ?? {}} />

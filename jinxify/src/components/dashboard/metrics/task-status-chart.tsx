@@ -75,7 +75,7 @@ export function TaskStatusChart() {
 	const totalTasks = taskStatusData.reduce((acc, curr) => acc + curr.value, 0);
 
 	return (
-		<Card className="flex flex-col">
+		<Card className="flex flex-col bg-white border border-gray-200 rounded-lg shadow-md transition-shadow">
 			<CardHeader className="items-center pb-0">
 				<CardTitle>Task Status Distribution</CardTitle>
 				<CardDescription>All Tasks</CardDescription>
