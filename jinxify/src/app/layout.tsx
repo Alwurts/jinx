@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { QueryProvider } from "@/components/query/query-provider";
 import { ToastContainer } from "react-toastify";
+import { Toaster } from "@/components/ui/toaster";
 import "react-toastify/dist/ReactToastify.css";
 import { poppins } from "@/components/ui/fonts";
 
@@ -20,7 +21,7 @@ export default function RootLayout({
 		<html lang="en" className={`${poppins.variable}`}>
 			<body>
 				<QueryProvider>
-					<ToastContainer />
+					<Toaster />
 					{children}
 				</QueryProvider>
 			</body>
