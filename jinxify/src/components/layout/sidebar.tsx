@@ -1,7 +1,6 @@
 "use client";
 import { Folder, Heart, Home, Search } from "lucide-react";
 import { TbHelpSquare } from "react-icons/tb";
-import { GiSettingsKnobs } from "react-icons/gi";
 import { GoPeople } from "react-icons/go";
 import { VscAccount } from "react-icons/vsc";
 import { GrTask } from "react-icons/gr";
@@ -10,6 +9,17 @@ import { CgLogOut } from "react-icons/cg";
 import { VscSettings } from "react-icons/vsc";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
+type DiagramType = {
+	id: string;
+	title: string;
+	content: string; // The BPMN XML content as a string
+	type: "diagram";
+	directoryId: string;
+	userId: string;
+	createdAt: string;
+	updatedAt: string;
+};
 
 import {
 	Sidebar,
@@ -100,29 +110,46 @@ async function fetchUserData() {
 	}
 	return response.json();
 }
-async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
-	try {
-		const response = await fetch("/api/search", {
-			method: "POST",
-			body: JSON.stringify(e.target.value),
-		});
-		if (!response.ok) {
-			throw new Error("Something went wrong!");
-		}
-		const result = await response.json();
-		/*TODO */
-		console.log(result);
-	} catch (error) {
-		console.log(error);
-	}
-}
 export function AppSidebar({ session }: Props) {
 	const [searchBoxOpen, setSearchBoxOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [searchResults, setSearchResults] = useState<DiagramType[]>([]);
+	const [currentIndex, setCurrentIndex] = useState(0);
 	const { data: userData, error: userError } = useQuery({
 		queryKey: ["user"],
 		queryFn: fetchUserData,
 	});
+
+	async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+		try {
+			const response = await fetch("/api/search", {
+				method: "POST",
+				body: JSON.stringify(e.target.value),
+			});
+			if (!response.ok) {
+				throw new Error("Something went wrong!");
+			}
+			const result = await response.json();
+			/*TODO */
+			setSearchResults(result.data);
+			console.log(Array.isArray(searchResults));
+
+			console.log(searchResults);
+		} catch (error) {
+			console.log(error);
+		}
+	}
+	const handleNext = () => {
+		if (currentIndex + 5 < searchResults.length) {
+			setCurrentIndex(currentIndex + 5);
+		}
+	};
+
+	const handlePrevious = () => {
+		if (currentIndex - 5 >= 0) {
+			setCurrentIndex(currentIndex - 5);
+		}
+	};
 
 	const handleLogout = async () => {
 		setIsLoading(true);
@@ -159,6 +186,42 @@ export function AppSidebar({ session }: Props) {
 							<DialogTitle>Search</DialogTitle>
 						</DialogHeader>
 						<input type="text" onChange={handleSearch} />
+						<div>
+							<ul>
+								{searchResults
+									.slice(currentIndex, currentIndex + 5)
+									.map((result, index) => (
+										<li key={result.id} className="mb-2">
+											<Link href={`/dashboard/home/${result.id}`}>
+												{currentIndex + index} : {result.title}
+											</Link>
+										</li>
+									))}
+							</ul>
+							<div className="mt-4 flex justify-between gap-2">
+								<button
+									type="button"
+									onClick={handlePrevious}
+									disabled={currentIndex === 0}
+									className="group/item flex-1 flex items-center justify-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+								>
+									<span className="group-hover/item:text-purple-700 disabled:group-hover/item:text-gray-700">
+										Previous
+									</span>
+								</button>
+
+								<button
+									type="button"
+									onClick={handleNext}
+									disabled={currentIndex + 5 >= searchResults.length}
+									className="group/item flex-1 flex items-center justify-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer rounded-lg transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+								>
+									<span className="group-hover/item:text-purple-700 disabled:group-hover/item:text-gray-700">
+										Next
+									</span>
+								</button>
+							</div>
+							</div>
 					</DialogContent>
 				</Dialog>
 			)}
