@@ -19,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import { FiEdit } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
+import { useQuery } from "@tanstack/react-query";
 
 type Props = {
 	session: Session | null;
@@ -45,9 +46,26 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 export function ProfileForm({ session }: Props) {
 	const [isLoading, setIsLoading] = useState(false);
 	const { toast } = useToast();
+
+	async function fetchUserData() {
+		const response = await fetch("/api/get-user");
+		if (!response.ok) {
+			throw new Error("Failed to fetch user data");
+		}
+		return response.json();
+	}
+
+	const { data: userData, error: userError } = useQuery({
+		queryKey: ["user"],
+		queryFn: fetchUserData,
+	});
 	const form = useForm<ProfileFormValues>({
 		resolver: zodResolver(profileFormSchema),
 		mode: "onChange",
+		values: {
+			email: userData?.user?.email,
+			username: userData?.user?.name,
+		},
 	});
 
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -162,7 +180,7 @@ export function ProfileForm({ session }: Props) {
 								<FormLabel>Email</FormLabel>
 								<FormControl>
 									<Input
-										placeholder="name@gmail.com"
+										placeholder={userData?.user?.email || "User Email"}
 										{...field}
 										type="email"
 										name="email"
