@@ -1,6 +1,7 @@
 "use client";
 import { Folder, Heart, Home, Search } from "lucide-react";
 import { TbHelpSquare } from "react-icons/tb";
+import { FaRegLightbulb } from "react-icons/fa";
 import { GoPeople } from "react-icons/go";
 import { VscAccount } from "react-icons/vsc";
 import { GrTask } from "react-icons/gr";
@@ -89,9 +90,9 @@ const settingsItems = [
 		icon: VscSettings,
 	},
 	{
-		title: "Help",
-		url: "https://jinx-team.vercel.app/contact",
-		icon: TbHelpSquare,
+		title: "FAQs",
+		url: "/dashboard/faq",
+        icon: FaRegLightbulb,
 	},
 	{
 		title: "About jinx",
