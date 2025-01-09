@@ -40,6 +40,7 @@ import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import Logo from "../icons/logo-icon";
 import Link from "next/link";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 // Menu items.
 const applicationItems = [
@@ -99,8 +100,24 @@ async function fetchUserData() {
 	}
 	return response.json();
 }
-
+async function handleSearch(e: React.ChangeEvent<HTMLInputElement>) {
+	try {
+		const response = await fetch("/api/search", {
+			method: "POST",
+			body: JSON.stringify(e.target.value),
+		});
+		if (!response.ok) {
+			throw new Error("Something went wrong!");
+		}
+		const result = await response.json();
+		/*TODO */
+		console.log(result);
+	} catch (error) {
+		console.log(error);
+	}
+}
 export function AppSidebar({ session }: Props) {
+	const [searchBoxOpen, setSearchBoxOpen] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 	const { data: userData, error: userError } = useQuery({
 		queryKey: ["user"],
@@ -135,6 +152,16 @@ export function AppSidebar({ session }: Props) {
 	}, [userError]);
 	return (
 		<Sidebar className="h-screen rounded-tr-lg flex flex-col">
+			{searchBoxOpen && (
+				<Dialog open={searchBoxOpen} onOpenChange={setSearchBoxOpen}>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Search</DialogTitle>
+						</DialogHeader>
+						<input type="text" onChange={handleSearch} />
+					</DialogContent>
+				</Dialog>
+			)}
 			<SidebarHeader className="p-9 bg-[url('/images/diamond.png')] bg-cover bg-top rounded-tr-lg">
 				<div className="flex items-center space-x-3">
 					<Logo className="w-10 h-10 brightness-0 invert" />
@@ -157,6 +184,11 @@ export function AppSidebar({ session }: Props) {
 										<Link
 											href={item.url}
 											className="group/item  flex items-center space-x-3 px-4 py-2 font-semibold text-gray-700 hover:bg-primary/5 cursor-pointer w-full rounded-lg transition-all duration-200"
+											onClick={() => {
+												if (item.title === "Search") {
+													setSearchBoxOpen((prev) => !prev);
+												}
+											}}
 										>
 											<span className="text-gray-700 group-hover/item:text-purple-700">
 												<item.icon className="w-5 h-5" />
