@@ -1,6 +1,8 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
+import { RiProgress2Line } from "react-icons/ri";
+import { IoCloudDoneOutline } from "react-icons/io5";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Users, CreditCard } from "lucide-react";
 import type { TDiagram, TTask } from "@/types/db";
@@ -35,7 +37,7 @@ export function StatsCards() {
 	);
 
 	return (
-		<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mb-8">
+		<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mb-8 mt-2">
 			<Card>
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium">Total Diagrams</CardTitle>
@@ -63,7 +65,7 @@ export function StatsCards() {
 			<Card>
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium">Tasks Done</CardTitle>
-					<CreditCard className="h-4 w-4 text-muted-foreground" />
+					<IoCloudDoneOutline className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
 					<div className="text-2xl font-bold">{taskStatusCounts.DONE || 0}</div>
@@ -73,7 +75,7 @@ export function StatsCards() {
 			<Card>
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium">In Progress</CardTitle>
-					<Activity className="h-4 w-4 text-muted-foreground" />
+					<RiProgress2Line className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
 					<div className="text-2xl font-bold">
