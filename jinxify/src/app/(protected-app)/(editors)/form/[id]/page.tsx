@@ -8,17 +8,30 @@ import { ChatSidebar } from "@/components/chat/sidebar-chat";
 import { useChatContext } from "@/components/chat/chat-provider";
 import { useEffect } from "react";
 import dynamic from "next/dynamic";
+import { useQuery } from "@tanstack/react-query";
+import type { TForm } from "@/types/db";
+import { QuerySpinner } from "@/components/query/query-spinner";
 
 const Editor = dynamic(() => import("@/components/form-js/editor"), {
 	ssr: false,
+	loading: () => (
+		<div className="flex-1 flex items-center justify-center">Loading...</div>
+	),
 });
 
-export default function Form() {
+export default function Form({ params }: { params: { id: string } }) {
 	const { jinxChat } = useChatContext();
 
-	useEffect(() => {
-		console.log("jinxChat", jinxChat.messages);
-	}, [jinxChat.messages]);
+	const { isLoading, data } = useQuery<TForm>({
+		queryKey: ["form", params.id],
+		queryFn: async () => {
+			const response = await fetch(`/api/form/${params.id}`);
+			if (!response.ok) {
+				throw new Error("Failed to fetch diagram");
+			}
+			return response.json();
+		},
+	});
 
 	return (
 		<div className="w-screen h-screen flex flex-col">
@@ -32,11 +45,16 @@ export default function Form() {
 				</div>
 
 				<div className="flex items-center gap-2">
-					<Button>Save</Button>
+					<QuerySpinner />
 				</div>
 			</div>
 			<div className="flex-1 flex relative overflow-hidden">
-				<Editor />
+				{isLoading && !data && (
+					<div className="flex-1 flex items-center justify-center">
+						Loading...
+					</div>
+				)}
+				{data && <Editor form={data} />}
 				<ChatSidebar
 					messages={jinxChat.messages}
 					input={jinxChat.input}

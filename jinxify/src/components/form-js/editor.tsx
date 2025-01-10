@@ -6,20 +6,35 @@ import "@bpmn-io/form-js/dist/assets/form-js-editor.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useChatContext } from "../chat/chat-provider";
+import { useMutation } from "@tanstack/react-query";
+import type { TForm } from "@/types/db";
 
-export default function Editor() {
+export default function Editor({ form }: { form: TForm }) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [modeler, setModeler] = useState<FormEditor | null>(null);
 	const { generateForm } = useChatContext();
 
-	const debouncedSave = useDebouncedCallback((content: string) => {
+	const updateForm = useMutation({
+		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+		mutationFn: async (values: { formId: string; schema: any }) => {
+			const res = await fetch(`/api/form/${values.formId}`, {
+				method: "PATCH",
+				body: JSON.stringify({ schema: values.schema }),
+			});
+			return await res.json();
+		},
+	});
+
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	const debouncedSave = useDebouncedCallback((schema: any) => {
 		// Only save if content has actually changed
-		console.log("content", content);
+		console.log("schema", schema);
+		updateForm.mutate({ formId: form.id, schema: schema });
 	}, 1000);
 
 	const importSchema = useCallback(
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		async (schema: Record<string, any>, modelerRef?: FormEditor) => {
+		async (schema: any, modelerRef?: FormEditor) => {
 			const modelerToUse = modelerRef ?? modeler;
 			if (!modelerToUse) {
 				throw new Error("Modeler not initialized");
@@ -47,26 +62,13 @@ export default function Editor() {
 				container: containerRef.current,
 			});
 
-			const schema = {
-				type: "default",
-				components: [
-					{
-						key: "creditor",
-						label: "Creditor",
-						type: "textfield",
-						validate: {
-							required: true,
-						},
-					},
-				],
-			};
-
 			modelerInitializationInstance.on("commandStack.changed", () => {
 				const schema = modelerInitializationInstance?.saveSchema();
 				debouncedSave(schema);
 			});
 
-			await importSchema(schema, modelerInitializationInstance);
+			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+			await importSchema(form.schema as any[], modelerInitializationInstance);
 
 			setModeler(modelerInitializationInstance);
 		} catch (error) {
@@ -93,10 +95,6 @@ export default function Editor() {
 	}, [generateForm.object, importSchema]);
 
 	return (
-		<div
-			className="flex-1 h-full w-full max-h-screen"
-			ref={containerRef}
-			//style={{ display: containerRef.current ? "block" : "none" }}
-		/>
+		<div className="flex-1 h-full w-full max-h-screen" ref={containerRef} />
 	);
 }
