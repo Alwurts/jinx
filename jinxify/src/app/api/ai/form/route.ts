@@ -26,7 +26,11 @@ export async function POST(request: NextRequest) {
 	const result = await streamObject({
 		model: openai("gpt-4o"),
 		output: "array",
-		schema: z.any().describe("A form-js component compliant with the form-js standard schema"),
+		schema: z
+			.any()
+			.describe(
+				"A form-js component compliant with the form-js standard schema",
+			),
 		system: GENERATE_FORM_JS_PROMPT,
 		prompt: input,
 	});

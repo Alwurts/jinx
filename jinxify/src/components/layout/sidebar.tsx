@@ -92,7 +92,7 @@ const settingsItems = [
 	{
 		title: "FAQs",
 		url: "/dashboard/faq",
-        icon: FaRegLightbulb,
+		icon: FaRegLightbulb,
 	},
 	{
 		title: "About jinx",
