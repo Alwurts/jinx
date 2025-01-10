@@ -74,7 +74,7 @@ function GenerateDiagramForm({
 		isLoading: isGenerating,
 		stop,
 	} = useObject({
-		api: "/api/stream-ai",
+		api: "/api/ai/diagram",
 		schema: z.object({
 			xml: z
 				.string()

@@ -39,7 +39,7 @@ export function GenerateDiagramSidebar({
 		submit,
 		isLoading: isGenerating,
 	} = useObject({
-		api: "/api/stream-ai",
+		api: "/api/ai/diagram",
 		schema: z.object({
 			xml: z
 				.string()

@@ -17,7 +17,7 @@ export function DiagramChatSidebar({
 	onGenerated: (xml: string) => Promise<void>;
 }) {
 	const { messages, input, setInput, append, addToolResult } = useChat({
-		api: "/api/chat",
+		api: "/api/ai/chat",
 		maxSteps: 2,
 	});
 
@@ -104,7 +104,7 @@ function ChatMessage({
 		submit,
 		isLoading: isGenerating,
 	} = useObject({
-		api: "/api/stream-ai",
+		api: "/api/ai/diagram",
 		schema: z.object({
 			xml: z
 				.string()
