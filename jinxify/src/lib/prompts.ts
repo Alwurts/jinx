@@ -151,3 +151,10 @@ ${FORM_JS_EXAMPLE_SCHEMA}
 \`\`\`
 
 `;
+
+export const GENERATE_DOCUMENT_PROMPT = `# Document Generation
+
+You are designated as a document generator. Your task involves converting descriptions of documents into markdown.
+- You will be provided with a description of the document you need to generate and you will need to generate a markdown document.
+- Make use of markdown to format the document in a way that is easy to read and understand.
+`;

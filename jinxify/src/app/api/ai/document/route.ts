@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { openai } from "@ai-sdk/openai";
 import { streamObject } from "ai";
-import { GENERATE_BPMN_PROMPT } from "@/lib/prompts";
+import { GENERATE_DOCUMENT_PROMPT } from "@/lib/prompts";
 
 export const maxDuration = 60;
 
@@ -26,11 +26,11 @@ export async function POST(request: NextRequest) {
 	const result = await streamObject({
 		model: openai("gpt-4o"),
 		schema: z.object({
-			xml: z
+			markdown: z
 				.string()
-				.describe("The BPMN 2.0 XML for the given process description."),
+				.describe("The markdown for the given document description."),
 		}),
-		system: GENERATE_BPMN_PROMPT,
+		system: GENERATE_DOCUMENT_PROMPT,
 		prompt: input,
 	});
 

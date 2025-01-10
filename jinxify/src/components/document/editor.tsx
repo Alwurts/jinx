@@ -47,7 +47,15 @@ export default function Editor({ document }: { document: TDocument }) {
 
 	useEffect(() => {
 		if (generateDocument.object) {
-			editorRef.current?.setMarkdown(generateDocument.object as string);
+			if (
+				typeof generateDocument.object === "object" &&
+				"markdown" in generateDocument.object &&
+				typeof generateDocument.object.markdown === "string" &&
+				generateDocument.object.markdown.trim().length > 0
+			) {
+				console.log("generateDocument.object", generateDocument.object);
+				editorRef.current?.setMarkdown(generateDocument.object.markdown);
+			}
 		}
 	}, [generateDocument.object]);
 

@@ -79,7 +79,9 @@ export function ChatProvider({
 
 	const generateMarkdownDocument = useObject({
 		api: "/api/ai/document",
-		schema: z.string(),
+		schema: z.object({
+			markdown: z.string(),
+		}),
 		onFinish: ({ object }) => {
 			console.log("generateMarkdownDocument.onFinish", {
 				object,

@@ -39,7 +39,7 @@ export async function POST(req: Request) {
 			},
 			generateDocument: {
 				description:
-					"Trigger the generation of a document based on a document description.",
+					"Trigger the generation of a document based on a document description. WHen using this tool you dont need to write back to the user the content just call this tool and mentio you used it",
 				parameters: z.object({
 					documentDescription: z
 						.string()
