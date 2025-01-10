@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
 				.insert(form)
 				.values({
 					title: validated.title,
-					schema: {},  // Initialize with empty schema
+					schema: [],
 					directoryId: validated.directoryId,
 					userId: session.user.id,
 				})

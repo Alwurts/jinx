@@ -10,11 +10,11 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import type { TDiagram, TDirectory } from "@/types/db";
+import type { TDiagram, TDirectory, TForm } from "@/types/db";
 import { boolean } from "drizzle-orm/pg-core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 type Props = {
-	item: TDiagram | TDirectory | null;
+	item: TDiagram | TDirectory | TForm | null;
 	close: (open: boolean) => void;
 };
 
@@ -23,7 +23,7 @@ export default function DeleteDiagram({ item, close }: Props) {
 	const deleteMutation = useMutation({
 		mutationFn: async (values: {
 			id: string | undefined;
-			type: "diagram" | "directory";
+			type: "diagram" | "directory" | "form";
 		}) => {
 			await fetch(`/api/workspace/${values.id}`, {
 				method: "DELETE",

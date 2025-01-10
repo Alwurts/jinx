@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Plus, ArrowLeft, FilesIcon } from "lucide-react";
 import type { TDirectory } from "@/types/db";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { FaFolder, FaProjectDiagram } from "react-icons/fa";
+import { FaFileAlt, FaFolder, FaProjectDiagram } from "react-icons/fa";
 
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
@@ -47,7 +47,7 @@ export default function Dashboard() {
 			type,
 			title,
 		}: {
-			type: "directory" | "diagram";
+			type: "directory" | "diagram" | "form";
 			title: string;
 		}) => {
 			const response = await fetch("/api/workspace", {
@@ -74,10 +74,10 @@ export default function Dashboard() {
 		},
 	});
 
-	const handleCreateFolder = (type: "diagram" | "directory") => {
+	const handleCreateFolder = (type: "diagram" | "directory" | "form") => {
 		createWorkspaceItem.mutate({
 			type,
-			title: `New ${type === "directory" ? "Folder" : "Diagram"}`,
+			title: `New ${type === "directory" ? "Folder" : type === "diagram" ? "Diagram" : "Form"}`,
 		});
 	};
 
@@ -143,6 +143,15 @@ export default function Dashboard() {
 									>
 										<FaProjectDiagram className="w-4 h-4 mr-2" />
 										New Diagram
+									</DropdownMenuItem>
+								</>
+							)}
+							{directoryId !== "root" && (
+								<>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem onClick={() => handleCreateFolder("form")}>
+										<FaFileAlt className="w-4 h-4 mr-2" />
+										New Form
 									</DropdownMenuItem>
 								</>
 							)}

@@ -13,24 +13,24 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { TDiagram, TDirectory } from "@/types/db";
+import type { TDiagram, TDirectory, TForm } from "@/types/db";
 import { EllipsisVertical, Folder } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { FaProjectDiagram } from "react-icons/fa";
+import { FaFileAlt, FaProjectDiagram } from "react-icons/fa";
 import { RenameDialog } from "../rename-dialog";
 import { useState } from "react";
 import DeleteDiagram from "../delete-diagram";
 
 type Props = {
-	item: TDiagram | TDirectory;
+	item: TDiagram | TDirectory | TForm;
 };
 export default function FileCard({ item }: Props) {
 	const [openRenameDialog, setOpenRenameDialog] = useState<
-		TDiagram | TDirectory | null
+		TDiagram | TDirectory | TForm | null
 	>(null);
 	const [deleteDialog, setDeleteDialog] = useState<
-		TDiagram | TDirectory | null
+		TDiagram | TDirectory | TForm | null
 	>(null);
 
 	return (
@@ -55,7 +55,9 @@ export default function FileCard({ item }: Props) {
 				href={
 					item.type === "diagram"
 						? `/diagram/${item.id}`
-						: `/dashboard/files?directoryId=${item.id}`
+						: item.type === "form"
+							? `/form/${item.id}`
+							: `/dashboard/files?directoryId=${item.id}`
 				}
 				key={item.id}
 			>
@@ -66,6 +68,8 @@ export default function FileCard({ item }: Props) {
 								<div className="flex items-center">
 									{item.type === "diagram" ? (
 										<FaProjectDiagram className="w-5 h-5 mr-2 text-purple-900" />
+									) : item.type === "form" ? (
+										<FaFileAlt className="w-5 h-5 mr-2 text-purple-900" />
 									) : (
 										<Folder className="w-5 h-5 mr-2 text-purple-900" />
 									)}
@@ -103,7 +107,11 @@ export default function FileCard({ item }: Props) {
 							</div>
 						</CardTitle>
 						<CardDescription className="text-sm text-gray-400">
-							Folder
+							{item.type === "form"
+								? "Form"
+								: item.type === "diagram"
+									? "Diagram"
+									: "Folder"}
 						</CardDescription>
 					</CardHeader>
 				</Card>
