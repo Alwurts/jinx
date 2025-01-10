@@ -5,10 +5,12 @@ import "@bpmn-io/form-js/dist/assets/form-js.css";
 import "@bpmn-io/form-js/dist/assets/form-js-editor.css";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
+import { useChatContext } from "../chat/chat-provider";
 
 export function Editor() {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [modeler, setModeler] = useState<FormEditor | null>(null);
+	const { generateForm } = useChatContext();
 
 	const debouncedSave = useDebouncedCallback((content: string) => {
 		// Only save if content has actually changed
@@ -77,6 +79,15 @@ export function Editor() {
 			modeler?.destroy();
 		};
 	}, []);
+
+	useEffect(() => {
+		if (Array.isArray(generateForm.object)) {
+			importSchema({
+				type: "default",
+				components: generateForm.object,
+			});
+		}
+	}, [generateForm.object, importSchema]);
 
 	return (
 		<div
