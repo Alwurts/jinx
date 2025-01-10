@@ -7,7 +7,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useChatContext } from "../chat/chat-provider";
 
-export function Editor() {
+export default function Editor() {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [modeler, setModeler] = useState<FormEditor | null>(null);
 	const { generateForm } = useChatContext();
@@ -42,33 +42,36 @@ export function Editor() {
 		if (!containerRef.current || modelerInitializationInstance) {
 			return;
 		}
+		try {
+			modelerInitializationInstance = new FormEditor({
+				container: containerRef.current,
+			});
 
-		modelerInitializationInstance = new FormEditor({
-			container: containerRef.current,
-		});
-
-		const schema = {
-			type: "default",
-			components: [
-				{
-					key: "creditor",
-					label: "Creditor",
-					type: "textfield",
-					validate: {
-						required: true,
+			const schema = {
+				type: "default",
+				components: [
+					{
+						key: "creditor",
+						label: "Creditor",
+						type: "textfield",
+						validate: {
+							required: true,
+						},
 					},
-				},
-			],
-		};
+				],
+			};
 
-		modelerInitializationInstance.on("commandStack.changed", () => {
-			const schema = modelerInitializationInstance?.saveSchema();
-			debouncedSave(schema);
-		});
+			modelerInitializationInstance.on("commandStack.changed", () => {
+				const schema = modelerInitializationInstance?.saveSchema();
+				debouncedSave(schema);
+			});
 
-		await importSchema(schema, modelerInitializationInstance);
+			await importSchema(schema, modelerInitializationInstance);
 
-		setModeler(modelerInitializationInstance);
+			setModeler(modelerInitializationInstance);
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
@@ -93,7 +96,7 @@ export function Editor() {
 		<div
 			className="flex-1 h-full w-full max-h-screen"
 			ref={containerRef}
-			style={{ display: containerRef.current ? "block" : "none" }}
+			//style={{ display: containerRef.current ? "block" : "none" }}
 		/>
 	);
 }

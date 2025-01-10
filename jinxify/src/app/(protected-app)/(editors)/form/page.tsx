@@ -4,10 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import type React from "react";
-import { Editor } from "@/components/form-js/editor";
 import { ChatSidebar } from "@/components/chat/sidebar-chat";
 import { useChatContext } from "@/components/chat/chat-provider";
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
+
+const Editor = dynamic(() => import("@/components/form-js/editor"), {
+	ssr: false,
+});
 
 export default function Form() {
 	const { jinxChat } = useChatContext();
