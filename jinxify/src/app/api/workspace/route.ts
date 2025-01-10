@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
 				.insert(document)
 				.values({
 					title: validated.title,
-					content: "",
+					content: "# Edit me",
 					directoryId: validated.directoryId,
 					userId: session.user.id,
 				})

@@ -37,6 +37,15 @@ export async function POST(req: Request) {
 						.describe("The form description to generate."),
 				}),
 			},
+			generateDocument: {
+				description:
+					"Trigger the generation of a document based on a document description.",
+				parameters: z.object({
+					documentDescription: z
+						.string()
+						.describe("The document description to generate."),
+				}),
+			},
 		},
 	});
 

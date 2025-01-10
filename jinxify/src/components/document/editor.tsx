@@ -1,0 +1,63 @@
+"use client";
+
+import type { MDXEditorMethods } from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
+import dynamic from "next/dynamic";
+
+import { useCallback, useEffect, useRef } from "react";
+import { useDebouncedCallback } from "use-debounce";
+import { useChatContext } from "../chat/chat-provider";
+import { useMutation } from "@tanstack/react-query";
+import type { TDocument } from "@/types/db";
+
+const InitializedMDXEditor = dynamic(() => import("./initialized-mdx-editor"), {
+	ssr: false,
+	loading: () => (
+		<div className="flex-1 flex items-center justify-center">
+			Loading editor...
+		</div>
+	),
+});
+
+export default function Editor({ document }: { document: TDocument }) {
+	const editorRef = useRef<MDXEditorMethods>(null);
+	const { generateDocument } = useChatContext();
+
+	const updateDocument = useMutation({
+		mutationFn: async (values: { documentId: string; content: string }) => {
+			const res = await fetch(`/api/document/${values.documentId}`, {
+				method: "PATCH",
+				body: JSON.stringify({ content: values.content }),
+			});
+			return await res.json();
+		},
+	});
+
+	const debouncedSave = useDebouncedCallback((content: string) => {
+		console.log("Saving document", content);
+		updateDocument.mutate({ documentId: document.id, content });
+	}, 1000);
+
+	const onChange = useCallback(
+		(content: string) => {
+			debouncedSave(content);
+		},
+		[debouncedSave],
+	);
+
+	useEffect(() => {
+		if (generateDocument.object) {
+			editorRef.current?.setMarkdown(generateDocument.object as string);
+		}
+	}, [generateDocument.object]);
+
+	return (
+		<div className="flex-1 h-full w-full overflow-auto">
+			<InitializedMDXEditor
+				editorRef={editorRef}
+				markdown={document.content}
+				onChange={onChange}
+			/>
+		</div>
+	);
+}

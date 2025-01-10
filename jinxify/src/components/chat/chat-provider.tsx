@@ -15,6 +15,7 @@ interface ChatContextType {
 	jinxChat: ReturnType<typeof useChat>;
 	generateForm: ReturnType<typeof useObject>;
 	generateDiagram: ReturnType<typeof useObject>;
+	generateDocument: ReturnType<typeof useObject>;
 }
 
 const ChatContext = createContext<ChatContextType | null>(null);
@@ -29,6 +30,10 @@ export function ChatProvider({
 	} | null>(null);
 
 	const bpmnGenerationParams = useRef<{
+		toolId: string;
+	} | null>(null);
+
+	const documentGenerationParams = useRef<{
 		toolId: string;
 	} | null>(null);
 
@@ -72,6 +77,24 @@ export function ChatProvider({
 		},
 	});
 
+	const generateMarkdownDocument = useObject({
+		api: "/api/ai/document",
+		schema: z.string(),
+		onFinish: ({ object }) => {
+			console.log("generateMarkdownDocument.onFinish", {
+				object,
+				documentGenerationParams,
+			});
+			if (object && documentGenerationParams.current) {
+				jinxChat.addToolResult({
+					toolCallId: documentGenerationParams.current.toolId,
+					result: "Finished generating document",
+				});
+				documentGenerationParams.current = null;
+			}
+		},
+	});
+
 	const jinxChat = useChat({
 		api: "/api/ai/chat",
 		maxSteps: 5,
@@ -111,13 +134,32 @@ export function ChatProvider({
 					});
 					break;
 				}
+
+				case "generateDocument": {
+					const documentDescription = (
+						toolCall.args as { documentDescription: string }
+					).documentDescription;
+					documentGenerationParams.current = {
+						toolId: toolCall.toolCallId,
+					};
+
+					generateMarkdownDocument.submit({
+						input: documentDescription,
+					});
+					break;
+				}
 			}
 		},
 	});
 
 	return (
 		<ChatContext.Provider
-			value={{ jinxChat, generateForm, generateDiagram: generateBPMNDiagram }}
+			value={{
+				jinxChat,
+				generateForm,
+				generateDiagram: generateBPMNDiagram,
+				generateDocument: generateMarkdownDocument,
+			}}
 		>
 			{children}
 		</ChatContext.Provider>
