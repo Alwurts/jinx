@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import db from "@/server/db";
-import { diagram, directory, form } from "@/server/db/schema";
+import { diagram, directory, form, document } from "@/server/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -27,6 +27,7 @@ export async function GET(
 				directories: true,
 				diagrams: true,
 				forms: true,
+				documents: true,
 			},
 		});
 		return NextResponse.json(homeDirectory);
@@ -39,6 +40,7 @@ export async function GET(
 			directories: true,
 			diagrams: true,
 			forms: true,
+			documents: true,
 		},
 	});
 
@@ -72,6 +74,14 @@ export async function PATCH(
 			.returning();
 		return NextResponse.json(updatedForm[0]);
 	}
+	if (type === "document") {
+		const updatedDocument = await db
+			.update(document)
+			.set({ title })
+			.where(and(eq(document.id, id), eq(document.userId, session.user.id)))
+			.returning();
+		return NextResponse.json(updatedDocument[0]);
+	}
 	const updatedDirectory = await db
 		.update(directory)
 		.set({ title })
@@ -103,6 +113,12 @@ export async function DELETE(
 			.delete(form)
 			.where(and(eq(form.id, id), eq(form.userId, session.user.id)));
 		return NextResponse.json(deletedForm);
+	}
+	if (type === "document") {
+		const deletedDocument = await db
+			.delete(document)
+			.where(and(eq(document.id, id), eq(document.userId, session.user.id)));
+		return NextResponse.json(deletedDocument);
 	}
 
 	const deletedDirectory = await db

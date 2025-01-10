@@ -10,20 +10,20 @@ import {
 	AlertDialogTitle,
 	AlertDialogTrigger,
 } from "../ui/alert-dialog";
-import type { TDiagram, TDirectory, TForm } from "@/types/db";
+import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { boolean } from "drizzle-orm/pg-core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 type Props = {
-	item: TDiagram | TDirectory | TForm | null;
+	item: TDiagram | TDirectory | TForm | TDocument | null;
 	close: (open: boolean) => void;
 };
 
-export default function DeleteDiagram({ item, close }: Props) {
+export function DeleteDialog({ item, close }: Props) {
 	const queryClient = useQueryClient();
 	const deleteMutation = useMutation({
 		mutationFn: async (values: {
 			id: string | undefined;
-			type: "diagram" | "directory" | "form";
+			type: "diagram" | "directory" | "form" | "document";
 		}) => {
 			await fetch(`/api/workspace/${values.id}`, {
 				method: "DELETE",
@@ -44,7 +44,14 @@ export default function DeleteDiagram({ item, close }: Props) {
 					<AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
 					<AlertDialogDescription>
 						This action cannot be undone. This will permanently delete your
-						account and remove your data from our servers.
+						{item?.type === "directory"
+							? " folder"
+							: item?.type === "diagram"
+								? " diagram"
+								: item?.type === "form"
+									? " form"
+									: " document"}{" "}
+						and remove it from our servers.
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

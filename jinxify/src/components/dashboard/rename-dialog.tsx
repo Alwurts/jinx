@@ -11,12 +11,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import type { TDiagram, TDirectory, TForm } from "@/types/db";
+import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { use, useEffect, useState } from "react";
 
 type Props = {
-	item: TDirectory | TDiagram | TForm | null;
+	item: TDirectory | TDiagram | TForm | TDocument | null;
 	close: (state: boolean) => void;
 };
 
@@ -52,7 +52,7 @@ export function RenameDialog({ item, close }: Props) {
 				<DialogHeader>
 					<DialogTitle>Rename</DialogTitle>
 					<DialogDescription>
-						Make changes to your directory, diagram or form.
+						Make changes to your directory, diagram, form or document.
 					</DialogDescription>
 				</DialogHeader>
 				<div className="grid gap-4 py-4">

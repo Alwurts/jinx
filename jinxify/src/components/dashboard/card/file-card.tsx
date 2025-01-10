@@ -13,39 +13,39 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { TDiagram, TDirectory, TForm } from "@/types/db";
+import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { EllipsisVertical, Folder } from "lucide-react";
 import Link from "next/link";
 import React from "react";
-import { FaFileAlt, FaProjectDiagram } from "react-icons/fa";
+import { FaFileAlt, FaProjectDiagram, FaFileWord } from "react-icons/fa";
 import { RenameDialog } from "../rename-dialog";
 import { useState } from "react";
-import DeleteDiagram from "../delete-diagram";
+import { DeleteDialog } from "../delete-dialog";
 
 type Props = {
-	item: TDiagram | TDirectory | TForm;
+	item: TDiagram | TDirectory | TForm | TDocument;
 };
 export default function FileCard({ item }: Props) {
 	const [openRenameDialog, setOpenRenameDialog] = useState<
-		TDiagram | TDirectory | TForm | null
+		TDiagram | TDirectory | TForm | TDocument | null
 	>(null);
 	const [deleteDialog, setDeleteDialog] = useState<
-		TDiagram | TDirectory | TForm | null
+		TDiagram | TDirectory | TForm | TDocument | null
 	>(null);
 
 	return (
 		<>
 			<RenameDialog
 				item={openRenameDialog}
-				close={(open) => {
+				close={(open: boolean) => {
 					if (!open) {
 						setOpenRenameDialog(null);
 					}
 				}}
 			/>
-			<DeleteDiagram
+			<DeleteDialog
 				item={deleteDialog}
-				close={(open) => {
+				close={(open: boolean) => {
 					if (!open) {
 						setDeleteDialog(null);
 					}
@@ -57,7 +57,9 @@ export default function FileCard({ item }: Props) {
 						? `/diagram/${item.id}`
 						: item.type === "form"
 							? `/form/${item.id}`
-							: `/dashboard/files?directoryId=${item.id}`
+							: item.type === "document"
+								? `/document/${item.id}`
+								: `/dashboard/files?directoryId=${item.id}`
 				}
 				key={item.id}
 			>
@@ -70,6 +72,8 @@ export default function FileCard({ item }: Props) {
 										<FaProjectDiagram className="w-5 h-5 mr-2 text-purple-900" />
 									) : item.type === "form" ? (
 										<FaFileAlt className="w-5 h-5 mr-2 text-purple-900" />
+									) : item.type === "document" ? (
+										<FaFileWord className="w-5 h-5 mr-2 text-purple-900" />
 									) : (
 										<Folder className="w-5 h-5 mr-2 text-purple-900" />
 									)}
@@ -111,7 +115,9 @@ export default function FileCard({ item }: Props) {
 								? "Form"
 								: item.type === "diagram"
 									? "Diagram"
-									: "Folder"}
+									: item.type === "document"
+										? "Document"
+										: "Folder"}
 						</CardDescription>
 					</CardHeader>
 				</Card>

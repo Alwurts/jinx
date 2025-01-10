@@ -20,6 +20,10 @@ export function DiagramTable({
 					/* @ts-ignore*/
 					<FileCard key={item.id} item={item} />
 				))}
+				{currentDirectory?.documents.map((item) => (
+					/* @ts-ignore*/
+					<FileCard key={item.id} item={item} />
+				))}
 			</div>
 		</div>
 	);

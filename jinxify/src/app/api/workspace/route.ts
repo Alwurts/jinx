@@ -1,12 +1,12 @@
 import { auth } from "@/auth";
 import { defDiagram } from "@/lib/defaults";
 import db from "@/server/db";
-import { directory, diagram, form } from "@/server/db/schema";
+import { directory, diagram, form, document } from "@/server/db/schema";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const createWorkspaceItemSchema = z.object({
-	type: z.enum(["directory", "diagram", "form"]),
+	type: z.enum(["directory", "diagram", "form", "document"]),
 	title: z.string().min(1),
 	directoryId: z.string().min(1),
 });
@@ -64,6 +64,20 @@ export async function POST(request: NextRequest) {
 				.returning();
 
 			return NextResponse.json(newForm[0]);
+		}
+
+		if (validated.type === "document") {
+			const newDocument = await db
+				.insert(document)
+				.values({
+					title: validated.title,
+					content: "",
+					directoryId: validated.directoryId,
+					userId: session.user.id,
+				})
+				.returning();
+
+			return NextResponse.json(newDocument[0]);
 		}
 
 		return NextResponse.json(

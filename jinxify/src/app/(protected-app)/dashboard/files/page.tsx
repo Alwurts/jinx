@@ -6,12 +6,17 @@ import { Button } from "@/components/ui/button";
 import { Plus, ArrowLeft, FilesIcon } from "lucide-react";
 import type { TDirectory } from "@/types/db";
 import { SidebarTrigger } from "@/components/ui/sidebar";
-import { FaFileAlt, FaFolder, FaProjectDiagram } from "react-icons/fa";
+import {
+	FaFileAlt,
+	FaFolder,
+	FaProjectDiagram,
+	FaFileWord,
+} from "react-icons/fa";
 
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
 import { DirectoryTable } from "@/components/dashboard/directory-table";
-import { DiagramTable } from "@/components/dashboard/diagram-table";
+import { DiagramTable } from "@/components/dashboard/files-table";
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -47,7 +52,7 @@ export default function Dashboard() {
 			type,
 			title,
 		}: {
-			type: "directory" | "diagram" | "form";
+			type: "directory" | "diagram" | "form" | "document";
 			title: string;
 		}) => {
 			const response = await fetch("/api/workspace", {
@@ -74,10 +79,12 @@ export default function Dashboard() {
 		},
 	});
 
-	const handleCreateFolder = (type: "diagram" | "directory" | "form") => {
+	const handleCreateFolder = (
+		type: "diagram" | "directory" | "form" | "document",
+	) => {
 		createWorkspaceItem.mutate({
 			type,
-			title: `New ${type === "directory" ? "Folder" : type === "diagram" ? "Diagram" : "Form"}`,
+			title: `New ${type === "directory" ? "Folder" : type === "diagram" ? "Diagram" : type === "form" ? "Form" : "Document"}`,
 		});
 	};
 
@@ -155,6 +162,17 @@ export default function Dashboard() {
 									</DropdownMenuItem>
 								</>
 							)}
+							{directoryId !== "root" && (
+								<>
+									<DropdownMenuSeparator />
+									<DropdownMenuItem
+										onClick={() => handleCreateFolder("document")}
+									>
+										<FaFileWord className="w-4 h-4 mr-2" />
+										New Document
+									</DropdownMenuItem>
+								</>
+							)}
 						</DropdownMenuContent>
 					</DropdownMenu>
 				}
@@ -170,10 +188,12 @@ export default function Dashboard() {
 			</div>
 
 			{currentDirectory?.directories.length === 0 &&
-			currentDirectory?.diagrams.length === 0 ? (
+			currentDirectory?.diagrams.length === 0 &&
+			currentDirectory?.forms.length === 0 &&
+			currentDirectory?.documents.length === 0 ? (
 				<div className="text-center text-gray-500 py-8">
 					<p className="mb-4">
-						No folders or diagrams yet. Create one to get started!
+						No folders or files yet. Create one to get started!
 					</p>
 					<Button onClick={() => handleCreateFolder("directory")}>
 						<Plus className="w-4 h-4 mr-2" />
@@ -185,7 +205,7 @@ export default function Dashboard() {
 					<div className="space-y-8 px-4">
 						<DirectoryTable currentDirectory={currentDirectory} />
 						{directoryId !== "root" && (
-							<DiagramTable currentDirectory={currentDirectory ?? {}} />
+							<DiagramTable currentDirectory={currentDirectory} />
 						)}
 					</div>
 				)
