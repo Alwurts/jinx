@@ -36,6 +36,13 @@
       "when": 1736540421107,
       "tag": "0004_striped_the_leader",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1736542742963,
+      "tag": "0005_rare_unicorn",
+      "breakpoints": true
     }
   ]
 }

@@ -30,6 +30,7 @@ export const directoryRelations = relations(directory, ({ one, many }) => ({
 	directories: many(directory, { relationName: "directorySelf" }),
 	diagrams: many(diagram),
 	forms: many(form),
+	documents: many(document),
 }));
 
 // for BPMN
@@ -82,6 +83,33 @@ export const formRelations = relations(form, ({ one }) => ({
 	}),
 	directory: one(directory, {
 		fields: [form.directoryId],
+		references: [directory.id],
+	}),
+}));
+
+// for Documents
+export const document = pgTable("document", {
+	id: uuid("id").defaultRandom().primaryKey(),
+	title: text("title").notNull(),
+	content: text("content").notNull(),
+	type: text("type", { enum: ["document"] })
+		.notNull()
+		.default("document"),
+	directoryId: uuid("directoryId"), // If this is null then that means is the home directory
+	userId: text("userId")
+		.references(() => users.id, { onDelete: "cascade" })
+		.notNull(), //maps user id from users table to userId
+	createdAt: timestamp("createdAt").defaultNow().notNull(),
+	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export const documentRelations = relations(document, ({ one }) => ({
+	user: one(users, {
+		fields: [document.userId],
+		references: [users.id],
+	}),
+	directory: one(directory, {
+		fields: [document.directoryId],
 		references: [directory.id],
 	}),
 }));
