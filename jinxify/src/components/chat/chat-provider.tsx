@@ -14,6 +14,7 @@ import { z } from "zod";
 interface ChatContextType {
 	jinxChat: ReturnType<typeof useChat>;
 	generateForm: ReturnType<typeof useObject>;
+	generateDiagram: ReturnType<typeof useObject>;
 }
 
 const ChatContext = createContext<ChatContextType | null>(null);
@@ -24,6 +25,10 @@ export function ChatProvider({
 	children: ReactNode;
 }) {
 	const formGenerationParams = useRef<{
+		toolId: string;
+	} | null>(null);
+
+	const bpmnGenerationParams = useRef<{
 		toolId: string;
 	} | null>(null);
 
@@ -47,12 +52,8 @@ export function ChatProvider({
 		},
 	});
 
-	useEffect(() => {
-		console.log("generateForm", generateForm.object);
-	}, [generateForm.object]);
-
-	/* const generateBPMNDiagram = useObject({
-		api: "/api/ai/bpmn",
+	const generateBPMNDiagram = useObject({
+		api: "/api/ai/diagram",
 		schema: z.object({
 			xml: z.string(),
 		}),
@@ -61,15 +62,15 @@ export function ChatProvider({
 				object,
 				bpmnGenerationParams,
 			});
-			if (object && bpmnGenerationParams) {
+			if (object && bpmnGenerationParams.current) {
 				jinxChat.addToolResult({
-					toolCallId: bpmnGenerationParams.toolId,
+					toolCallId: bpmnGenerationParams.current.toolId,
 					result: "Finished generating BPMN diagram",
 				});
-				setBpmnGenerationParams(null);
+				bpmnGenerationParams.current = null;
 			}
 		},
-	}); */
+	});
 
 	const jinxChat = useChat({
 		api: "/api/ai/chat",
@@ -97,25 +98,27 @@ export function ChatProvider({
 					break;
 				}
 
-				/* case "generateBPMNDiagram": {
+				case "generateBPMNDiagram": {
 					const processDescription = (
 						toolCall.args as { processDescription: string }
 					).processDescription;
-					setBpmnGenerationParams({
+					bpmnGenerationParams.current = {
 						toolId: toolCall.toolCallId,
-					});
+					};
 
 					generateBPMNDiagram.submit({
 						input: processDescription,
 					});
 					break;
-				} */
+				}
 			}
 		},
 	});
 
 	return (
-		<ChatContext.Provider value={{ jinxChat, generateForm }}>
+		<ChatContext.Provider
+			value={{ jinxChat, generateForm, generateDiagram: generateBPMNDiagram }}
+		>
 			{children}
 		</ChatContext.Provider>
 	);

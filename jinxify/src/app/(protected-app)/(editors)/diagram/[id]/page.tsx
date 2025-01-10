@@ -29,10 +29,12 @@ export default function page({ params }: { params: { id: string } }) {
 			<div className="flex justify-between items-center h-14 px-4 border-b">
 				<div className="flex items-center gap-4">
 					<Button variant="outline" asChild>
-						<Link href={"/dashboard/files"}>Back</Link>
+						<Link href={`/dashboard/files?directoryId=${data?.directoryId}`}>
+							Back
+						</Link>
 					</Button>
 					<Separator orientation="vertical" />
-					<h1 className="text-2xl font-bold">Form</h1>
+					<h1 className="text-2xl font-bold">Diagram</h1>
 				</div>
 
 				<div className="flex items-center gap-2">

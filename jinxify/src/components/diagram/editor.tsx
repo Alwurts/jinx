@@ -8,6 +8,7 @@ import { normalizeXML } from "@/lib/bpmn";
 import Modeler from "bpmn-js/lib/Modeler";
 import { useDebouncedCallback } from "use-debounce";
 import { useMutation } from "@tanstack/react-query";
+import { useChatContext } from "../chat/chat-provider";
 
 type Props = {
 	diagram: TDiagram;
@@ -16,6 +17,7 @@ type Props = {
 export default function Editor({ diagram }: Props) {
 	const containerRef = useRef<HTMLDivElement | null>(null);
 	const [modeler, setModeler] = useState<Modeler | null>(null);
+	const { generateDiagram } = useChatContext();
 
 	const updateDiagram = useMutation({
 		mutationFn: async (values: { diagramId: string; xmlState: string }) => {
@@ -88,26 +90,6 @@ export default function Editor({ diagram }: Props) {
 		[modeler],
 	);
 
-	// Handle generated XML import
-	/* useEffect(() => {
-		if (generateDiagram.object) {
-			const generationObject = generateDiagram.object as {
-				diagramId: string;
-				xml: string;
-			};
-			if (generationObject.diagramId === diagramId) {
-				importXML(generationObject.xml, false);
-			}
-		}
-	}, [generateDiagram.object, diagramId, importXML]); */
-
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	/* useEffect(() => {
-		if (diagramQuery.data?.content && modeler) {
-			importXML(diagramQuery.data.content);
-		}
-	}, [modeler, importXML]); */
-
 	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
 	useEffect(() => {
 		initModeler();
@@ -116,6 +98,12 @@ export default function Editor({ diagram }: Props) {
 			modeler?.destroy();
 		};
 	}, []);
+
+	useEffect(() => {
+		if (generateDiagram.object) {
+			importXML((generateDiagram.object as { xml: string }).xml);
+		}
+	}, [generateDiagram.object, importXML]);
 
 	return (
 		<div className="flex-1 h-full w-full dark:invert" ref={containerRef} />
