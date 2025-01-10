@@ -1,6 +1,6 @@
 import { auth } from "@/auth";
 import db from "@/server/db";
-import { diagram, directory } from "@/server/db/schema";
+import { diagram, directory, form } from "@/server/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 
@@ -26,6 +26,7 @@ export async function GET(
 				parent: true,
 				directories: true,
 				diagrams: true,
+				forms: true,
 			},
 		});
 		return NextResponse.json(homeDirectory);
@@ -37,6 +38,7 @@ export async function GET(
 			parent: true,
 			directories: true,
 			diagrams: true,
+			forms: true,
 		},
 	});
 
@@ -62,6 +64,14 @@ export async function PATCH(
 			.returning();
 		return NextResponse.json(updatedDiagram[0]);
 	}
+	if (type === "form") {
+		const updatedForm = await db
+			.update(form)
+			.set({ title })
+			.where(and(eq(form.id, id), eq(form.userId, session.user.id)))
+			.returning();
+		return NextResponse.json(updatedForm[0]);
+	}
 	const updatedDirectory = await db
 		.update(directory)
 		.set({ title })
@@ -78,7 +88,6 @@ export async function DELETE(
 	const id = params.id;
 	const session = await auth();
 	const { type } = await request.json();
-	console.log(type);
 
 	if (!session || !session.user?.id) {
 		return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
@@ -88,6 +97,12 @@ export async function DELETE(
 			.delete(diagram)
 			.where(and(eq(diagram.id, id), eq(diagram.userId, session.user.id)));
 		return NextResponse.json(deletedDiagram);
+	}
+	if (type === "form") {
+		const deletedForm = await db
+			.delete(form)
+			.where(and(eq(form.id, id), eq(form.userId, session.user.id)));
+		return NextResponse.json(deletedForm);
 	}
 
 	const deletedDirectory = await db

@@ -1,4 +1,4 @@
-import { uuid, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { uuid, pgTable, text, timestamp, jsonb } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 import { users } from ".";
 
@@ -29,6 +29,7 @@ export const directoryRelations = relations(directory, ({ one, many }) => ({
 	}),
 	directories: many(directory, { relationName: "directorySelf" }),
 	diagrams: many(diagram),
+	forms: many(form),
 }));
 
 // for BPMN
@@ -54,6 +55,33 @@ export const diagramRelations = relations(diagram, ({ one }) => ({
 	}),
 	directory: one(directory, {
 		fields: [diagram.directoryId],
+		references: [directory.id],
+	}),
+}));
+
+// for Forms
+export const form = pgTable("form", {
+	id: uuid("id").defaultRandom().primaryKey(),
+	title: text("title").notNull(),
+	schema: jsonb("schema").notNull(),
+	type: text("type", { enum: ["form"] })
+		.notNull()
+		.default("form"),
+	directoryId: uuid("directoryId"), // If this is null then that means is the home directory
+	userId: text("userId")
+		.references(() => users.id, { onDelete: "cascade" })
+		.notNull(), //maps user id from users table to userId
+	createdAt: timestamp("createdAt").defaultNow().notNull(),
+	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
+});
+
+export const formRelations = relations(form, ({ one }) => ({
+	user: one(users, {
+		fields: [form.userId],
+		references: [users.id],
+	}),
+	directory: one(directory, {
+		fields: [form.directoryId],
 		references: [directory.id],
 	}),
 }));

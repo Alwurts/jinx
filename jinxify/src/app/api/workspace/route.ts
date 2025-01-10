@@ -1,12 +1,12 @@
 import { auth } from "@/auth";
 import { defDiagram } from "@/lib/defaults";
 import db from "@/server/db";
-import { directory, diagram } from "@/server/db/schema";
+import { directory, diagram, form } from "@/server/db/schema";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 const createWorkspaceItemSchema = z.object({
-	type: z.enum(["directory", "diagram"]),
+	type: z.enum(["directory", "diagram", "form"]),
 	title: z.string().min(1),
 	directoryId: z.string().min(1),
 });
@@ -47,6 +47,20 @@ export async function POST(request: NextRequest) {
 				.returning();
 
 			return NextResponse.json(newDiagram[0]);
+		}
+
+		if (validated.type === "form") {
+			const newForm = await db
+				.insert(form)
+				.values({
+					title: validated.title,
+					schema: {},  // Initialize with empty schema
+					directoryId: validated.directoryId,
+					userId: session.user.id,
+				})
+				.returning();
+
+			return NextResponse.json(newForm[0]);
 		}
 
 		return NextResponse.json(
