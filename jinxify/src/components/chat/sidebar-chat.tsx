@@ -7,6 +7,7 @@ import { ChatMessageContent } from "../ui/chat-message";
 import { ChatMessage } from "../ui/chat-message";
 import { ChatInputSubmit, ChatInputTextArea } from "../ui/chat-input";
 import { ChatInput } from "../ui/chat-input";
+import { ToolInvocationComponent } from "./tool-invocation";
 
 export function ChatSidebar({
 	messages,
@@ -34,7 +35,14 @@ export function ChatSidebar({
 						type={message.role === "user" ? "outgoing" : "incoming"}
 					>
 						{message.role !== "user" && <ChatMessageAvatar />}
-						<ChatMessageContent content={message.content} />
+						<ChatMessageContent content={message.content}>
+							{message.toolInvocations?.map((toolInvocation) => (
+								<ToolInvocationComponent
+									key={toolInvocation.toolCallId}
+									toolInvocation={toolInvocation}
+								/>
+							))}
+						</ChatMessageContent>
 					</ChatMessage>
 				))}
 			</ChatMessageArea>

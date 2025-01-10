@@ -89,6 +89,8 @@ export function ChatProvider({
 						formGenerationParams.current,
 					);
 
+					console.log("formDescription", formDescription);
+
 					generateForm.submit({
 						input: formDescription,
 					});

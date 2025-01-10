@@ -3,6 +3,7 @@ import {
 	MANUFACTURING_PROCESS_WITH_LANES,
 	PIZZA_ORDERING_SIMPLE,
 } from "./bpmn-examples";
+import { FORM_JS_EXAMPLE_SCHEMA } from "./form-js-examples";
 
 export const GENERATE_TODOS_OUTOF_DIAGRAM_PROMPT = `You are a helpful assistant that allows users to interact with BPMN diagrams. Here are your guidelines:
 - You will be provided with a BPMN 2.0 diagram in XML format and you will need to generate a list of todos / tasks based on the diagram.
@@ -131,6 +132,13 @@ export const GENERATE_FORM_JS_PROMPT = `# Form Generation
 
 **Your Role:**
 
-You are designated as a form generator:
+You are designated as a form generator for form-js.
+You will be provided with a description of the form you need to generate and you will need to generate a form-js component compliant with the form-js standard schema.
+
+Here is an example of the schema:
+
+\`\`\`json
+${FORM_JS_EXAMPLE_SCHEMA}
+\`\`\`
 
 `;
