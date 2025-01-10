@@ -1,40 +1,21 @@
 "use client";
 import type React from "react";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { TDiagram } from "@/types/db";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import BpmnModeler from "bpmn-js/lib/Modeler";
 import "bpmn-js/dist/assets/diagram-js.css";
 import "bpmn-js/dist/assets/bpmn-font/css/bpmn-embedded.css";
-import { Button } from "../ui/button";
-import Link from "next/link";
-import { Separator } from "../ui/separator";
 import { normalizeXML } from "@/lib/bpmn";
-import { DiagramChatSidebar } from "./diagram-chat-sidebar";
-import { Input } from "../ui/input";
-import { ExportXmlDialog } from "./export-xml-dialog";
-import { ImportXmlDialog } from "./import-xml-dialog";
-import ToggleEditor from "./toogle-editor";
+import Modeler from "bpmn-js/lib/Modeler";
+import { useDebouncedCallback } from "use-debounce";
+import { useMutation } from "@tanstack/react-query";
 
 type Props = {
-	id: string;
+	diagram: TDiagram;
 };
 
-export default function Editor({ id }: Props) {
-	const containerRef = useRef<HTMLDivElement>(null);
-	const modelerRef = useRef<BpmnModeler | null>(null);
-	const isMounted = useRef(false);
-
-	const { isError, isLoading, data } = useQuery<TDiagram>({
-		queryKey: ["diagram", id],
-		queryFn: async () => {
-			const response = await fetch(`/api/diagram/${id}`);
-			if (!response.ok) {
-				throw new Error("Failed to fetch diagram");
-			}
-			return response.json();
-		},
-	});
+export default function Editor({ diagram }: Props) {
+	const containerRef = useRef<HTMLDivElement | null>(null);
+	const [modeler, setModeler] = useState<Modeler | null>(null);
 
 	const updateDiagram = useMutation({
 		mutationFn: async (values: { diagramId: string; xmlState: string }) => {
@@ -46,132 +27,97 @@ export default function Editor({ id }: Props) {
 		},
 	});
 
-	useEffect(() => {
-		async function initModeler() {
-			if (!containerRef.current || isMounted.current === true) {
-				return;
-			}
+	const debouncedSave = useDebouncedCallback((content: string) => {
+		// Only save if content has actually changed
+		console.log("Saving diagram", content);
+		updateDiagram.mutate({ diagramId: diagram.id, xmlState: content });
+	}, 1000);
 
-			const bpmnModeler = new BpmnModeler({
-				container: containerRef.current,
-				width: "100%",
-				height: "100%",
-			});
-
-			modelerRef.current = bpmnModeler;
-			isMounted.current = true;
-		}
-
-		// Small delay to ensure the container is properly mounted
-		setTimeout(initModeler, 100);
-
-		return () => {
-			if (modelerRef.current) {
-				modelerRef.current.destroy();
-			}
-		};
-	}, []);
-
-	useEffect(() => {
-		if (data?.content) {
-			setTimeout(() => {
-				if (data?.content) {
-					importXml(data.content);
-				}
-			}, 200);
-		}
-	}, [data]);
-
-	const importXml = async (xml: string) => {
-		if (!modelerRef.current) {
-			throw new Error("Modeler not initialized");
-		}
-		const normalizedXML = normalizeXML(xml);
-		try {
-			await modelerRef.current.importXML(normalizedXML);
-
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			const canvas = modelerRef.current.get("canvas") as any;
-			//canvas.zoom("fit-viewport");
-		} catch (err) {
-			console.error("Error importing BPMN diagram:", err);
-		}
-	};
-
-	const saveDocument = async () => {
-		if (!modelerRef.current) {
-			throw new Error("Modeler not initialized");
-		}
-		const { xml } = await modelerRef.current.saveXML();
-
-		if (!xml || !data?.id) {
-			/* toast({
-				title: "Failed to save document",
-				description: "Please try again.",
-				duration: 800,
-			}); */
+	// Initialize modeler
+	let modelerInitializationInstance: Modeler | null = null;
+	const initModeler = async () => {
+		if (!containerRef.current || modelerInitializationInstance) {
 			return;
 		}
 
-		await updateDiagram.mutateAsync({
-			diagramId: data?.id,
-			xmlState: xml,
+		modelerInitializationInstance = new Modeler({
+			container: containerRef.current,
+			width: "100%",
+			height: "100%",
 		});
-		/* toast({
-			title: "Document saved successfully!",
-			description: "Your changes have been saved.",
-			duration: 800,
-		}); */
+
+		modelerInitializationInstance.on("commandStack.changed", async () => {
+			const result = await modelerInitializationInstance?.saveXML({
+				format: true,
+			});
+			if (result?.xml) {
+				debouncedSave(result.xml);
+			}
+		});
+
+		if (diagram.content) {
+			importXML(diagram.content, true, modelerInitializationInstance);
+		}
+
+		setModeler(modelerInitializationInstance);
 	};
 
-	const getXml = async () => {
-		if (!modelerRef.current) {
-			throw new Error("Modeler not initialized");
+	const importXML = useCallback(
+		async (xml: string, fit = true, modelerRef?: Modeler) => {
+			const modelerToUse = modelerRef ?? modeler;
+			if (!modelerToUse) {
+				throw new Error("Modeler not initialized");
+			}
+			const normalizedXML = normalizeXML(xml);
+			if (!normalizedXML) {
+				return;
+			}
+			try {
+				const { warnings } = await modelerToUse.importXML(normalizedXML);
+				if (warnings.length) {
+					console.warn(warnings);
+				}
+				if (fit) {
+					// @ts-expect-error
+					modelerToUse.get("canvas").zoom("fit-viewport");
+				}
+			} catch (_) {
+				//console.error(error);
+			}
+		},
+		[modeler],
+	);
+
+	// Handle generated XML import
+	/* useEffect(() => {
+		if (generateDiagram.object) {
+			const generationObject = generateDiagram.object as {
+				diagramId: string;
+				xml: string;
+			};
+			if (generationObject.diagramId === diagramId) {
+				importXML(generationObject.xml, false);
+			}
 		}
-		const { xml } = await modelerRef.current.saveXML({ format: true });
-		if (!xml) {
-			throw new Error("Failed to get XML");
+	}, [generateDiagram.object, diagramId, importXML]); */
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	/* useEffect(() => {
+		if (diagramQuery.data?.content && modeler) {
+			importXML(diagramQuery.data.content);
 		}
-		return xml;
-	};
+	}, [modeler, importXML]); */
+
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	useEffect(() => {
+		initModeler();
+
+		return () => {
+			modeler?.destroy();
+		};
+	}, []);
 
 	return (
-		<div className="w-screen h-screen flex flex-col">
-			<div className="flex justify-between items-center h-14 px-4 border-b">
-				<div className="flex items-center gap-4">
-					<Button variant="outline" asChild>
-						<Link href={`/dashboard/files?directoryId=${data?.directoryId}`}>
-							Back
-						</Link>
-					</Button>
-					<Separator orientation="vertical" />
-					<h1 className="text-2xl font-bold">
-						{isLoading ? "Loading..." : data?.title}
-					</h1>
-				</div>
-
-				<div className="flex items-center gap-2">
-					<ToggleEditor />
-					<ImportXmlDialog onImport={importXml} />
-					<ExportXmlDialog
-						getXml={getXml}
-						fileName={`${data?.title || "diagram"}.bpmn`}
-					/>
-					<Button disabled={updateDiagram.isPending} onClick={saveDocument}>
-						Save
-					</Button>
-				</div>
-			</div>
-
-			<div className="flex-1 flex relative overflow-hidden">
-				{isLoading && (
-					<div className="absolute inset-0 bg-background/50 flex items-center justify-center z-10">
-						Loading document...
-					</div>
-				)}
-				<div ref={containerRef} className="flex-1" />
-				<DiagramChatSidebar onGenerated={importXml} />
-			</div>
-		</div>
+		<div className="flex-1 h-full w-full dark:invert" ref={containerRef} />
 	);
 }
