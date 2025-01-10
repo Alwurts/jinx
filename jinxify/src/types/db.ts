@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { InferQueryModel } from "./infer-database";
 
 export type TDiagram = InferQueryModel<"diagram">;
+export type TForm = InferQueryModel<"form">;
 export type TDirectory = InferQueryModel<
 	"directory",
 	undefined,
@@ -9,6 +10,7 @@ export type TDirectory = InferQueryModel<
 		parent: true;
 		directories: true;
 		diagrams: true;
+		forms: true;
 	}
 >;
 
