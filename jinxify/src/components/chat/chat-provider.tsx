@@ -1,7 +1,14 @@
 "use client";
 
 import { useChat, experimental_useObject as useObject } from "ai/react";
-import { type ReactNode, createContext, useContext } from "react";
+import {
+	type ReactNode,
+	createContext,
+	useContext,
+	useEffect,
+	useRef,
+	useState,
+} from "react";
 import { z } from "zod";
 
 interface ChatContextType {
@@ -16,23 +23,53 @@ export function ChatProvider({
 }: {
 	children: ReactNode;
 }) {
+	const formGenerationParams = useRef<{
+		toolId: string;
+	} | null>(null);
+
 	const generateForm = useObject({
-		api: "/api/ai/generate-bpmn-diagram",
-		schema: z.object({
-			toolId: z.string(),
-			diagramId: z.string(),
-			xml: z.string(),
-		}),
+		api: "/api/ai/form",
+		schema: z.array(z.any()),
 		onFinish: ({ object }) => {
-			console.log("generateDiagram.onFinish", object);
-			if (object) {
+			console.log("generateForm.onFinish", { object, formGenerationParams });
+			if (object && formGenerationParams.current) {
+				console.log("Adding tool result");
+				console.log(
+					"toolId",
+					JSON.stringify(formGenerationParams.current.toolId),
+				);
 				jinxChat.addToolResult({
-					toolCallId: object.toolId,
-					result: "Diagram has finished generating",
+					toolCallId: formGenerationParams.current.toolId,
+					result: "Finished generating form",
 				});
+				formGenerationParams.current = null;
 			}
 		},
 	});
+
+	useEffect(() => {
+		console.log("generateForm", generateForm.object);
+	}, [generateForm.object]);
+
+	/* const generateBPMNDiagram = useObject({
+		api: "/api/ai/bpmn",
+		schema: z.object({
+			xml: z.string(),
+		}),
+		onFinish: ({ object }) => {
+			console.log("generateBPMNDiagram.onFinish", {
+				object,
+				bpmnGenerationParams,
+			});
+			if (object && bpmnGenerationParams) {
+				jinxChat.addToolResult({
+					toolCallId: bpmnGenerationParams.toolId,
+					result: "Finished generating BPMN diagram",
+				});
+				setBpmnGenerationParams(null);
+			}
+		},
+	}); */
 
 	const jinxChat = useChat({
 		api: "/api/ai/chat",
@@ -40,18 +77,37 @@ export function ChatProvider({
 		async onToolCall({ toolCall }) {
 			console.log("Calling tool", toolCall);
 			switch (toolCall.toolName) {
-				case "generateBPMNDiagram": {
+				case "generateForm": {
+					const formDescription = (toolCall.args as { formDescription: string })
+						.formDescription;
+					formGenerationParams.current = {
+						toolId: toolCall.toolCallId,
+					};
+					console.log("toolCallId", toolCall.toolCallId);
+					console.log(
+						"formGenerationParams.current",
+						formGenerationParams.current,
+					);
+
+					generateForm.submit({
+						input: formDescription,
+					});
+					break;
+				}
+
+				/* case "generateBPMNDiagram": {
 					const processDescription = (
 						toolCall.args as { processDescription: string }
 					).processDescription;
-					const diagramId = (toolCall.args as { diagramId: string }).diagramId;
-
-					generateForm.submit({
-						input: processDescription,
+					setBpmnGenerationParams({
 						toolId: toolCall.toolCallId,
-						diagramId: diagramId,
 					});
-				}
+
+					generateBPMNDiagram.submit({
+						input: processDescription,
+					});
+					break;
+				} */
 			}
 		},
 	});

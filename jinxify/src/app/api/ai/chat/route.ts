@@ -19,13 +19,22 @@ export async function POST(req: Request) {
 		tools: {
 			generateBPMNDiagram: {
 				description:
-					"Return a button that the user can click to generate a BPMN diagram based on a business process.",
+					"Trigger the generation of a BPMN diagram based on a business process.",
 				parameters: z.object({
 					processDescription: z
 						.string()
 						.describe(
 							"The business process to model using the BPMN 2.0 standard terms.",
 						),
+				}),
+			},
+			generateForm: {
+				description:
+					"Trigger the generation of a form-js component based on a form description.",
+				parameters: z.object({
+					formDescription: z
+						.string()
+						.describe("The form description to generate."),
 				}),
 			},
 		},

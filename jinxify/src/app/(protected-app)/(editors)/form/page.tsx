@@ -7,9 +7,15 @@ import type React from "react";
 import { Editor } from "@/components/form-js/editor";
 import { ChatSidebar } from "@/components/chat/sidebar-chat";
 import { useChatContext } from "@/components/chat/chat-provider";
+import { useEffect } from "react";
 
 export default function Form() {
 	const { jinxChat } = useChatContext();
+
+	useEffect(() => {
+		console.log("jinxChat", jinxChat.messages);
+	}, [jinxChat.messages]);
+
 	return (
 		<div className="w-screen h-screen flex flex-col">
 			<div className="flex justify-between items-center h-14 px-4 border-b">
