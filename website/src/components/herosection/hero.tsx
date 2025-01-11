@@ -6,12 +6,11 @@ export default function HeroSection() {
 			<div className="grid py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-24 lg:grid-cols-12">
 				<div className="mr-auto place-self-center lg:col-span-7">
 					<h1 className="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
-						AI-Driven BPMN for Smarter Business
+						Smartified AI-Driven HR Processes
 					</h1>
 					<p className="max-w-2xl lg:max-w-lg mb-6 font-light text-secondary-foreground lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">
-						We are the partner of your future transforming legacy business
-						processes into efficient, AI-enhanced automated workflows powered by
-						BPMN.
+						We are your partner in the future of HR, transforming your traditional recruitment processes 
+						into efficient, automated workflows powered by BPMN, Forms, and Markdown.
 					</p>
 					<div className="flex space-y-6 flex-col md:space-y-0 md:flex-row md:space-x-3">
 						<Link
