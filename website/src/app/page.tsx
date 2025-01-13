@@ -65,28 +65,27 @@ const teamMembers: Member[] = [
 export default function Home() {
 	return (
 		<main className="container mx-auto px-4 py-4">
-			<HeroSection />
+				<HeroSection />
+				<Separator className="mt-4" />
 
-			<Separator className="mt-4" />
+				<USPSection />
 
-			<USPSection />
+				<Separator className="mt-4" />
 
-			<Separator className="mt-4" />
+				<div className="mt-24 mb-16 text-center">
+					<p className="scroll-m-20 text-lg font-extrabold tracking-tight mb-1.5">
+						We make the magic happen
+					</p>
+					<h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
+						Meet Our Team
+					</h1>
+				</div>
 
-			<div className="mt-24 mb-16 text-center">
-				<p className="scroll-m-20 text-lg font-extrabold tracking-tight mb-1.5">
-					We make the magic happen
-				</p>
-				<h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
-					Meet Our Team
-				</h1>
-			</div>
-
-			<div className="flex flex-col items-start mb-5">
-				{teamMembers.map((member) => (
-					<CardMemberInfo key={member.name} {...member} />
-				))}
-			</div>
+				<div className="flex flex-col items-start mb-5">
+					{teamMembers.map((member) => (
+						<CardMemberInfo key={member.name} {...member} />
+					))}
+				</div>
 		</main>
 	);
 }

@@ -5,22 +5,22 @@ import Image from "next/image";
 export default function USPSection() {
 	const usps = [
 		{
-			title: "Automate BPMN Diagrams",
+			title: "Automate Processes Effortlessly",
 			description:
-				"Share your ideas and provide a simple explanation to generate a complete BPMN diagram effortlessly. Let AI transform your concepts into a fully realized workflow representation.",
-			image: "/automate_bpmn.png",
+				"Turn your ideas into reality with our AI-powered Form, Markdown, and BPMN Editor. Create fully automated workflows with just a few inputs—whether it’s designing a job offer, onboarding tasks, or an interview questionnaire.",
+			image: "/automated_processes.png",
 		},
 		{
-			title: "Efficient Task Management",
+			title: "Centralized Dashbaord",
 			description:
-				"Convert your BPMN diagrams into actionable to-dos with ease. Use our dedicated dashboard to track, manage, and monitor task progress effectively, keeping your workflow on track from start to finish.",
-			image: "/task_management.png",
+				"Use our dedicated dashboard to track and manage task progress effectively, keeping your workflow on track from start to finish. Connect your tasks to BPMN diagrams, forms, or markdown files, providing a centralized view the workflow.",
+			image: "/hr_dashboard.png",
 		},
 		{
 			title: "Organized Workflows",
 			description:
-				"Utilize a Google Drive-inspired folder structure to manage your projects effectively. Keep related processes grouped together for better organization, ensuring clear separation and streamlined workflow management.",
-			image: "/organized_workflows.png",
+				"Utilize a Google Drive-inspired folder structure to manage your projects effectively. Seamlessly store and manage all your HR assets—forms, markdown files, and BPMN diagrams—in one secure and intuitive workspace.",
+			image: "/3.png",
 		},
 	];
 
@@ -29,10 +29,10 @@ export default function USPSection() {
 			{/* Title Tile */}
 			<div className="mt-24 mb-16 text-center">
 				<p className="scroll-m-20 text-lg font-extrabold tracking-tight mb-1.5">
-					Why choose us
+					Why HR professionals choose us
 				</p>
 				<h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
-					Our USP
+					Our Unique Selling Points
 				</h1>
 			</div>
 

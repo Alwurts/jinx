@@ -8,7 +8,7 @@ import { MdGroup, MdTrendingUp } from "react-icons/md";
 const data = [
 	{
 		id: 1,
-		title: "Our Vission",
+		title: "Our Vision",
 		icon: <AiOutlineBulb size={30} />,
 		description:
 			"Smartify Your Business Processes! means upgrading your traditional workflows with smart, AI-driven solutions that enhance efficiency and decision-making. We help businesses automate repetitive tasks, optimize operations, and utilize data-driven insights to stay ahead in a competitive market.",
