@@ -64,9 +64,8 @@ const teamMembers: Member[] = [
 
 export default function Home() {
 	return (
-		<main>
-			<HeroSection />
-			<div className="container mx-auto px-4 py-4">
+		<main className="container mx-auto px-4 py-4">
+				<HeroSection />
 				<Separator className="mt-4" />
 
 				<USPSection />
@@ -87,7 +86,6 @@ export default function Home() {
 						<CardMemberInfo key={member.name} {...member} />
 					))}
 				</div>
-			</div>
 		</main>
 	);
 }

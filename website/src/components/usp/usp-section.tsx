@@ -8,19 +8,19 @@ export default function USPSection() {
 			title: "Automate Processes Effortlessly",
 			description:
 				"Turn your ideas into reality with our AI-powered Form, Markdown, and BPMN Editor. Create fully automated workflows with just a few inputs—whether it’s designing a job offer, onboarding tasks, or an interview questionnaire.",
-			image: "/automate_bpmn.png",
+			image: "/automated_processes.png",
 		},
 		{
 			title: "Centralized Dashbaord",
 			description:
 				"Use our dedicated dashboard to track and manage task progress effectively, keeping your workflow on track from start to finish. Connect your tasks to BPMN diagrams, forms, or markdown files, providing a centralized view the workflow.",
-			image: "/task_management.png",
+			image: "/hr_dashboard.png",
 		},
 		{
 			title: "Organized Workflows",
 			description:
 				"Utilize a Google Drive-inspired folder structure to manage your projects effectively. Seamlessly store and manage all your HR assets—forms, markdown files, and BPMN diagrams—in one secure and intuitive workspace.",
-			image: "/organized_workflows.png",
+			image: "/3.png",
 		},
 	];
 
@@ -32,7 +32,7 @@ export default function USPSection() {
 					Why HR professionals choose us
 				</p>
 				<h1 className="scroll-m-20 text-4xl font-semibold tracking-tight lg:text-5xl">
-					Our Unique Selling Point
+					Our Unique Selling Points
 				</h1>
 			</div>
 
