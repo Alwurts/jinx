@@ -11,7 +11,7 @@ export default function USPSection() {
 			image: "/automate_bpmn.png",
 		},
 		{
-			title: "Clear Centralized Dashbaord",
+			title: "Centralized Dashbaord",
 			description:
 				"Use our dedicated dashboard to track and manage task progress effectively, keeping your workflow on track from start to finish. Connect your tasks to BPMN diagrams, forms, or markdown files, providing a centralized view the workflow.",
 			image: "/task_management.png",
