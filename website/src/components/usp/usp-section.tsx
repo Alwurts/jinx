@@ -20,7 +20,7 @@ export default function USPSection() {
 			title: "Organized Workflows",
 			description:
 				"Utilize a Google Drive-inspired folder structure to manage your projects effectively. Seamlessly store and manage all your HR assets—forms, markdown files, and BPMN diagrams—in one secure and intuitive workspace.",
-			image: "/3.png",
+			image: "/file_system.png",
 		},
 	];
 
