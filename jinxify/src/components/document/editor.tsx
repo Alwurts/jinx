@@ -36,7 +36,7 @@ export default function Editor({ document }: { document: TDocument }) {
 	const debouncedSave = useDebouncedCallback((content: string) => {
 		console.log("Saving document", content);
 		updateDocument.mutate({ documentId: document.id, content });
-	}, 1000);
+	}, 200);
 
 	const onChange = useCallback(
 		(content: string) => {
@@ -55,9 +55,10 @@ export default function Editor({ document }: { document: TDocument }) {
 			) {
 				console.log("generateDocument.object", generateDocument.object);
 				editorRef.current?.setMarkdown(generateDocument.object.markdown);
+				debouncedSave(generateDocument.object.markdown);
 			}
 		}
-	}, [generateDocument.object]);
+	}, [generateDocument.object, debouncedSave]);
 
 	return (
 		<div className="flex-1 h-full w-full overflow-auto">

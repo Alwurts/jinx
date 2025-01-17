@@ -33,7 +33,7 @@ export default function Editor({ diagram }: Props) {
 		// Only save if content has actually changed
 		console.log("Saving diagram", content);
 		updateDiagram.mutate({ diagramId: diagram.id, xmlState: content });
-	}, 1000);
+	}, 200);
 
 	// Initialize modeler
 	let modelerInitializationInstance: Modeler | null = null;
@@ -102,8 +102,9 @@ export default function Editor({ diagram }: Props) {
 	useEffect(() => {
 		if (generateDiagram.object) {
 			importXML((generateDiagram.object as { xml: string }).xml);
+			debouncedSave((generateDiagram.object as { xml: string }).xml);
 		}
-	}, [generateDiagram.object, importXML]);
+	}, [generateDiagram.object, importXML, debouncedSave]);
 
 	return (
 		<div className="flex-1 h-full w-full dark:invert" ref={containerRef} />

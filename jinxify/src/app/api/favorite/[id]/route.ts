@@ -5,10 +5,9 @@ import { and, eq } from "drizzle-orm";
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
-
 const updateFavoritesSchema = z.object({
 	type: z.enum(["diagram", "form", "document"]),
-	isFavorite : z.boolean(),
+	isFavorite: z.boolean(),
 });
 
 export async function PATCH(
@@ -27,26 +26,28 @@ export async function PATCH(
 		const validated = updateFavoritesSchema.parse(reqData);
 
 		let tableToUse = null;
-		switch (validated.type){
+		switch (validated.type) {
 			case "diagram":
-				tableToUse= diagram;
+				tableToUse = diagram;
 				break;
 			case "form":
-				tableToUse= form;
+				tableToUse = form;
 				break;
 			case "document":
-				tableToUse= document;
+				tableToUse = document;
 				break;
 		}
-		if(tableToUse){
-		await db
-			.update(tableToUse)
-			.set({ 
-				isFavorite: validated.isFavorite
-			})
-			.where(and(eq(tableToUse.id, id), eq(tableToUse.userId, session.user.id)))
+		if (tableToUse) {
+			await db
+				.update(tableToUse)
+				.set({
+					isFavorite: validated.isFavorite,
+				})
+				.where(
+					and(eq(tableToUse.id, id), eq(tableToUse.userId, session.user.id)),
+				);
 
-		return NextResponse.json({ message: "Favorites is updated" });
+			return NextResponse.json({ message: "Favorites is updated" });
 		}
 	} catch (error) {
 		console.error("Error updating favorite:", error);
@@ -55,4 +56,4 @@ export async function PATCH(
 			{ status: 500 },
 		);
 	}
-} 
+}
