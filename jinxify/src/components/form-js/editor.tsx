@@ -95,6 +95,9 @@ export default function Editor({ form }: { form: TForm }) {
 	}, [generateForm.object, importSchema]);
 
 	return (
-		<div className="flex-1 h-full w-full max-h-screen" ref={containerRef} />
+		<div
+			className="flex-1 h-full w-full max-h-screen dark:invert"
+			ref={containerRef}
+		/>
 	);
 }

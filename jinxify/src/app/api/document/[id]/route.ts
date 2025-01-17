@@ -45,9 +45,9 @@ export async function PATCH(
 
 		const [documentResponse] = await db
 			.update(document)
-			.set({ 
+			.set({
 				...validated,
-				updatedAt: new Date()
+				updatedAt: new Date(),
 			})
 			.where(and(eq(document.id, id), eq(document.userId, session.user.id)))
 			.returning();
@@ -79,4 +79,4 @@ export async function DELETE(
 		.returning();
 
 	return NextResponse.json(deletedDocument[0]);
-} 
+}

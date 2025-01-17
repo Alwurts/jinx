@@ -5,6 +5,7 @@ import { ToastContainer } from "react-toastify";
 import { Toaster } from "@/components/ui/toaster";
 import "react-toastify/dist/ReactToastify.css";
 import { poppins } from "@/components/ui/fonts";
+import { ThemeProvider } from "@/components/theme/theme-provider";
 
 export const metadata: Metadata = {
 	title: "jinxify",
@@ -18,12 +19,19 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" className={`${poppins.variable}`}>
+		<html lang="en" suppressHydrationWarning className={`${poppins.variable}`}>
 			<body>
-				<QueryProvider>
-					<Toaster />
-					{children}
-				</QueryProvider>
+				<ThemeProvider
+					attribute="class"
+					defaultTheme="system"
+					enableSystem
+					disableTransitionOnChange
+				>
+					<QueryProvider>
+						<Toaster />
+						{children}
+					</QueryProvider>
+				</ThemeProvider>
 			</body>
 		</html>
 	);

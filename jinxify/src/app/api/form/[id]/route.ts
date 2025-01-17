@@ -46,9 +46,9 @@ export async function PATCH(
 
 		const [formResponse] = await db
 			.update(form)
-			.set({ 
+			.set({
 				schema: validated.schema,
-				...(validated.title && { title: validated.title })
+				...(validated.title && { title: validated.title }),
 			})
 			.where(and(eq(form.id, id), eq(form.userId, session.user.id)))
 			.returning();
@@ -61,4 +61,4 @@ export async function PATCH(
 			{ status: 500 },
 		);
 	}
-} 
+}

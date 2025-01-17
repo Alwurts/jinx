@@ -87,22 +87,21 @@ export default function FileCard({ item }: Props) {
 				}
 				key={item.id}
 			>
-				<Card className="mt-3 p-3 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 hover:shadow-md transition-shadow cursor-pointer">
+				<Card className="mt-3 p-3 hover:bg-accent/50 transition-all cursor-pointer">
 					<CardHeader>
-						<CardTitle className="flex items-center w-full ">
+						<CardTitle className="flex items-center w-full">
 							<div className="flex w-full justify-between">
 								<div className="flex items-center">
 									{item.type === "diagram" ? (
-										<FaProjectDiagram className="w-5 h-5 mr-2 text-purple-900" />
+										<FaProjectDiagram className="w-5 h-5 mr-2 text-primary" />
 									) : item.type === "form" ? (
-										<FaFileAlt className="w-5 h-5 mr-2 text-purple-900" />
+										<FaFileAlt className="w-5 h-5 mr-2 text-primary" />
 									) : item.type === "document" ? (
-										<FaFileWord className="w-5 h-5 mr-2 text-purple-900" />
+										<FaFileWord className="w-5 h-5 mr-2 text-primary" />
 									) : (
-										<Folder className="w-5 h-5 mr-2 text-purple-900" />
+										<Folder className="w-5 h-5 mr-2 text-primary" />
 									)}
-
-									{item.title}
+									<span className="text-foreground">{item.title}</span>
 								</div>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -110,14 +109,17 @@ export default function FileCard({ item }: Props) {
 											<EllipsisVertical className="h-4 w-4" />
 										</Button>
 									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end">
-										<DropdownMenuLabel>Actions</DropdownMenuLabel>
-										<DropdownMenuSeparator />
+									<DropdownMenuContent align="end" className="bg-popover">
+										<DropdownMenuLabel className="text-foreground">
+											Actions
+										</DropdownMenuLabel>
+										<DropdownMenuSeparator className="bg-border" />
 										<DropdownMenuItem
 											onClick={(e) => {
 												e.preventDefault();
 												setOpenRenameDialog(item);
 											}}
+											className="text-foreground hover:bg-accent/50"
 										>
 											Edit
 										</DropdownMenuItem>
@@ -127,6 +129,7 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setDeleteDialog(item);
 											}}
+											className="text-foreground hover:bg-accent/50"
 										>
 											Delete
 										</DropdownMenuItem>
@@ -153,7 +156,7 @@ export default function FileCard({ item }: Props) {
 								</DropdownMenu>
 							</div>
 						</CardTitle>
-						<CardDescription className="text-sm text-gray-400">
+						<CardDescription className="text-muted-foreground">
 							{item.type === "form"
 								? "Form"
 								: item.type === "diagram"

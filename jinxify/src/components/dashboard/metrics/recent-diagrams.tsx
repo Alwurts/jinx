@@ -25,13 +25,15 @@ export function RecentDiagrams() {
 	});
 
 	return (
-		<Card className="xl:col-span-2 bg-white border border-gray-200 rounded-lg shadow-md transition-shadow">
+		<Card className="xl:col-span-2">
 			<CardHeader className="flex flex-row items-center">
 				<div className="grid gap-2">
-					<CardTitle>Recent Diagrams</CardTitle>
-					<CardDescription>Your most recently updated diagrams</CardDescription>
+					<CardTitle className="text-foreground">Recent Diagrams</CardTitle>
+					<CardDescription className="text-muted-foreground">
+						Your most recently updated diagrams
+					</CardDescription>
 				</div>
-				<Button asChild size="sm" className="ml-auto gap-1">
+				<Button asChild size="sm" className="ml-auto gap-1 hover:bg-accent/50">
 					<Link href="/dashboard/files">
 						View All
 						<ArrowUpRight className="h-4 w-4" />
@@ -41,9 +43,12 @@ export function RecentDiagrams() {
 			<CardContent>
 				<div className="space-y-4">
 					{diagrams.slice(0, 5).map((diagram) => (
-						<div key={diagram.id} className="flex items-center gap-4">
+						<div
+							key={diagram.id}
+							className="flex items-center gap-4 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+						>
 							<div className="grid gap-1">
-								<p className="text-sm font-medium leading-none">
+								<p className="text-sm font-medium leading-none text-foreground">
 									{diagram.title}
 								</p>
 								<p className="text-sm text-muted-foreground">
@@ -51,7 +56,12 @@ export function RecentDiagrams() {
 									{new Date(diagram.updatedAt).toLocaleDateString()}
 								</p>
 							</div>
-							<Button asChild size="sm" variant="ghost" className="ml-auto">
+							<Button
+								asChild
+								size="sm"
+								variant="ghost"
+								className="ml-auto hover:bg-accent/50"
+							>
 								<Link href={`/dashboard/files/${diagram.id}`}>
 									Open
 									<ArrowUpRight className="h-4 w-4 ml-1" />

@@ -69,16 +69,20 @@
 		--chart4: 266.0956990124282 84.6847056527945% 92.03004629693922%;
 		--chart5: 252.59569798245988 22.44808180196148% 38.203434592780056%;
 		--radius: 0.5rem;
-		--sidebar-background: 240 5.9% 10%;
-		--sidebar-foreground: 240 4.8% 95.9%;
-		--sidebar-primary: 224.3 76.3% 48%;
-		--sidebar-primary-foreground: 0 0% 100%;
-		--sidebar-accent: 240 3.7% 15.9%;
-		--sidebar-accent-foreground: 240 4.8% 95.9%;
-		--sidebar-border: 240 3.7% 15.9%;
-		--sidebar-ring: 217.2 91.2% 59.8%;
+		--sidebar-background: 255.2941176470588 38.32736565980292%
+			11.648254358986142%;
+		--sidebar-foreground: 261.8181818181818 100.00000000000003%
+			97.84313725490196%;
+		--sidebar-primary: 261.88235294117646 100.00000000000011% 84.29227163932141%;
+		--sidebar-primary-foreground: 255.2941176470588 41.463414634146325%
+			24.117647058823533%;
+		--sidebar-accent: 262.49559860363814 18.987740286677283% 17.183450614659595%;
+		--sidebar-accent-foreground: 0 0% 100%;
+		--sidebar-border: 240 7.76759856055578% 22.993340238018227%;
+		--sidebar-ring: 261.88235294117646 66.9291338582677% 75.09803921568627%;
 	}
 }
+
 @layer base {
 	* {
 		@apply border-border;

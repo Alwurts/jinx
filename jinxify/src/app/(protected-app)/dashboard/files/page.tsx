@@ -14,7 +14,7 @@ import {
 } from "react-icons/fa";
 
 import { useSession } from "next-auth/react";
-import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
+import { DashboardSkeleton } from "@/components/dashboard/file-skeleton";
 import { DirectoryTable } from "@/components/dashboard/directory-table";
 import { DiagramTable } from "@/components/dashboard/files-table";
 import {
@@ -106,7 +106,7 @@ export default function Dashboard() {
 		<>
 			<ImageOverlayHeader
 				title="Files"
-				icon={<FilesIcon className="size-8 text-secondary z-20" />}
+				icon={<FilesIcon className="size-8 text-primary-foreground z-20" />}
 				leftToolbar={
 					<>
 						{directoryId !== "root" && (
@@ -114,7 +114,7 @@ export default function Dashboard() {
 								variant="secondary"
 								size="icon"
 								onClick={handleGoBack}
-								className="hover:bg-gray-100 z-10"
+								className="hover:bg-gray-100 dark:hover:bg-mystical/30 z-10"
 							>
 								<ArrowLeft className="w-5 h-5" />
 							</Button>
@@ -127,7 +127,7 @@ export default function Dashboard() {
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="secondary"
-								className="flex items-center gap-2"
+								className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
 								disabled={createWorkspaceItem.isPending}
 							>
 								New Item
