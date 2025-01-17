@@ -13,24 +13,58 @@ import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
 import type { TDiagram } from "@/types/db";
 
-export function RecentDiagrams() {
-	const { data: diagrams = [] } = useQuery({
+type TFile = {
+	id: string;
+	title: string;
+	updatedAt: string;
+};
+export function RecentFiles() {
+	const diagramsQuery = useQuery({
 		queryKey: ["diagrams"],
 		queryFn: async function fetchDiagrams() {
 			const response = await fetch("/api/diagram");
 			if (!response.ok) throw new Error("Failed to fetch diagrams");
 			const json = await response.json();
-			return json as TDiagram[];
+			return json as TFile[];
 		},
 	});
+	const formsQuery = useQuery({
+		queryKey: ["forms"],
+		queryFn: async function fetchDiagrams() {
+			const response = await fetch("/api/form");
+			if (!response.ok) throw new Error("Failed to fetch forms");
+			const json = await response.json();
+			return json as TFile[];
+		},
+	});
+	const documentsQuery = useQuery({
+		queryKey: ["documents"],
+		queryFn: async function fetchDiagrams() {
+			const response = await fetch("/api/document");
+			if (!response.ok) throw new Error("Failed to fetch document");
+			const json = await response.json();
+			return json as TFile[];
+		},
+	});
+
+	const combinedFiles = [
+		...(diagramsQuery.data || []),
+		...(formsQuery.data || []),
+		...(documentsQuery.data || []),
+	]
+		.sort(
+			(a, b) =>
+				new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+		)
+		.slice(0, 4);
 
 	return (
 		<Card className="xl:col-span-2">
 			<CardHeader className="flex flex-row items-center">
 				<div className="grid gap-2">
-					<CardTitle className="text-foreground">Recent Diagrams</CardTitle>
+					<CardTitle className="text-foreground">Recent Files</CardTitle>
 					<CardDescription className="text-muted-foreground">
-						Your most recently updated diagrams
+						Your most recently updated files
 					</CardDescription>
 				</div>
 				<Button asChild size="sm" className="ml-auto gap-1 hover:bg-accent/50">
@@ -42,18 +76,17 @@ export function RecentDiagrams() {
 			</CardHeader>
 			<CardContent>
 				<div className="space-y-4">
-					{diagrams.slice(0, 5).map((diagram) => (
+					{combinedFiles.map((file) => (
 						<div
-							key={diagram.id}
+							key={file.id}
 							className="flex items-center gap-4 p-2 rounded-lg hover:bg-accent/50 transition-colors"
 						>
 							<div className="grid gap-1">
 								<p className="text-sm font-medium leading-none text-foreground">
-									{diagram.title}
+									{file.title}
 								</p>
 								<p className="text-sm text-muted-foreground">
-									Last updated:{" "}
-									{new Date(diagram.updatedAt).toLocaleDateString()}
+									Last updated: {new Date(file.updatedAt).toLocaleDateString()}
 								</p>
 							</div>
 							<Button
@@ -62,7 +95,7 @@ export function RecentDiagrams() {
 								variant="ghost"
 								className="ml-auto hover:bg-accent/50"
 							>
-								<Link href={`/diagram/${diagram.id}`}>
+								<Link href={`/dashboard/files/${file.id}`}>
 									Open
 									<ArrowUpRight className="h-4 w-4 ml-1" />
 								</Link>
