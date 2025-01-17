@@ -30,7 +30,7 @@ export default function Editor({ form }: { form: TForm }) {
 		// Only save if content has actually changed
 		console.log("schema", schema);
 		updateForm.mutate({ formId: form.id, schema: schema });
-	}, 1000);
+	}, 200);
 
 	const importSchema = useCallback(
 		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -91,8 +91,12 @@ export default function Editor({ form }: { form: TForm }) {
 				type: "default",
 				components: generateForm.object,
 			});
+			debouncedSave({
+				type: "default",
+				components: generateForm.object,
+			});
 		}
-	}, [generateForm.object, importSchema]);
+	}, [generateForm.object, importSchema, debouncedSave]);
 
 	return (
 		<div
