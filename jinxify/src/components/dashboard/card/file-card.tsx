@@ -53,7 +53,9 @@ export default function FileCard({ item }: Props) {
 		},
 		onSuccess: () => {
 			// Invalidate and refetch the current directory data
-			queryClient.invalidateQueries({ queryKey: ["directory", item.directoryId] });
+			queryClient.invalidateQueries({
+				queryKey: ["directory", item.directoryId],
+			});
 		},
 	});
 
