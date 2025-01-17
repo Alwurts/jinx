@@ -5,7 +5,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function DashboardSkeleton() {
 	return (
-		<main className="flex-1 ml-4 mr-4 mt-4 mb-4 p-4 bg-white dark:bg-accent shadow-xl rounded-lg border border-gray-200 dark:border-border">
+		<main className="flex-1 bg-white p-4 dark:bg-accent shadow-xl rounded-lg border border-gray-200 dark:border-border">
 			<Skeleton className="h-8 w-1/4 mb-6 dark:bg-muted" />
 			<div className="space-y-8">
 				{Array.from({ length: 2 }).map((_, sectionIndex) => (
