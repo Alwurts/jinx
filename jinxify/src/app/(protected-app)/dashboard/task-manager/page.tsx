@@ -199,7 +199,7 @@ export default function TaskManager() {
 		<>
 			<ImageOverlayHeader
 				title="Task Board"
-				icon={<EyeIcon className="size-8 text-secondary z-20" />}
+				icon={<EyeIcon className="size-8 text-primary-foreground z-20" />}
 				leftToolbar={<SidebarTrigger className="md:hidden z-10 bg-secondary" />}
 				rightToolbar={
 					<div className="flex items-center gap-2">
@@ -207,7 +207,7 @@ export default function TaskManager() {
 							value={currentDiagramId || "all"}
 							onValueChange={handleDiagramFilter}
 						>
-							<SelectTrigger className="w-[200px] bg-secondary">
+							<SelectTrigger className="w-[200px] bg-secondary dark:bg-accent dark:text-secondary-foreground">
 								<SelectValue placeholder="Filter by diagram" />
 							</SelectTrigger>
 							<SelectContent>
@@ -219,18 +219,20 @@ export default function TaskManager() {
 								))}
 							</SelectContent>
 						</Select>
+
 						<Button
 							onClick={() => setIsGenerateTasksOpen(true)}
 							variant="secondary"
-							className="flex items-center gap-2"
+							className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
 						>
 							<Plus className="w-4 h-4" />
 							Generate Tasks
 						</Button>
+
 						<Button
 							onClick={handleCreateTask}
 							variant="secondary"
-							className="flex items-center gap-2"
+							className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
 						>
 							<Plus className="w-4 h-4" />
 							Add Task
@@ -254,13 +256,13 @@ export default function TaskManager() {
 						{statusColumns.map((column) => (
 							<div
 								key={column.id}
-								className="flex-1 min-w-[280px] bg-gray-50 rounded-lg p-4"
+								className="flex-1 min-w-[280px] bg-background dark:bg-[hsl(255.29,38.33%,11.65%)] rounded-lg p-4"
 							>
 								<div className="flex items-center justify-between mb-4">
-									<h3 className="font-semibold text-gray-700">
+									<h3 className="font-semibold text-foreground">
 										{column.label}
 									</h3>
-									<span className="bg-gray-200 text-gray-600 rounded-full px-2 py-1 text-sm">
+									<span className="bg-accent dark:bg-accent text-foreground rounded-full px-2 py-1 text-sm">
 										{tasks?.filter((task) => task.status === column.id)
 											.length || 0}
 									</span>
@@ -271,7 +273,9 @@ export default function TaskManager() {
 											ref={provided.innerRef}
 											{...provided.droppableProps}
 											className={`space-y-3 min-h-[200px] ${
-												snapshot.isDraggingOver ? "bg-gray-100" : ""
+												snapshot.isDraggingOver
+													? "bg-accent/50 dark:bg-accent/50"
+													: ""
 											}`}
 										>
 											{filteredTasks
@@ -292,20 +296,20 @@ export default function TaskManager() {
 																}`}
 															>
 																<Card
-																	className="bg-white cursor-pointer hover:shadow-md transition-shadow"
+																	className="bg-background dark:bg-card cursor-pointer hover:shadow-md transition-shadow dark:border-border dark:text-card-foreground dark:hover:bg-accent/50"
 																	onClick={() => setSelectedTaskId(task.id)}
 																>
 																	<CardHeader className="p-4">
-																		<CardTitle className="text-sm font-medium">
+																		<CardTitle className="text-sm font-medium text-foreground dark:text-foreground">
 																			{task.title}
 																		</CardTitle>
-																		<CardDescription className="text-xs mt-1 line-clamp-2">
+																		<CardDescription className="text-xs mt-1 line-clamp-2 dark:text-muted-foreground">
 																			{task.description}
 																		</CardDescription>
 																	</CardHeader>
 																	<CardContent className="px-4 pb-2">
 																		{task.diagram ? (
-																			<div className="flex items-center gap-1 text-xs text-gray-600">
+																			<div className="flex items-center gap-1 text-xs text-muted-foreground">
 																				<LinkIcon className="h-3 w-3" />
 																				<span>
 																					{task.diagram.title ||
@@ -313,13 +317,13 @@ export default function TaskManager() {
 																				</span>
 																			</div>
 																		) : (
-																			<div className="flex items-center gap-1 text-xs text-gray-400 italic">
+																			<div className="flex items-center gap-1 text-xs text-muted-foreground italic">
 																				<LinkIcon className="h-3 w-3" />
 																				<span>No diagram linked</span>
 																			</div>
 																		)}
 																	</CardContent>
-																	<CardFooter className="p-4 pt-0 flex justify-between text-xs text-gray-500">
+																	<CardFooter className="p-4 pt-0 flex justify-between text-xs text-muted-foreground">
 																		<span>
 																			Created:{" "}
 																			{new Date(

@@ -54,26 +54,34 @@ export function DiagramsChart() {
 	);
 
 	return (
-		<Card className="bg-white border border-gray-200 rounded-lg shadow-md transition-shadow">
+		<Card>
 			<CardHeader>
-				<CardTitle>Bar Chart</CardTitle>
-				<CardDescription>{new Date().getFullYear()}</CardDescription>
+				<CardTitle className="text-foreground">Bar Chart</CardTitle>
+				<CardDescription className="text-muted-foreground">
+					{new Date().getFullYear()}
+				</CardDescription>
 			</CardHeader>
-			<CardContent>
+			<CardContent className="text-foreground">
 				<ChartContainer config={chartConfig}>
 					<BarChart accessibilityLayer data={barChartData}>
-						<CartesianGrid vertical={false} />
+						<CartesianGrid vertical={false} stroke="hsl(var(--border))" />
 						<XAxis
 							dataKey="month"
 							tickLine={false}
 							tickMargin={10}
 							axisLine={false}
 							tickFormatter={(value) => value.slice(0, 3)}
+							stroke="hsl(var(--muted-foreground))"
 						/>
 						<YAxis hide />
 						<ChartTooltip
 							cursor={false}
-							content={<ChartTooltipContent hideLabel />}
+							content={
+								<ChartTooltipContent
+									hideLabel
+									className="bg-popover border-border text-foreground"
+								/>
+							}
 						/>
 						<Bar
 							dataKey="diagrams"

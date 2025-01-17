@@ -48,29 +48,28 @@ export default function FAQs() {
 				"Jinxify support BPMN 2.0 process diagrams\n• Workflow diagrams\n• Custom diagram templates.",
 		},
 	];
-
 	return (
 		<div className="w-full max-w-4xl mx-auto p-4 md:p-6 overflow-hidden overflow-y-auto">
-			<h2 className="text-3xl font-bold mb-6 text-center">
+			<h2 className="text-3xl font-bold mb-6 text-center text-foreground">
 				Frequently Asked Questions
 			</h2>
-			<p className="text-gray-600 mb-8 text-center">
+			<p className="text-muted-foreground mb-8 text-center">
 				Learn how to create, manage, and transform your workflows with Jinxify
 			</p>
 
-			<Accordion type="single" collapsible className="space-y-4 ">
+			<Accordion type="single" collapsible className="space-y-4">
 				{faqData.map((faq) => (
 					<AccordionItem
 						key={faq.id}
 						value={faq.id}
-						className="border rounded-lg p-2 hover:bg-gray-50 transition-colors"
+						className="border border-border rounded-lg p-2 bg-card hover:bg-accent/50 transition-colors"
 					>
-						<AccordionTrigger className="text-left font-semibold px-2">
+						<AccordionTrigger className="text-left font-semibold px-2 text-foreground">
 							{faq.question}
 						</AccordionTrigger>
-						<AccordionContent className="px-2 ">
-							<div className="prose max-w-none ">
-								<p className="text-gray-700 whitespace-pre-line mb-4">
+						<AccordionContent className="px-2">
+							<div className="prose max-w-none">
+								<p className="text-foreground whitespace-pre-line mb-4">
 									{faq.answer}
 								</p>
 								{faq.image && (

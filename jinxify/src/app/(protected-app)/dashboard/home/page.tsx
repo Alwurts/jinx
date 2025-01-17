@@ -9,10 +9,10 @@ import { DiagramsChart } from "@/components/dashboard/metrics/diagrams-chart";
 
 export default function Home() {
 	return (
-		<div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
+		<div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-background dark:bg-background">
 			<ImageOverlayHeader
 				title="Dashboard"
-				icon={<HomeIcon className="size-8 text-secondary z-20" />}
+				icon={<HomeIcon className="size-8 text-primary-foreground z-20" />}
 			/>
 			<div className="flex-1 overflow-y-auto px-4 pb-8">
 				<StatsCards />
