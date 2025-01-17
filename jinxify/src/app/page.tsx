@@ -90,7 +90,7 @@ export default async function Home() {
 				<div className="relative z-20 flex items-center text-lg font-medium text-secondary">
 					<Icon className={"dark:text-primary h-12 w-12 mr-2"} />
 				</div>
-				<div className="relative z-20 mt-auto text-secondary">
+				<div className="relative z-20 mt-auto text-foreground">
 					<blockquote className="space-y-2 italic">
 						<p className="text-lg">
 							&ldquo;jinxify has streamlined our processes with AI-driven to-dos

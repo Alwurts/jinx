@@ -106,7 +106,7 @@ export default function Dashboard() {
 		<>
 			<ImageOverlayHeader
 				title="Files"
-				icon={<FilesIcon className="size-8 text-secondary z-20" />}
+				icon={<FilesIcon className="size-8 text-primary-foreground z-20" />}
 				leftToolbar={
 					<>
 						{directoryId !== "root" && (
@@ -127,7 +127,7 @@ export default function Dashboard() {
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="secondary"
-								className="flex items-center gap-2"
+								className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
 								disabled={createWorkspaceItem.isPending}
 							>
 								New Item

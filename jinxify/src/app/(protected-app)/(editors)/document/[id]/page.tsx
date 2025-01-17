@@ -67,4 +67,4 @@ export default function Document({ params }: { params: { id: string } }) {
 			</div>
 		</div>
 	);
-} 
+}

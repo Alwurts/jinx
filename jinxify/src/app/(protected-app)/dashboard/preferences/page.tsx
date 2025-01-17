@@ -14,7 +14,7 @@ export default async function SettingsProfilePage() {
 			<div>
 				<ImageOverlayHeader
 					title="Preferences"
-					icon={<VscSettings className="size-8 text-secondary z-20" />}
+					icon={<VscSettings className="size-8 text-primary-foreground z-20" />}
 				/>
 			</div>
 			<div className="flex-1 overflow-y-auto px-4 py-8">
