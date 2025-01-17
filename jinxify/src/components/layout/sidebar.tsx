@@ -73,7 +73,7 @@ const applicationItems = [
 	},
 	{
 		title: "Favorites",
-		url: "#",
+		url: "/dashboard/favorites",
 		icon: Heart,
 	},
 	{
@@ -270,8 +270,8 @@ export function AppSidebar({ session }: Props) {
 														? "text-royal-purple"
 														: "text-black hover:bg-creamy"
 												}`}
-											>
-												<item.icon className="w-5 h-5" />
+										>
+											<item.icon className="w-5 h-5" />
 											</span>
 											<span className="group-hover/item:text-royal-purple text-md">
 												{item.title}
