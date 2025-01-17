@@ -11,6 +11,8 @@ import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type { TForm } from "@/types/db";
 import { QuerySpinner } from "@/components/query/query-spinner";
+import { SharePopover } from "@/components/share/share-popover";
+import { FormSubmissionsDialog } from "@/components/form-js/submissions-dialog";
 
 const Editor = dynamic(() => import("@/components/form-js/editor"), {
 	ssr: false,
@@ -19,7 +21,7 @@ const Editor = dynamic(() => import("@/components/form-js/editor"), {
 	),
 });
 
-export default function Form({ params }: { params: { id: string } }) {
+export default function FormEditor({ params }: { params: { id: string } }) {
 	const { jinxChat } = useChatContext();
 
 	const { isLoading, data } = useQuery<TForm>({
@@ -32,6 +34,8 @@ export default function Form({ params }: { params: { id: string } }) {
 			return response.json();
 		},
 	});
+
+	const shareUrl = `${window.location.origin}/form/view/${params.id}`;
 
 	return (
 		<div className="w-screen h-screen flex flex-col">
@@ -47,6 +51,8 @@ export default function Form({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="flex items-center gap-2">
+					<FormSubmissionsDialog formId={params.id} />
+					<SharePopover url={shareUrl} />
 					<QuerySpinner />
 				</div>
 			</div>

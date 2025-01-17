@@ -43,11 +43,6 @@ export function ChatProvider({
 		onFinish: ({ object }) => {
 			console.log("generateForm.onFinish", { object, formGenerationParams });
 			if (object && formGenerationParams.current) {
-				console.log("Adding tool result");
-				console.log(
-					"toolId",
-					JSON.stringify(formGenerationParams.current.toolId),
-				);
 				jinxChat.addToolResult({
 					toolCallId: formGenerationParams.current.toolId,
 					result: "Finished generating form",
