@@ -21,17 +21,41 @@ import { FaFileAlt, FaProjectDiagram, FaFileWord } from "react-icons/fa";
 import { RenameDialog } from "../rename-dialog";
 import { useState } from "react";
 import { DeleteDialog } from "../delete-dialog";
+import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 type Props = {
 	item: TDiagram | TDirectory | TForm | TDocument;
 };
 export default function FileCard({ item }: Props) {
+	const queryClient = useQueryClient();
 	const [openRenameDialog, setOpenRenameDialog] = useState<
 		TDiagram | TDirectory | TForm | TDocument | null
 	>(null);
 	const [deleteDialog, setDeleteDialog] = useState<
 		TDiagram | TDirectory | TForm | TDocument | null
 	>(null);
+
+	const toggleFavorite = useMutation({
+		mutationFn: async (values: {
+			id: string;
+			type: "diagram" | "form" | "document";
+			isFavorite: boolean;
+		}) => {
+			const res = await fetch(`/api/favorite/${values.id}`, {
+				method: "PATCH",
+				body: JSON.stringify({
+					type: values.type,
+					isFavorite: values.isFavorite,
+				}),
+			});
+			return await res.json();
+		},
+		onSuccess: () => {
+			// Invalidate and refetch the current directory data
+			queryClient.invalidateQueries({ queryKey: ["directory", item.directoryId] });
+		},
+	});
 
 	return (
 		<>
@@ -109,6 +133,25 @@ export default function FileCard({ item }: Props) {
 										>
 											Delete
 										</DropdownMenuItem>
+										{item && item.type !== "directory" && (
+											<DropdownMenuItem
+												onClick={(e) => {
+													e.preventDefault();
+													toggleFavorite.mutate({
+														id: item.id,
+														type: item.type,
+														isFavorite: !item.isFavorite,
+													});
+												}}
+											>
+												{item.isFavorite ? (
+													<MdFavorite className="mr-2 text-purple-500" />
+												) : (
+													<MdFavoriteBorder className="mr-2 text-gray-500" />
+												)}
+												Favorite
+											</DropdownMenuItem>
+										)}
 									</DropdownMenuContent>
 								</DropdownMenu>
 							</div>
