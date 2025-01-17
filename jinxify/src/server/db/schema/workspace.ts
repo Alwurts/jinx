@@ -7,7 +7,7 @@ import {
 	boolean,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { users } from ".";
+import { formSubmission, users } from ".";
 
 // for folder
 export const directory = pgTable("directory", {
@@ -85,7 +85,7 @@ export const form = pgTable("form", {
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
-export const formRelations = relations(form, ({ one }) => ({
+export const formRelations = relations(form, ({ one, many }) => ({
 	user: one(users, {
 		fields: [form.userId],
 		references: [users.id],
@@ -94,6 +94,7 @@ export const formRelations = relations(form, ({ one }) => ({
 		fields: [form.directoryId],
 		references: [directory.id],
 	}),
+	submissions: many(formSubmission),
 }));
 
 // for Documents

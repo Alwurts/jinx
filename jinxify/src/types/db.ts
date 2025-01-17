@@ -4,6 +4,7 @@ import type { InferQueryModel } from "./infer-database";
 export type TDocument = InferQueryModel<"document">;
 export type TDiagram = InferQueryModel<"diagram">;
 export type TForm = InferQueryModel<"form">;
+export type TFormSubmission = InferQueryModel<"formSubmission">;
 export type TDirectory = InferQueryModel<
 	"directory",
 	undefined,
