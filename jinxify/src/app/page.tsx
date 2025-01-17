@@ -88,9 +88,9 @@ export default async function Home() {
 					className="absolute inset-0 w-full h-full object-cover z-0"
 				/>
 				<div className="relative z-20 flex items-center text-lg font-medium text-secondary">
-					<Icon className={"dark:text-primary h-12 w-12 mr-2"} />
+					<Icon className={"dark:text-mystical h-12 w-12 mr-2"} />
 				</div>
-				<div className="relative z-20 mt-auto text-foreground">
+				<div className="relative z-20 mt-auto text-creamy dark:text-mystical">
 					<blockquote className="space-y-2 italic">
 						<p className="text-lg">
 							&ldquo;jinxify has streamlined our processes with AI-driven to-dos

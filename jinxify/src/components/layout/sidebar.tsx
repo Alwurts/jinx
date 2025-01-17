@@ -9,6 +9,8 @@ import { FiEdit } from "react-icons/fi";
 import { CgLogOut } from "react-icons/cg";
 import { VscSettings } from "react-icons/vsc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
 
 type DiagramType = {
 	id: string;
@@ -228,14 +230,28 @@ export function AppSidebar({ session }: Props) {
 					</Dialog>
 				)}
 
-				<SidebarHeader className="relative p-9 rounded-tr-lg">
-					<div className="absolute inset-0 bg-[url('/images/diamond.png')] bg-cover bg-top rounded-tr-lg" />
-					<div className="absolute inset-0 bg-primary/95 rounded-tr-lg" />
-					<div className="flex items-center space-x-3 text-foreground relative z-10">
-						<Logo className="w-10 h-10 text-primary-foreground" />
-						<h1 className="text-xl font-semibold text-primary-foreground">
-							jinxify Portal
-						</h1>
+				<SidebarHeader className="relative rounded-tr-lg">
+					<div className="relative w-full h-full p-9 ">
+						<Image
+							src="/images/diamonds_3d_photo.png"
+							width={260}
+							height={120}
+							alt="Background Image"
+							className="absolute top-0 left-0 w-full h-full object-cover rounded-tr-lg opacity-90 dark:opacity-95"
+						/>
+						<div className="flex z-20 gap-4">
+							<div
+								className={cn(
+									"absolute inset-0 rounded-tr-lg bg-primary/95 dark:bg-primary/85",
+								)}
+							/>
+							<div className="flex items-center space-x-3 text-foreground relative z-10">
+								<Logo className="w-10 h-10 text-primary-foreground" />
+								<h1 className="text-xl font-semibold text-primary-foreground">
+									jinxify Portal
+								</h1>
+							</div>
+						</div>
 					</div>
 				</SidebarHeader>
 
@@ -255,8 +271,8 @@ export function AppSidebar({ session }: Props) {
 												href={item.url}
 												className={`group/item flex items-center space-x-3 px-4 py-2 cursor-pointer w-full rounded-lg ${
 													isActive(item.url)
-														? "text-royal-purple dark:text-white"
-														: "text-black dark:text-white/70 hover:bg-creamy dark:hover:text-white"
+														? "text-royal-purple dark:text-creamy"
+														: "text-mystical dark:text-creamy hover:bg-creamy dark:hover:text-primary"
 												}`}
 												onClick={() =>
 													item.title === "Search" &&
@@ -266,17 +282,19 @@ export function AppSidebar({ session }: Props) {
 												<span
 													className={`${
 														isActive(item.url)
-															? "text-royal-purple dark:text-white"
-															: "text-black dark:text-white/70 dark:group-hover/item:text-white"
+															? "text-royal-purple dark:text-primary"
+															: "text-mystical dark:text-creamy group-hover/item:text-royal-purple dark:group-hover/item:text-primary"
 													}`}
 												>
 													<item.icon className="w-5 h-5" />
 												</span>
-												<span className={`text-md ${
-													isActive(item.url)
-														? "text-royal-purple dark:text-white"
-														: "group-hover/item:text-royal-purple dark:group-hover/item:text-white dark:text-white/70"
-												}`}>
+												<span
+													className={`text-md ${
+														isActive(item.url)
+															? "text-royal-purple dark:text-primary"
+															: "group-hover/item:text-royal-purple dark:group-hover/item:text-primary"
+													}`}
+												>
 													{item.title}
 												</span>
 											</Link>
@@ -300,24 +318,26 @@ export function AppSidebar({ session }: Props) {
 												href={item.url}
 												className={`group/item flex items-center space-x-3 px-4 py-2 cursor-pointer w-full rounded-lg ${
 													isActive(item.url)
-														? "text-royal-purple dark:text-white"
-														: "text-black dark:text-white hover:bg-creamy dark:hover:text-white/80"
+														? "text-royal-purple dark:text-primary"
+														: "text-mystical dark:text-creamy  hover:bg-creamy dark:hover:text-primary"
 												}`}
 											>
 												<span
 													className={`${
 														isActive(item.url)
-															? "text-royal-purple dark:text-white"
-															: "text-black dark:text-white dark:group-hover/item:text-white/80"
+															? "text-royal-purple dark:text-primary"
+															: "text-mystical dark:text-creamy group-hover/item:text-royal-purple dark:group-hover/item:text-primary"
 													}`}
 												>
 													<item.icon className="w-5 h-5" />
 												</span>
-												<span className={`text-md ${
-													isActive(item.url)
-														? "text-royal-purple dark:text-white"
-														: "group-hover/item:text-royal-purple dark:group-hover/item:text-white dark:text-white/80"
-												}`}>
+												<span
+													className={`text-md ${
+														isActive(item.url)
+															? "text-royal-purple dark:text-primary"
+															: "group-hover/item:text-royal-purple  dark:group-hover/item:text-primary"
+													}`}
+												>
 													{item.title}
 												</span>
 											</a>
@@ -334,12 +354,12 @@ export function AppSidebar({ session }: Props) {
 				</div>
 
 				<SidebarFooter className="p-6 mb-4">
-					<SidebarGroupLabel className="text-mystical/65 text-xs px-2 py-2 font-semibold dark:text-white">
+					<SidebarGroupLabel className="text-mystical/65 text-xs px-2 py-2 font-semibold dark:text-white/40">
 						Profile
 					</SidebarGroupLabel>
 					<DropdownMenu>
 						<DropdownMenuTrigger className="w-full rounded-lg focus:outline-none">
-							<div className="flex items-center space-x-3 p-4 mb-3 rounded-md bg-white dark:bg-accent/50 border border-gray-200 shadow-md transition-shadow hover:bg-gray-50 cursor-pointer">
+							<div className="flex items-center space-x-3 p-4 mb-3 rounded-md bg-white dark:bg-accent/50 border border-border shadow-md transition-shadow hover:bg-gray-50 cursor-pointer">
 								<Avatar>
 									<AvatarImage
 										src={session?.user?.image ?? "/images/jinx.png"}
@@ -364,7 +384,7 @@ export function AppSidebar({ session }: Props) {
 							alignOffset={-70}
 							sideOffset={10}
 						>
-							<div className="flex items-center space-x-3 p-4 mb-1 rounded-md bg-[url('/images/diamond.png')] bg-cover bg-center border border-gray-50 shadow-sm hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
+							<div className="flex items-center space-x-3 p-4 mb-1 rounded-md bg-[url('/images/diamond.png')] bg-cover bg-center  shadow-sm hover:bg-purple-50 cursor-pointer transition-all duration-200 hover:shadow-md">
 								<div className="flex-1 text-center">
 									<p className="text-sm font-medium text-white">User Profile</p>
 								</div>

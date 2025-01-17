@@ -26,7 +26,7 @@ import {
 import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
-import { DashboardSkeleton } from "@/components/dashboard/dashboard-skeleton";
+import { DashboardSkeleton } from "@/components/dashboard/file-skeleton";
 import { TaskLoadingSkeleton } from "./task-skeleton";
 import type { TTask } from "@/types/db";
 import { TaskDialog } from "./task-dialog";
@@ -256,7 +256,7 @@ export default function TaskManager() {
 						{statusColumns.map((column) => (
 							<div
 								key={column.id}
-								className="flex-1 min-w-[280px] bg-background dark:bg-[hsl(255.29,38.33%,11.65%)] rounded-lg p-4"
+								className="flex-1 min-w-[280px] bg-background dark:bg-[hsl(255.29,38.33%,11.65%)] rounded-lg p-4 border border-border"
 							>
 								<div className="flex items-center justify-between mb-4">
 									<h3 className="font-semibold text-foreground">
