@@ -7,7 +7,7 @@ import dynamic from "next/dynamic";
 import { useCallback, useEffect, useRef } from "react";
 import { useDebouncedCallback } from "use-debounce";
 import { useChatContext } from "../chat/chat-provider";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { TDocument } from "@/types/db";
 
 const InitializedMDXEditor = dynamic(() => import("./initialized-mdx-editor"), {
@@ -22,7 +22,7 @@ const InitializedMDXEditor = dynamic(() => import("./initialized-mdx-editor"), {
 export default function Editor({ document }: { document: TDocument }) {
 	const editorRef = useRef<MDXEditorMethods>(null);
 	const { generateDocument } = useChatContext();
-
+	const queryClient = useQueryClient();
 	const updateDocument = useMutation({
 		mutationFn: async (values: { documentId: string; content: string }) => {
 			const res = await fetch(`/api/document/${values.documentId}`, {
@@ -31,12 +31,17 @@ export default function Editor({ document }: { document: TDocument }) {
 			});
 			return await res.json();
 		},
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ["document", document.id],
+			});
+		},
 	});
 
 	const debouncedSave = useDebouncedCallback((content: string) => {
 		console.log("Saving document", content);
 		updateDocument.mutate({ documentId: document.id, content });
-	}, 1000);
+	}, 200);
 
 	const onChange = useCallback(
 		(content: string) => {
@@ -55,9 +60,10 @@ export default function Editor({ document }: { document: TDocument }) {
 			) {
 				console.log("generateDocument.object", generateDocument.object);
 				editorRef.current?.setMarkdown(generateDocument.object.markdown);
+				debouncedSave(generateDocument.object.markdown);
 			}
 		}
-	}, [generateDocument.object]);
+	}, [generateDocument.object, debouncedSave]);
 
 	return (
 		<div className="flex-1 h-full w-full overflow-auto">

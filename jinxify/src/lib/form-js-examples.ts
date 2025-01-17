@@ -141,6 +141,12 @@ export const FORM_JS_EXAMPLE_SCHEMA = `[
       ]
     },
     {
+      "key": "date-only-field",
+      "type": "datetime",
+      "subtype": "date",
+      "dateLabel": "Date of conversation",
+    },
+    {
       "key": "conversation",
       "type": "datetime",
       "subtype": "datetime",

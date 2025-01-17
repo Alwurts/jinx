@@ -1,6 +1,13 @@
-import { uuid, pgTable, text, timestamp, jsonb } from "drizzle-orm/pg-core";
+import {
+	uuid,
+	pgTable,
+	text,
+	timestamp,
+	jsonb,
+	boolean,
+} from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { users } from ".";
+import { formSubmission, users } from ".";
 
 // for folder
 export const directory = pgTable("directory", {
@@ -45,6 +52,7 @@ export const diagram = pgTable("diagram", {
 	userId: text("userId")
 		.references(() => users.id, { onDelete: "cascade" })
 		.notNull(), //maps user id from users table to userId
+	isFavorite: boolean("isFavorite").notNull().default(false),
 	createdAt: timestamp("createdAt").defaultNow().notNull(),
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
@@ -72,11 +80,12 @@ export const form = pgTable("form", {
 	userId: text("userId")
 		.references(() => users.id, { onDelete: "cascade" })
 		.notNull(), //maps user id from users table to userId
+	isFavorite: boolean("isFavorite").notNull().default(false),
 	createdAt: timestamp("createdAt").defaultNow().notNull(),
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
-export const formRelations = relations(form, ({ one }) => ({
+export const formRelations = relations(form, ({ one, many }) => ({
 	user: one(users, {
 		fields: [form.userId],
 		references: [users.id],
@@ -85,6 +94,7 @@ export const formRelations = relations(form, ({ one }) => ({
 		fields: [form.directoryId],
 		references: [directory.id],
 	}),
+	submissions: many(formSubmission),
 }));
 
 // for Documents
@@ -99,6 +109,7 @@ export const document = pgTable("document", {
 	userId: text("userId")
 		.references(() => users.id, { onDelete: "cascade" })
 		.notNull(), //maps user id from users table to userId
+	isFavorite: boolean("isFavorite").notNull().default(false),
 	createdAt: timestamp("createdAt").defaultNow().notNull(),
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });

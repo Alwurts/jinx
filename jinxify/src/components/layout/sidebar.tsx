@@ -73,7 +73,7 @@ const applicationItems = [
 	},
 	{
 		title: "Favorites",
-		url: "#",
+		url: "/dashboard/favorites",
 		icon: Heart,
 	},
 	{
