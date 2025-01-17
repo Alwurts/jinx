@@ -34,11 +34,7 @@ export function SharePopover({ url }: SharePopoverProps) {
 				<div className="space-y-4">
 					<h4 className="font-medium leading-none">Share form</h4>
 					<div className="flex space-x-2">
-						<Input
-							value={url}
-							readOnly
-							className="h-9"
-						/>
+						<Input value={url} readOnly className="h-9" />
 						<Button
 							size="sm"
 							variant="outline"
@@ -52,4 +48,4 @@ export function SharePopover({ url }: SharePopoverProps) {
 			</PopoverContent>
 		</Popover>
 	);
-} 
+}
