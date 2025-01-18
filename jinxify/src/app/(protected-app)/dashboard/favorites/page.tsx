@@ -3,7 +3,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { HomeIcon } from "lucide-react";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
-import FileCard from "@/components/dashboard/card/file-card";
+import FileCard from "@/components/dashboard/files-view/file-card";
 
 export default function Favorites() {
 	const { data, isLoading, isError } = useQuery({
