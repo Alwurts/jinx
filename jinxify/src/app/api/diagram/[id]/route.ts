@@ -46,7 +46,7 @@ export async function PATCH(
 
 		const [diagramResponse] = await db
 			.update(diagram)
-			.set({ content: validated.content, updatedAt : new Date() })
+			.set({ content: validated.content, updatedAt: new Date() })
 			.where(and(eq(diagram.id, id), eq(diagram.userId, session.user.id)))
 			.returning();
 
