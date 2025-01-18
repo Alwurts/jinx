@@ -1,17 +1,29 @@
 import { z } from "zod";
 import type { InferQueryModel } from "./infer-database";
 
-export type TUser = InferSelectModel<typeof users>;
-export type TDiagram = InferSelectModel<typeof diagram>;
-export type TForm = InferSelectModel<typeof form>;
-export type TFormSubmission = InferSelectModel<typeof formSubmission>;
-export type TDocument = InferSelectModel<typeof document>;
+export type TDocument = InferQueryModel<"document">;
+export type TDiagram = InferQueryModel<"diagram">;
+export type TForm = InferQueryModel<"form">;
+export type TFormSubmission = InferQueryModel<"formSubmission">;
+export type TDirectory = InferQueryModel<
+	"directory",
+	undefined,
+	{
+		parent: true;
+		directories: true;
+		diagrams: true;
+		forms: true;
+		documents: true;
+	}
+>;
 
 export type TTask = InferQueryModel<
 	"task",
 	undefined,
 	{
 		diagram: true;
+		document: true;
+		form: true;
 	}
 >;
 
