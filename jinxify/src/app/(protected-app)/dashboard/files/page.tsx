@@ -15,8 +15,7 @@ import {
 
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/file-skeleton";
-import { DirectoryTable } from "@/components/dashboard/directory-table";
-import { DiagramTable } from "@/components/dashboard/files-table";
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -26,19 +25,40 @@ import {
 } from "@/components/ui/dropdown-menu";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
 import { MdMyLocation } from "react-icons/md";
-import { IoIosArrowForward } from "react-icons/io";
+import { LuLayoutGrid } from "react-icons/lu";
+import {
+	Breadcrumb,
+	BreadcrumbItem,
+	BreadcrumbLink,
+	BreadcrumbList,
+	BreadcrumbPage,
+	BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@/components/ui/select";
+import { useMemo, useState } from "react";
+import { FilesLayout } from "@/components/dashboard/files-layout";
 
 export default function Dashboard() {
+	const [viewType, setViewType] = useState<"grid" | "list">("grid");
+	const [selectItem, setSelectItem] = useState<
+		"directory" | "diagram" | "form" | "document" | null
+	>(null);
 	const queryClient = useQueryClient();
 	const searchParams = useSearchParams();
-	const directoryId = searchParams.get("directoryId") ?? "root";
+	const directoryUrlId = searchParams.get("directoryId") ?? "root";
 	const { data: session, status } = useSession();
 	const router = useRouter();
 
-	const { data: currentDirectory, isLoading } = useQuery({
-		queryKey: ["directory", directoryId],
+	const { data: currentDirectoryData, isLoading } = useQuery({
+		queryKey: ["directory", directoryUrlId],
 		queryFn: async () => {
-			const response = await fetch(`/api/workspace/${directoryId}`);
+			const response = await fetch(`/api/workspace/${directoryUrlId}`);
 			if (!response.ok) {
 				throw new Error("Failed to fetch directory");
 			}
@@ -46,6 +66,34 @@ export default function Dashboard() {
 			return data;
 		},
 	});
+
+	const filteredFiles = useMemo(() => {
+		if (!currentDirectoryData) {
+			return;
+		}
+		let fileItems = [
+			...currentDirectoryData.directories,
+			...currentDirectoryData.documents,
+			...currentDirectoryData.diagrams,
+			...currentDirectoryData.forms,
+		];
+
+		console.log("select", selectItem);
+
+		if (selectItem) {
+			fileItems = fileItems.filter((item) => {
+				return item.type === selectItem;
+			});
+		}
+
+		if (directoryUrlId === "root") {
+			fileItems = fileItems.filter((item) => {
+				return item.type === "directory";
+			});
+		}
+
+		return fileItems;
+	}, [currentDirectoryData, selectItem, directoryUrlId]);
 
 	const createWorkspaceItem = useMutation({
 		mutationFn: async ({
@@ -63,7 +111,7 @@ export default function Dashboard() {
 				body: JSON.stringify({
 					type,
 					title,
-					directoryId: currentDirectory?.id,
+					directoryId: currentDirectoryData?.id,
 				}),
 			});
 
@@ -75,7 +123,9 @@ export default function Dashboard() {
 		},
 		onSuccess: () => {
 			// Invalidate and refetch the current directory data
-			queryClient.invalidateQueries({ queryKey: ["directory", directoryId] });
+			queryClient.invalidateQueries({
+				queryKey: ["directory", directoryUrlId],
+			});
 		},
 	});
 
@@ -84,14 +134,22 @@ export default function Dashboard() {
 	) => {
 		createWorkspaceItem.mutate({
 			type,
-			title: `New ${type === "directory" ? "Folder" : type === "diagram" ? "Diagram" : type === "form" ? "Form" : "Document"}`,
+			title: `New ${
+				type === "directory"
+					? "Folder"
+					: type === "diagram"
+						? "Diagram"
+						: type === "form"
+							? "Form"
+							: "Document"
+			}`,
 		});
 	};
 
 	const handleGoBack = () => {
-		if (currentDirectory?.parent?.directoryId) {
+		if (currentDirectoryData?.parent?.directoryId) {
 			const newParams = new URLSearchParams();
-			newParams.set("directoryId", currentDirectory.parent.id);
+			newParams.set("directoryId", currentDirectoryData.parent.id);
 			router.push(`/dashboard/files?${newParams.toString()}`);
 		} else {
 			router.push("/dashboard/files");
@@ -109,7 +167,7 @@ export default function Dashboard() {
 				icon={<FilesIcon className="size-8 text-primary-foreground z-20" />}
 				leftToolbar={
 					<>
-						{directoryId !== "root" && (
+						{directoryUrlId !== "root" && (
 							<Button
 								variant="secondary"
 								size="icon"
@@ -142,7 +200,7 @@ export default function Dashboard() {
 								<FaFolder className="w-4 h-4 mr-2" />
 								New Folder
 							</DropdownMenuItem>
-							{directoryId !== "root" && (
+							{directoryUrlId !== "root" && (
 								<>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem
@@ -153,7 +211,7 @@ export default function Dashboard() {
 									</DropdownMenuItem>
 								</>
 							)}
-							{directoryId !== "root" && (
+							{directoryUrlId !== "root" && (
 								<>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem onClick={() => handleCreateFolder("form")}>
@@ -162,7 +220,7 @@ export default function Dashboard() {
 									</DropdownMenuItem>
 								</>
 							)}
-							{directoryId !== "root" && (
+							{directoryUrlId !== "root" && (
 								<>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem
@@ -178,19 +236,75 @@ export default function Dashboard() {
 				}
 			/>
 
-			<div className="flex items-center gap-4 py-4 px-4 pb-8">
-				<div className="flex items-center space-x-1 text-muted-foreground">
-					<IoIosArrowForward className="w-4 h-4" />
-					<h1 className="text-sm">
-						{currentDirectory?.title || "My Workspace"}
-					</h1>
+			<div className="flex items-center gap-4 py-4 pb-8">
+				<div className="flex items-center space-x-1 justify-between text-muted-foreground p-2 border-b border-border w-full">
+					<Breadcrumb>
+						<BreadcrumbList>
+							<BreadcrumbItem>
+								<BreadcrumbLink href="/dashboard/files">Home</BreadcrumbLink>
+							</BreadcrumbItem>
+							{currentDirectoryData &&
+								currentDirectoryData.title !== "Home" && (
+									<>
+										<BreadcrumbSeparator />
+										<BreadcrumbItem>
+											<BreadcrumbPage>
+												{currentDirectoryData?.title || "My Workspace"}
+											</BreadcrumbPage>
+										</BreadcrumbItem>
+									</>
+								)}
+						</BreadcrumbList>
+					</Breadcrumb>
+					<div className="flex items-center space-x-2">
+						{currentDirectoryData && currentDirectoryData.title !== "Home" && (
+							<Select
+								value={selectItem ?? undefined}
+								onValueChange={(value) => {
+									console.log("value", value);
+									if (value === "remove") {
+										setSelectItem(null);
+										return;
+									}
+									// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+									setSelectItem(value as any);
+								}}
+							>
+								<SelectTrigger className="w-[180px]">
+									<SelectValue placeholder="Filter Item" />
+								</SelectTrigger>
+								<SelectContent>
+									<SelectItem value="remove">Remove filter</SelectItem>
+									<SelectItem value="directory">Folders</SelectItem>
+									<SelectItem value="diagram">Diagram</SelectItem>
+									<SelectItem value="form">Form</SelectItem>
+									<SelectItem value="document">Document</SelectItem>
+								</SelectContent>
+							</Select>
+						)}
+
+						<DropdownMenu>
+							<DropdownMenuTrigger>
+								<div className="p-2 border border-border rounded-lg">
+									{" "}
+									<LuLayoutGrid />
+								</div>
+							</DropdownMenuTrigger>
+							<DropdownMenuContent className="mr-6">
+								<DropdownMenuSeparator />
+								<DropdownMenuItem onClick={() => setViewType("grid")}>
+									Symbol View
+								</DropdownMenuItem>
+								<DropdownMenuItem onClick={() => setViewType("list")}>
+									List View
+								</DropdownMenuItem>
+							</DropdownMenuContent>
+						</DropdownMenu>
+					</div>
 				</div>
 			</div>
 
-			{currentDirectory?.directories.length === 0 &&
-			currentDirectory?.diagrams.length === 0 &&
-			currentDirectory?.forms.length === 0 &&
-			currentDirectory?.documents.length === 0 ? (
+			{filteredFiles?.length === 0 ? (
 				<div className="text-center text-gray-500 py-8">
 					<p className="mb-4">
 						No folders or files yet. Create one to get started!
@@ -201,12 +315,14 @@ export default function Dashboard() {
 					</Button>
 				</div>
 			) : (
-				currentDirectory && (
+				filteredFiles && (
 					<div className="space-y-8 px-4">
-						<DirectoryTable currentDirectory={currentDirectory} />
-						{directoryId !== "root" && (
-							<DiagramTable currentDirectory={currentDirectory} />
-						)}
+						<FilesLayout
+							currentDirectoryData={filteredFiles}
+							viewType={viewType}
+							selectItem={selectItem}
+							directoryUrlId={directoryUrlId}
+						/>
 					</div>
 				)
 			)}

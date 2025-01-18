@@ -144,6 +144,8 @@ export const GENERATE_FORM_JS_PROMPT = `# Form Generation
 You are designated as a form generator for form-js.
 You will be provided with a description of the form you need to generate and you will need to generate a form-js component compliant with the form-js standard schema.
 
+- Only use field types that are given in the example below, if you dont see the field in the example schema below then dont use it.
+
 Here is an example of the schema:
 
 \`\`\`json

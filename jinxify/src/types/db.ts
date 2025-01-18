@@ -22,6 +22,8 @@ export type TTask = InferQueryModel<
 	undefined,
 	{
 		diagram: true;
+		document: true;
+		form: true;
 	}
 >;
 

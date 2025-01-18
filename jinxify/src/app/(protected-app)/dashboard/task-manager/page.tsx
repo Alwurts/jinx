@@ -101,12 +101,14 @@ export default function TaskManager() {
 			newStatus,
 		}: { taskId: string; newStatus: StatusType }) => {
 			const response = await fetch(`/api/task/${taskId}`, {
-				method: "PATCH",
+				method: "PUT",
 				headers: {
 					"Content-Type": "application/json",
 				},
 				body: JSON.stringify({
 					status: newStatus,
+					title: tasks?.find((t) => t.id === taskId)?.title || "",
+					description: tasks?.find((t) => t.id === taskId)?.description || "",
 				}),
 			});
 
