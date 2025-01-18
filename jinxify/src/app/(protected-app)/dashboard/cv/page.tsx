@@ -10,44 +10,50 @@ import { Loader2 } from "lucide-react";
 import { MarkdownContent } from "@/components/ui/markdown-content";
 
 interface ContentItem {
-  type: "text";
-  text: {
-    value: string;
-    annotations: {
-      type: "file_citation";
-      text: string;
-      start_index: number;
-      end_index: number;
-      file_citation: {
-        file_id: string;
-      };
-    }[];
-  };
+	type: "text";
+	text: {
+		value: string;
+		annotations: {
+			type: "file_citation";
+			text: string;
+			start_index: number;
+			end_index: number;
+			file_citation: {
+				file_id: string;
+			};
+		}[];
+	};
 }
 
 interface ResponseData {
-  role: "assistant";
-  content: ContentItem[];
+	role: "assistant";
+	content: ContentItem[];
 }
 
+import React, { type FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+
+function page() {
+	const [isLoading, setIsLoading] = useState(false);
+	const [result, setResult] = useState<ResponseData | null>(null);
 function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ResponseData | null>(null);
 
-  async function submitHandler(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
+	async function submitHandler(e: FormEvent<HTMLFormElement>) {
+		e.preventDefault();
+		const formData = new FormData(e.currentTarget);
 
-    try {
-      setIsLoading(true);
-      const response = await fetch("/api/cv", {
-        method: "POST",
-        body: formData,
-      });
+		try {
+			setIsLoading(true);
+			const response = await fetch("/api/cv", {
+				method: "POST",
+				body: formData,
+			});
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
+			if (!response.ok) {
+				throw new Error(`HTTP error! status: ${response.status}`);
+			}
 
       const result: ResponseData = await response.json();
       setResult(result);
