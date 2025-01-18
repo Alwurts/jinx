@@ -17,3 +17,5 @@ npm i
 ```
 npm run db:generate
 ```
+
+Hi
