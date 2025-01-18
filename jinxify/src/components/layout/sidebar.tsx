@@ -7,6 +7,7 @@ import { VscAccount } from "react-icons/vsc";
 import { GrTask } from "react-icons/gr";
 import { FiEdit } from "react-icons/fi";
 import { CgLogOut } from "react-icons/cg";
+import { PiMagicWand } from "react-icons/pi";
 import { VscSettings } from "react-icons/vsc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
@@ -70,6 +71,11 @@ const applicationItems = [
 		title: "Task Manager",
 		url: "/dashboard/task-manager",
 		icon: GrTask,
+	},
+	{
+		title: "CV Analyser",
+		url: "/dashboard/cv",
+		icon: PiMagicWand,
 	},
 	{
 		title: "Favorites",
