@@ -18,9 +18,7 @@ export default function Favorites() {
 	});
 
 	if (isLoading) {
-		return (
-			<FavoriteLoadingSkeleton/>
-		);
+		return <FavoriteLoadingSkeleton />;
 	}
 
 	if (isError) {
