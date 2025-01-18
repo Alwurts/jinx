@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { HomeIcon } from "lucide-react";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
 import FileCard from "@/components/dashboard/files-view/file-card";
+import { FavoriteLoadingSkeleton } from "./favorite-skeleton";
 
 export default function Favorites() {
 	const { data, isLoading, isError } = useQuery({
@@ -18,7 +19,7 @@ export default function Favorites() {
 
 	if (isLoading) {
 		return (
-			<div className="flex justify-center items-center h-full">Loading...</div>
+			<FavoriteLoadingSkeleton/>
 		);
 	}
 
