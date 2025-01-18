@@ -12,13 +12,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { TDocument } from "@/types/db";
 import { QuerySpinner } from "@/components/query/query-spinner";
 import { jsPDF } from "jspdf";
-import { DownloadIcon } from "lucide-react";
+import { DownloadIcon, MessageSquare, Settings2 } from "lucide-react";
 import { serialize } from "next-mdx-remote/serialize";
 import removeMd from "remove-markdown";
 import { Download } from "lucide-react";
 import { HiPencil } from "react-icons/hi2";
 import { FaCheck } from "react-icons/fa6";
 import { Input } from "@/components/ui/input";
+import { PropertiesPanel } from "@/components/properties/properties-panel";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 
 const Editor = dynamic(() => import("@/components/document/editor"), {
 	ssr: false,
@@ -31,6 +33,7 @@ export default function Document({ params }: { params: { id: string } }) {
 	const { jinxChat } = useChatContext();
 	const [isEditing, setIsEditing] = useState(false);
 	const [title, setTitle] = useState("");
+	const [sidebarView, setSidebarView] = useState<"chat" | "properties">("chat");
 
 	const { isLoading, data } = useQuery<TDocument>({
 		queryKey: ["document", params.id],
@@ -166,6 +169,20 @@ export default function Document({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="flex items-center gap-2">
+					<ToggleGroup
+						type="single"
+						value={sidebarView}
+						onValueChange={(value) =>
+							setSidebarView(value as "chat" | "properties")
+						}
+					>
+						<ToggleGroupItem value="chat">
+							<MessageSquare className="h-4 w-4" />
+						</ToggleGroupItem>
+						<ToggleGroupItem value="properties">
+							<Settings2 className="h-4 w-4" />
+						</ToggleGroupItem>
+					</ToggleGroup>
 					<QuerySpinner />
 				</div>
 			</div>
@@ -176,14 +193,24 @@ export default function Document({ params }: { params: { id: string } }) {
 					</div>
 				)}
 				{data && <Editor document={data} />}
-				<ChatSidebar
-					messages={jinxChat.messages}
-					input={jinxChat.input}
-					setInput={jinxChat.setInput}
-					handleSubmit={jinxChat.handleSubmit}
-					isLoading={jinxChat.isLoading}
-					stop={jinxChat.stop}
-				/>
+				{sidebarView === "chat" ? (
+					<ChatSidebar
+						messages={jinxChat.messages}
+						input={jinxChat.input}
+						setInput={jinxChat.setInput}
+						handleSubmit={jinxChat.handleSubmit}
+						isLoading={jinxChat.isLoading}
+						stop={jinxChat.stop}
+					/>
+				) : (
+					<PropertiesPanel
+						fileId={params.id}
+						fileType="document"
+						title={data?.title || ""}
+						createdAt={data?.createdAt || new Date()}
+						updatedAt={data?.updatedAt || new Date()}
+					/>
+				)}
 			</div>
 		</div>
 	);

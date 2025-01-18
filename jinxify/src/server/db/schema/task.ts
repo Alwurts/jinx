@@ -1,6 +1,6 @@
 import { uuid, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { diagram, users } from ".";
+import { diagram, users, document, form } from ".";
 
 // for Tasks
 export const task = pgTable("task", {
@@ -12,10 +12,15 @@ export const task = pgTable("task", {
 	})
 		.notNull()
 		.default("TODO"),
-	createdFromDiagramId: uuid("createdFromDiagramId").references(
-		() => diagram.id,
-		{ onDelete: "set null" },
-	),
+	linkedDiagramId: uuid("linkedDiagramId").references(() => diagram.id, {
+		onDelete: "set null",
+	}),
+	linkedDocumentId: uuid("linkedDocumentId").references(() => document.id, {
+		onDelete: "set null",
+	}),
+	linkedFormId: uuid("linkedFormId").references(() => form.id, {
+		onDelete: "set null",
+	}),
 	userId: text("userId")
 		.references(() => users.id, { onDelete: "cascade" })
 		.notNull(),
@@ -29,7 +34,15 @@ export const taskRelations = relations(task, ({ one }) => ({
 		references: [users.id],
 	}),
 	diagram: one(diagram, {
-		fields: [task.createdFromDiagramId],
+		fields: [task.linkedDiagramId],
 		references: [diagram.id],
+	}),
+	document: one(document, {
+		fields: [task.linkedDocumentId],
+		references: [document.id],
+	}),
+	form: one(form, {
+		fields: [task.linkedFormId],
+		references: [form.id],
 	}),
 }));

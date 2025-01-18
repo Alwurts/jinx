@@ -2,62 +2,67 @@ import { auth } from "@/auth";
 import db from "@/server/db";
 import { task } from "@/server/db/schema";
 import { eq } from "drizzle-orm";
-import { type NextRequest, NextResponse } from "next/server";
-import { z } from "zod";
 
-const createTaskSchema = z.object({
-	title: z.string().min(1),
-	description: z.string(),
-	status: z.enum(["TODO", "IN_PROGRESS", "IN_REVIEW", "DONE"]).default("TODO"),
-	createdFromDiagramId: z.string().optional(),
-});
-
-// GET all tasks for the authenticated user
 export async function GET() {
-	const session = await auth();
-
-	const userId = session?.user?.id;
-
-	if (!userId) {
-		return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
-	}
-
-	const tasks = await db.query.task.findMany({
-		where: eq(task.userId, userId),
-		with: {
-			diagram: true,
-		},
-	});
-
-	return NextResponse.json(tasks);
-}
-
-// CREATE a new task
-export async function POST(request: NextRequest) {
 	try {
 		const session = await auth();
-
 		if (!session?.user?.id) {
-			return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+			return new Response("Unauthorized", { status: 401 });
 		}
 
-		const json = await request.json();
-		const validated = createTaskSchema.parse(json);
+		const tasks = await db.query.task.findMany({
+			where: eq(task.userId, session.user.id),
+			with: {
+				diagram: true,
+				document: true,
+				form: true,
+			},
+		});
+
+		return new Response(JSON.stringify(tasks), {
+			headers: { "content-type": "application/json" },
+		});
+	} catch (error) {
+		console.error("Error fetching tasks:", error);
+		return new Response("Internal Server Error", { status: 500 });
+	}
+}
+
+export async function POST(request: Request) {
+	try {
+		const session = await auth();
+		if (!session?.user?.id) {
+			return new Response("Unauthorized", { status: 401 });
+		}
+
+		const body = await request.json();
+		const {
+			title,
+			description,
+			status,
+			linkedDiagramId,
+			linkedDocumentId,
+			linkedFormId,
+		} = body;
 
 		const newTask = await db
 			.insert(task)
 			.values({
-				...validated,
+				title,
+				description,
+				status,
 				userId: session.user.id,
+				linkedDiagramId: linkedDiagramId || null,
+				linkedDocumentId: linkedDocumentId || null,
+				linkedFormId: linkedFormId || null,
 			})
 			.returning();
 
-		return NextResponse.json(newTask[0]);
+		return new Response(JSON.stringify(newTask[0]), {
+			headers: { "content-type": "application/json" },
+		});
 	} catch (error) {
 		console.error("Error creating task:", error);
-		return NextResponse.json(
-			{ message: "Error creating task" },
-			{ status: 500 },
-		);
+		return new Response("Internal Server Error", { status: 500 });
 	}
 }

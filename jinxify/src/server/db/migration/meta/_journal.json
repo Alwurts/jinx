@@ -57,6 +57,13 @@
 			"when": 1737126552032,
 			"tag": "0007_melodic_purple_man",
 			"breakpoints": true
+		},
+		{
+			"idx": 8,
+			"version": "7",
+			"when": 1737192323295,
+			"tag": "0008_deep_wilson_fisk",
+			"breakpoints": true
 		}
 	]
 }
