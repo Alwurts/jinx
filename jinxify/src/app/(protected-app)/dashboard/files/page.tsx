@@ -236,8 +236,8 @@ export default function Dashboard() {
 				}
 			/>
 
-			<div className="flex items-center gap-4 py-4 pb-8">
-				<div className="flex items-center space-x-1 justify-between text-muted-foreground p-2 border-b border-border w-full">
+			<div className="flex items-center gap-4 pb-8">
+				<div className="flex items-center space-x-1 justify-between text-muted-foreground px-4 py-2 border-b border-border w-full">
 					<Breadcrumb>
 						<BreadcrumbList>
 							<BreadcrumbItem>
@@ -270,7 +270,7 @@ export default function Dashboard() {
 									setSelectItem(value as any);
 								}}
 							>
-								<SelectTrigger className="w-[180px]">
+								<SelectTrigger className="w-[180px] border-border">
 									<SelectValue placeholder="Filter Item" />
 								</SelectTrigger>
 								<SelectContent>

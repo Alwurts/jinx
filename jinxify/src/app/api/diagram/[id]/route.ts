@@ -26,7 +26,8 @@ export async function GET(
 }
 
 const updateDiagramContentSchema = z.object({
-	content: z.string().min(1),
+	title: z.string().optional(),
+	content: z.string().min(1).optional(),
 });
 
 export async function PATCH(
@@ -46,7 +47,7 @@ export async function PATCH(
 
 		const [diagramResponse] = await db
 			.update(diagram)
-			.set({ content: validated.content })
+			.set({ content: validated.content, title: validated.title })
 			.where(and(eq(diagram.id, id), eq(diagram.userId, session.user.id)))
 			.returning();
 
