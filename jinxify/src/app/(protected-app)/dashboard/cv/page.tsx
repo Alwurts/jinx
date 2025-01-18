@@ -1,5 +1,14 @@
 "use client";
 
+import React, { FormEvent, useState } from "react";
+import { toast } from "react-toastify";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader2 } from "lucide-react";
+import { MarkdownContent } from "@/components/ui/markdown-content";
+
 interface ContentItem {
   type: "text";
   text: {
@@ -21,10 +30,7 @@ interface ResponseData {
   content: ContentItem[];
 }
 
-import React, { FormEvent, useState } from "react";
-import { toast } from "react-toastify";
-
-function page() {
+function Page() {
   const [isLoading, setIsLoading] = useState(false);
   const [result, setResult] = useState<ResponseData | null>(null);
 
@@ -53,34 +59,57 @@ function page() {
     }
   }
 
+  console.log("result", result)
+
   return (
-    <div className="container w-full flex flex-col justify-center align-center ">
-      <form onSubmit={submitHandler} className="flex flex-col justify-center">
-        <label htmlFor="">CV</label>
-        <input type="file" name="pdf-file" className="border-2 border-black" />
-        <input
-          type="text"
-          name="job-description"
-          className="border-2 border-black"
-        />
-        <button type="submit" className="border-2 border-black">
-          Submit
-        </button>
-      </form>
+    <div className="container mx-auto max-w-2xl py-10">
+      <Card>
+        <CardHeader>
+          <CardTitle>CV Analysis</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={submitHandler} className="space-y-4">
+            <div className="space-y-2">
+              <Label htmlFor="cv-file">Upload CV</Label>
+              <Input id="cv-file" type="file" name="pdf-file" />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="job-description">Job Description</Label>
+              <Input
+                id="job-description"
+                type="text"
+                name="job-description"
+                placeholder="Enter job description"
+              />
+            </div>
+            <Button type="submit" disabled={isLoading}>
+              {isLoading ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Analyzing...
+                </>
+              ) : (
+                "Submit"
+              )}
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
 
       {result && (
-        <div>
-          {/* Display the result here */}
-          {result.content.map((item, index) => (
-            <div key={index}>
-              {item.text.value}
-              {/* Optionally display annotations here */}
-            </div>
-          ))}
-        </div>
+        <Card className="mt-6">
+          <CardHeader>
+            <CardTitle>Analysis Result</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {result.content.map((item, index) => (
+              <MarkdownContent content={item.text.value} key="render-markdown" id="test" />
+            ))}
+          </CardContent>
+        </Card>
       )}
     </div>
   );
 }
 
-export default page;
+export default Page;
