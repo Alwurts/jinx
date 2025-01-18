@@ -49,6 +49,7 @@ export async function PATCH(
 			.set({
 				schema: validated.schema,
 				...(validated.title && { title: validated.title }),
+				updatedAt : new Date()
 			})
 			.where(and(eq(form.id, id), eq(form.userId, session.user.id)))
 			.returning();

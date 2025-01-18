@@ -23,6 +23,8 @@ import { useState } from "react";
 import { DeleteDialog } from "../delete-dialog";
 import { MdFavorite, MdFavoriteBorder } from "react-icons/md";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { CiEdit } from "react-icons/ci";
+import { RiDeleteBin5Line } from "react-icons/ri";
 
 type Props = {
 	item: TDiagram | TDirectory | TForm | TDocument;
@@ -121,9 +123,10 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setOpenRenameDialog(item);
 											}}
-											className="text-foreground hover:bg-accent/50"
+											className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 hover:shadow-md cursor-pointer"
 										>
-											Edit
+											<CiEdit className="w-4 h-4 text-black" />
+											<span>Edit</span>
 										</DropdownMenuItem>
 
 										<DropdownMenuItem
@@ -131,10 +134,12 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setDeleteDialog(item);
 											}}
-											className="text-foreground hover:bg-accent/50"
+											className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 hover:shadow-md cursor-pointer"
 										>
-											Delete
+											<RiDeleteBin5Line className="w-4 h-4 text-black" />
+											<span>Delete</span>
 										</DropdownMenuItem>
+
 										{item && item.type !== "directory" && (
 											<DropdownMenuItem
 												onClick={(e) => {
@@ -145,13 +150,14 @@ export default function FileCard({ item }: Props) {
 														isFavorite: !item.isFavorite,
 													});
 												}}
+												className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-accent/50 transition-all duration-200 hover:bg-gray-50 hover:shadow-md cursor-pointer"
 											>
 												{item.isFavorite ? (
-													<MdFavorite className="mr-2 text-purple-500" />
+													<MdFavorite className="w-4 h-4 text-gray-800" />
 												) : (
-													<MdFavoriteBorder className="mr-2 text-gray-500" />
+													<MdFavoriteBorder className="w-4 h-4 text-gray-500" />
 												)}
-												Favorite
+												<span>Favorite</span>
 											</DropdownMenuItem>
 										)}
 									</DropdownMenuContent>
