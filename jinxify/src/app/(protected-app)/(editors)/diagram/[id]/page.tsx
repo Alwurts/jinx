@@ -6,12 +6,17 @@ import Editor from "@/components/diagram/editor";
 import { QuerySpinner } from "@/components/query/query-spinner";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { TDiagram } from "@/types/db";
 import { useQuery } from "@tanstack/react-query";
+import { MessageSquare, Settings2 } from "lucide-react";
 import Link from "next/link";
+import { useState } from "react";
+import { PropertiesPanel } from "@/components/properties/properties-panel";
 
 export default function page({ params }: { params: { id: string } }) {
 	const { jinxChat } = useChatContext();
+	const [sidebarView, setSidebarView] = useState<"chat" | "properties">("chat");
 
 	const { isLoading, data } = useQuery<TDiagram>({
 		queryKey: ["diagram", params.id],
@@ -38,6 +43,20 @@ export default function page({ params }: { params: { id: string } }) {
 				</div>
 
 				<div className="flex items-center gap-2">
+					<ToggleGroup
+						type="single"
+						value={sidebarView}
+						onValueChange={(value) =>
+							setSidebarView(value as "chat" | "properties")
+						}
+					>
+						<ToggleGroupItem value="chat">
+							<MessageSquare className="h-4 w-4" />
+						</ToggleGroupItem>
+						<ToggleGroupItem value="properties">
+							<Settings2 className="h-4 w-4" />
+						</ToggleGroupItem>
+					</ToggleGroup>
 					<QuerySpinner />
 				</div>
 			</div>
@@ -48,14 +67,24 @@ export default function page({ params }: { params: { id: string } }) {
 					</div>
 				)}
 				{data && <Editor diagram={data} />}
-				<ChatSidebar
-					messages={jinxChat.messages}
-					input={jinxChat.input}
-					setInput={jinxChat.setInput}
-					handleSubmit={jinxChat.handleSubmit}
-					isLoading={jinxChat.isLoading}
-					stop={jinxChat.stop}
-				/>
+				{sidebarView === "chat" ? (
+					<ChatSidebar
+						messages={jinxChat.messages}
+						input={jinxChat.input}
+						setInput={jinxChat.setInput}
+						handleSubmit={jinxChat.handleSubmit}
+						isLoading={jinxChat.isLoading}
+						stop={jinxChat.stop}
+					/>
+				) : (
+					<PropertiesPanel
+						fileId={params.id}
+						fileType="diagram"
+						title={data?.title || ""}
+						createdAt={data?.createdAt || new Date()}
+						updatedAt={data?.updatedAt || new Date()}
+					/>
+				)}
 			</div>
 		</div>
 	);

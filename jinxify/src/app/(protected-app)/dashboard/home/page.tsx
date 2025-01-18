@@ -3,7 +3,7 @@
 import { HomeIcon } from "lucide-react";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
 import { StatsCards } from "@/components/dashboard/metrics/stats-cards";
-import { RecentFiles} from "@/components/dashboard/metrics/recent-files";
+import { RecentFiles } from "@/components/dashboard/metrics/recent-files";
 import { TaskStatusChart } from "@/components/dashboard/metrics/task-status-chart";
 import { DiagramsChart } from "@/components/dashboard/metrics/diagrams-chart";
 

@@ -1,16 +1,24 @@
 "use client";
 
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogContent,
+	DialogDescription,
+	DialogFooter,
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
 	Select,
 	SelectContent,
@@ -18,53 +26,77 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { Trash, Link as LucideLink, ExternalLink } from "lucide-react";
-import type { TTask } from "@/types/db";
+import { Textarea } from "@/components/ui/textarea";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { useState } from "react";
-import { DiagramSelectionDialog } from "./diagram-selection-dialog";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import { ResourceSelectionDialog } from "./resource-selection-dialog";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Trash, ExternalLink } from "lucide-react";
 import Link from "next/link";
+import type { TTask } from "@/types/db";
 
-const STATUS_OPTIONS = [
-	{ value: "TODO", label: "To Do" },
-	{ value: "IN_PROGRESS", label: "In Progress" },
-	{ value: "IN_REVIEW", label: "In Review" },
-	{ value: "DONE", label: "Done" },
-] as const;
+const formSchema = z.object({
+	title: z.string().min(1, {
+		message: "Title is required.",
+	}),
+	description: z.string().min(1, {
+		message: "Description is required.",
+	}),
+	status: z.enum(["TODO", "IN_PROGRESS", "IN_REVIEW", "DONE"]),
+});
 
-interface TaskDialogContentProps {
-	taskId: string;
+interface TaskDialogProps {
+	taskId: string | null;
 	onClose: () => void;
 }
 
-export function TaskDialogContent({ taskId, onClose }: TaskDialogContentProps) {
+export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
+	const [resourceType, setResourceType] = useState<
+		"diagram" | "document" | "form" | null
+	>(null);
+	const { toast } = useToast();
+	const router = useRouter();
 	const queryClient = useQueryClient();
-	const [editingTitle, setEditingTitle] = useState(false);
-	const [editingDescription, setEditingDescription] = useState(false);
-	const [tempTitle, setTempTitle] = useState("");
-	const [tempDescription, setTempDescription] = useState("");
-	const [showDiagramDialog, setShowDiagramDialog] = useState(false);
 
 	const { data: task, isLoading } = useQuery<TTask>({
 		queryKey: ["task", taskId],
 		queryFn: async () => {
+			if (!taskId) return null;
 			const response = await fetch(`/api/task/${taskId}`);
 			if (!response.ok) {
 				throw new Error("Failed to fetch task");
 			}
 			return response.json();
 		},
+		enabled: !!taskId,
+	});
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
+		values: {
+			title: task?.title || "",
+			description: task?.description || "",
+			status: task?.status || "TODO",
+		},
 	});
 
 	const updateTask = useMutation({
-		mutationFn: async (updates: {
-			title?: string;
-			description?: string;
-			status?: string;
-		}) => {
+		mutationFn: async (
+			values: z.infer<typeof formSchema> & {
+				linkedDiagramId?: string;
+				linkedDocumentId?: string;
+				linkedFormId?: string;
+			},
+		) => {
+			if (!taskId) return;
 			const response = await fetch(`/api/task/${taskId}`, {
-				method: "PATCH",
+				method: "PUT",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(updates),
+				body: JSON.stringify(values),
 			});
 			if (!response.ok) throw new Error("Failed to update task");
 			return response.json();
@@ -72,6 +104,10 @@ export function TaskDialogContent({ taskId, onClose }: TaskDialogContentProps) {
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["task", taskId] });
 			queryClient.invalidateQueries({ queryKey: ["tasks"] });
+			toast({
+				title: "Task updated",
+				description: "Your task has been updated successfully.",
+			});
 		},
 	});
 
@@ -85,223 +121,273 @@ export function TaskDialogContent({ taskId, onClose }: TaskDialogContentProps) {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: ["tasks"] });
+			toast({
+				title: "Task deleted",
+				description: "Your task has been deleted successfully.",
+			});
 			onClose();
 		},
 	});
 
-	const linkDiagram = useMutation({
-		mutationFn: async (diagramId: string) => {
-			const response = await fetch(`/api/task/${taskId}`, {
-				method: "PUT",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({ diagramId }),
+	const handleResourceSelect = async (resourceId: string) => {
+		if (!taskId) return;
+
+		const updates = {
+			linkedDiagramId: task?.linkedDiagramId,
+			linkedDocumentId: task?.linkedDocumentId,
+			linkedFormId: task?.linkedFormId,
+		};
+
+		switch (resourceType) {
+			case "diagram":
+				updates.linkedDiagramId = resourceId || null;
+				break;
+			case "document":
+				updates.linkedDocumentId = resourceId || null;
+				break;
+			case "form":
+				updates.linkedFormId = resourceId || null;
+				break;
+		}
+
+		// @ts-ignore
+		await updateTask.mutateAsync({
+			...form.getValues(),
+			...updates,
+		});
+
+		setResourceType(null);
+	};
+
+	async function onSubmit(values: z.infer<typeof formSchema>) {
+		try {
+			await updateTask.mutateAsync({
+				...values,
+				linkedDiagramId: task?.linkedDiagramId ?? undefined,
+				linkedDocumentId: task?.linkedDocumentId ?? undefined,
+				linkedFormId: task?.linkedFormId ?? undefined,
 			});
-			if (!response.ok) throw new Error("Failed to link diagram");
-			return response.json();
-		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: ["task", taskId] });
-			setShowDiagramDialog(false);
-		},
-	});
-
-	const handleStartEditTitle = () => {
-		setEditingTitle(true);
-		setTempTitle(task?.title || "");
-	};
-
-	const handleStartEditDescription = () => {
-		setEditingDescription(true);
-		setTempDescription(task?.description || "");
-	};
-
-	const handleSaveTitle = async () => {
-		await updateTask.mutateAsync({ title: tempTitle });
-		setEditingTitle(false);
-	};
-
-	const handleSaveDescription = async () => {
-		await updateTask.mutateAsync({ description: tempDescription });
-		setEditingDescription(false);
-	};
-
-	const handleStatusChange = (newStatus: string) => {
-		updateTask.mutate({ status: newStatus });
-	};
-
-	const handleLinkDiagram = (diagramId: string) => {
-		linkDiagram.mutate(diagramId);
-	};
-
-	if (isLoading) {
-		return (
-			<div className="space-y-4">
-				<Skeleton className="h-4 w-[250px]" />
-				<Skeleton className="h-4 w-[200px]" />
-				<Skeleton className="h-20 w-full" />
-			</div>
-		);
+			onClose();
+		} catch (error) {
+			console.error("Error saving task:", error);
+			toast({
+				title: "Error",
+				description: "Something went wrong. Please try again.",
+				variant: "destructive",
+			});
+		}
 	}
-
-	if (!task) return null;
 
 	return (
 		<>
-			<DialogHeader className="flex flex-row items-center justify-between pb-4 border-b">
-				{editingTitle ? (
-					<div className="flex-1">
-						<Input
-							value={tempTitle}
-							onChange={(e) => setTempTitle(e.target.value)}
-							className="w-full mb-2"
-							autoFocus
-						/>
-						<div className="flex justify-end gap-2">
-							<Button
-								size="sm"
-								variant="ghost"
-								onClick={() => setEditingTitle(false)}
-							>
-								Cancel
-							</Button>
-							<Button size="sm" onClick={handleSaveTitle}>
-								Save
-							</Button>
-						</div>
-					</div>
-				) : (
-					<DialogTitle
-						onDoubleClick={handleStartEditTitle}
-						className="cursor-text hover:text-blue-600 transition-colors"
-					>
-						{task.title}
-					</DialogTitle>
-				)}
-			</DialogHeader>
+			<Dialog open={!!taskId} onOpenChange={() => onClose()}>
+				<DialogContent className="pb-16">
+					<DialogHeader>
+						<DialogTitle>{task ? "Edit Task" : "Create Task"}</DialogTitle>
+						<DialogDescription>
+							{task
+								? "Make changes to your task here."
+								: "Add a new task to your board."}
+						</DialogDescription>
+					</DialogHeader>
 
-			<div className="mt-6 space-y-6">
-				<div>
-					<h3 className="font-medium text-sm text-gray-700 mb-2">
-						Description
-					</h3>
-					{editingDescription ? (
-						<div>
-							<Textarea
-								value={tempDescription}
-								onChange={(e) => setTempDescription(e.target.value)}
-								className="min-h-[100px] resize-none mb-2"
-								autoFocus
+					<Form {...form}>
+						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+							<FormField
+								control={form.control}
+								name="title"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Title</FormLabel>
+										<FormControl>
+											<Input {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
 							/>
-							<div className="flex justify-end gap-2">
-								<Button
-									size="sm"
-									variant="ghost"
-									onClick={() => setEditingDescription(false)}
-								>
-									Cancel
-								</Button>
-								<Button size="sm" onClick={handleSaveDescription}>
-									Save
+
+							<FormField
+								control={form.control}
+								name="description"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Description</FormLabel>
+										<FormControl>
+											<Textarea {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="status"
+								render={({ field }) => (
+									<FormItem>
+										<FormLabel>Status</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+										>
+											<FormControl>
+												<SelectTrigger>
+													<SelectValue placeholder="Select a status" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent>
+												<SelectItem value="TODO">To Do</SelectItem>
+												<SelectItem value="IN_PROGRESS">In Progress</SelectItem>
+												<SelectItem value="IN_REVIEW">In Review</SelectItem>
+												<SelectItem value="DONE">Done</SelectItem>
+											</SelectContent>
+										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<div>
+								<FormLabel>Linked Files</FormLabel>
+								<div className="space-y-2">
+									<div className="flex items-center gap-2">
+										<Button
+											type="button"
+											variant="outline"
+											onClick={() => setResourceType("diagram")}
+											className="min-w-32"
+										>
+											{task?.diagram
+												? `Diagram: ${task.diagram.title || "Untitled"}`
+												: "Link Diagram"}
+										</Button>
+										{task?.diagram && (
+											<>
+												<Link
+													href={`/diagram/${task.diagram.id}`}
+													className="text-blue-600 hover:text-blue-800"
+												>
+													<ExternalLink className="h-4 w-4" />
+												</Link>
+												<Button
+													type="button"
+													variant="ghost"
+													onClick={() => handleResourceSelect("")}
+												>
+													Remove
+												</Button>
+											</>
+										)}
+									</div>
+									<div className="flex items-center gap-2">
+										<Button
+											type="button"
+											variant="outline"
+											onClick={() => setResourceType("document")}
+											className="min-w-32"
+										>
+											{task?.document
+												? `Document: ${task.document.title || "Untitled"}`
+												: "Link Document"}
+										</Button>
+										{task?.document && (
+											<>
+												<Link
+													href={`/document/${task.document.id}`}
+													className="text-blue-600 hover:text-blue-800"
+												>
+													<ExternalLink className="h-4 w-4" />
+												</Link>
+												<Button
+													type="button"
+													variant="ghost"
+													onClick={() => handleResourceSelect("")}
+												>
+													Remove
+												</Button>
+											</>
+										)}
+									</div>
+									<div className="flex items-center gap-2">
+										<Button
+											type="button"
+											variant="outline"
+											onClick={() => setResourceType("form")}
+											className="min-w-32"
+										>
+											{task?.form
+												? `Form: ${task.form.title || "Untitled"}`
+												: "Link Form"}
+										</Button>
+										{task?.form && (
+											<>
+												<Link
+													href={`/form/${task.form.id}`}
+													className="text-blue-600 hover:text-blue-800"
+												>
+													<ExternalLink className="h-4 w-4" />
+												</Link>
+												<Button
+													type="button"
+													variant="ghost"
+													onClick={() => handleResourceSelect("")}
+												>
+													Remove
+												</Button>
+											</>
+										)}
+									</div>
+								</div>
+							</div>
+
+							{task && (
+								<div className="text-sm text-gray-500">
+									<div>
+										Created {new Date(task.createdAt).toLocaleDateString()}
+									</div>
+									<div className="text-xs text-gray-400">
+										ID: {task.id.slice(0, 8)}
+									</div>
+								</div>
+							)}
+
+							<div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 flex justify-between gap-2 rounded-b-lg">
+								{task && (
+									<Button
+										type="button"
+										variant="ghost"
+										onClick={() => deleteTask.mutate()}
+										className="text-red-600 hover:bg-red-100 hover:text-red-700"
+									>
+										<Trash className="h-4 w-4 mr-2" />
+										Delete Task
+									</Button>
+								)}
+								<Button type="submit">
+									{task ? "Save changes" : "Create task"}
 								</Button>
 							</div>
-						</div>
-					) : (
-						<p
-							onDoubleClick={handleStartEditDescription}
-							className="text-sm text-gray-600 cursor-text hover:text-blue-600 transition-colors"
-						>
-							{task.description}
-						</p>
-					)}
-				</div>
+						</form>
+					</Form>
+				</DialogContent>
+			</Dialog>
 
-				<div>
-					<h3 className="font-medium text-sm text-gray-700 mb-2">Status</h3>
-					<Select value={task.status} onValueChange={handleStatusChange}>
-						<SelectTrigger className="w-[180px]">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent>
-							{STATUS_OPTIONS.map((status) => (
-								<SelectItem key={status.value} value={status.value}>
-									{status.label}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
-				</div>
-
-				<div>
-					<h3 className="font-medium text-sm text-gray-700 mb-2">
-						Linked Diagram
-					</h3>
-					{task.diagram ? (
-						<div className="flex items-center gap-2">
-							<span className="text-sm text-gray-600">
-								{task.diagram.title || "Untitled Diagram"}
-							</span>
-							<Link
-								href={`/diagram/${task.diagram.id}`}
-								className="text-blue-600 hover:text-blue-800"
-							>
-								<ExternalLink className="h-4 w-4" />
-							</Link>
-						</div>
-					) : (
-						<p className="text-sm text-gray-500">No diagram linked</p>
-					)}
-				</div>
-
-				<div>
-					<div className="text-sm text-gray-500">
-						Created {new Date(task.createdAt).toLocaleDateString()}
-					</div>
-					<div className="text-xs text-gray-400">ID: {task.id.slice(0, 8)}</div>
-				</div>
-			</div>
-
-			<div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 flex justify-end gap-2 rounded-b-lg">
-				<Button
-					variant="outline"
-					size="sm"
-					onClick={() => setShowDiagramDialog(true)}
-					className="mr-auto"
-				>
-					<LucideLink className="h-4 w-4 mr-2" />
-					{task.diagram ? "Change Linked Diagram" : "Link Diagram"}
-				</Button>
-				<Button
-					variant="ghost"
-					size="sm"
-					onClick={() => deleteTask.mutate()}
-					className="text-red-600 hover:bg-red-100 hover:text-red-700"
-				>
-					<Trash className="h-4 w-4 mr-2" />
-					Delete Task
-				</Button>
-			</div>
-
-			<DiagramSelectionDialog
-				open={showDiagramDialog}
-				onClose={() => setShowDiagramDialog(false)}
-				onSelect={handleLinkDiagram}
-				currentDiagramId={task.diagram?.id}
+			<ResourceSelectionDialog
+				open={resourceType !== null}
+				onOpenChange={() => setResourceType(null)}
+				onSelect={handleResourceSelect}
+				type={resourceType || "diagram"}
+				currentResourceId={
+					resourceType === "diagram"
+						? (task?.linkedDiagramId ?? undefined)
+						: resourceType === "document"
+							? (task?.linkedDocumentId ?? undefined)
+							: resourceType === "form"
+								? (task?.linkedFormId ?? undefined)
+								: undefined
+				}
 			/>
 		</>
-	);
-}
-
-interface TaskDialogProps {
-	taskId: string | null;
-	onClose: () => void;
-}
-
-export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
-	return (
-		<Dialog open={taskId !== null} onOpenChange={() => onClose()}>
-			<DialogContent className="pb-16">
-				{taskId && <TaskDialogContent taskId={taskId} onClose={onClose} />}
-			</DialogContent>
-		</Dialog>
 	);
 }

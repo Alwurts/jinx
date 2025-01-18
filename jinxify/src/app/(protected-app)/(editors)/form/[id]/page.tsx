@@ -6,13 +6,16 @@ import Link from "next/link";
 import type React from "react";
 import { ChatSidebar } from "@/components/chat/sidebar-chat";
 import { useChatContext } from "@/components/chat/chat-provider";
-import { useEffect } from "react";
 import dynamic from "next/dynamic";
 import { useQuery } from "@tanstack/react-query";
 import type { TForm } from "@/types/db";
 import { QuerySpinner } from "@/components/query/query-spinner";
 import { SharePopover } from "@/components/share/share-popover";
 import { FormSubmissionsDialog } from "@/components/form-js/submissions-dialog";
+import { MessageSquare, Settings2 } from "lucide-react";
+import { useState } from "react";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { PropertiesPanel } from "@/components/properties/properties-panel";
 
 const Editor = dynamic(() => import("@/components/form-js/editor"), {
 	ssr: false,
@@ -23,6 +26,7 @@ const Editor = dynamic(() => import("@/components/form-js/editor"), {
 
 export default function FormEditor({ params }: { params: { id: string } }) {
 	const { jinxChat } = useChatContext();
+	const [sidebarView, setSidebarView] = useState<"chat" | "properties">("chat");
 
 	const { isLoading, data } = useQuery<TForm>({
 		queryKey: ["form", params.id],
@@ -53,6 +57,20 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 				<div className="flex items-center gap-2">
 					<FormSubmissionsDialog formId={params.id} />
 					<SharePopover url={shareUrl} />
+					<ToggleGroup
+						type="single"
+						value={sidebarView}
+						onValueChange={(value) =>
+							setSidebarView(value as "chat" | "properties")
+						}
+					>
+						<ToggleGroupItem value="chat">
+							<MessageSquare className="h-4 w-4" />
+						</ToggleGroupItem>
+						<ToggleGroupItem value="properties">
+							<Settings2 className="h-4 w-4" />
+						</ToggleGroupItem>
+					</ToggleGroup>
 					<QuerySpinner />
 				</div>
 			</div>
@@ -63,14 +81,24 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 					</div>
 				)}
 				{data && <Editor form={data} />}
-				<ChatSidebar
-					messages={jinxChat.messages}
-					input={jinxChat.input}
-					setInput={jinxChat.setInput}
-					handleSubmit={jinxChat.handleSubmit}
-					isLoading={jinxChat.isLoading}
-					stop={jinxChat.stop}
-				/>
+				{sidebarView === "chat" ? (
+					<ChatSidebar
+						messages={jinxChat.messages}
+						input={jinxChat.input}
+						setInput={jinxChat.setInput}
+						handleSubmit={jinxChat.handleSubmit}
+						isLoading={jinxChat.isLoading}
+						stop={jinxChat.stop}
+					/>
+				) : (
+					<PropertiesPanel
+						fileId={params.id}
+						fileType="form"
+						title={data?.title || ""}
+						createdAt={data?.createdAt || new Date()}
+						updatedAt={data?.updatedAt || new Date()}
+					/>
+				)}
 			</div>
 		</div>
 	);

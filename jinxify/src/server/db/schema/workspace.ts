@@ -7,7 +7,7 @@ import {
 	boolean,
 } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
-import { formSubmission, users } from ".";
+import { formSubmission, users, task } from ".";
 
 // for folder
 export const directory = pgTable("directory", {
@@ -57,7 +57,7 @@ export const diagram = pgTable("diagram", {
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
-export const diagramRelations = relations(diagram, ({ one }) => ({
+export const diagramRelations = relations(diagram, ({ one, many }) => ({
 	user: one(users, {
 		fields: [diagram.userId],
 		references: [users.id],
@@ -66,6 +66,7 @@ export const diagramRelations = relations(diagram, ({ one }) => ({
 		fields: [diagram.directoryId],
 		references: [directory.id],
 	}),
+	tasks: many(task),
 }));
 
 // for Forms
@@ -95,6 +96,7 @@ export const formRelations = relations(form, ({ one, many }) => ({
 		references: [directory.id],
 	}),
 	submissions: many(formSubmission),
+	tasks: many(task),
 }));
 
 // for Documents
@@ -114,7 +116,7 @@ export const document = pgTable("document", {
 	updatedAt: timestamp("updatedAt").defaultNow().notNull(),
 });
 
-export const documentRelations = relations(document, ({ one }) => ({
+export const documentRelations = relations(document, ({ one, many }) => ({
 	user: one(users, {
 		fields: [document.userId],
 		references: [users.id],
@@ -123,4 +125,5 @@ export const documentRelations = relations(document, ({ one }) => ({
 		fields: [document.directoryId],
 		references: [directory.id],
 	}),
+	tasks: many(task),
 }));
