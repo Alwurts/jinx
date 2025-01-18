@@ -107,8 +107,8 @@ export default function TaskManager() {
 				},
 				body: JSON.stringify({
 					status: newStatus,
-					title: tasks?.find(t => t.id === taskId)?.title || "",
-					description: tasks?.find(t => t.id === taskId)?.description || "",
+					title: tasks?.find((t) => t.id === taskId)?.title || "",
+					description: tasks?.find((t) => t.id === taskId)?.description || "",
 				}),
 			});
 
