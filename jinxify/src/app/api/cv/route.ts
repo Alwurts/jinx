@@ -1,10 +1,8 @@
 import { NextResponse } from "next/server";
 import OpenAI from "openai";
-import fs from "fs";
-import path from "path";
-import os from "os";
-import https from "https";
-import http from "http";
+import fs from "node:fs";
+import path from "node:path";
+import os from "node:os";
 
 // Utility types for better type annotations
 interface FileResult {
@@ -72,7 +70,7 @@ export async function POST(req: Request): Promise<Response> {
 					console.log("This is the run object: ", myRun, "\n");
 
 					// Check for completion
-					let keepRetrievingRun;
+					let keepRetrievingRun: { status: string };
 					while (true) {
 						keepRetrievingRun = await openai.beta.threads.runs.retrieve(
 							myThread.id,
@@ -97,7 +95,8 @@ export async function POST(req: Request): Promise<Response> {
 								role: allMessages.data[0]?.role,
 								content: allMessages.data[0]?.content,
 							});
-						} else if (keepRetrievingRun.status === "failed") {
+						}
+						if (keepRetrievingRun.status === "failed") {
 							console.log("Run failed.");
 							break;
 						}
