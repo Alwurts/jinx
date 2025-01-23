@@ -4,6 +4,7 @@ import db from "./server/db";
 import { sessions, users, verificationTokens } from "./server/db/schema/auth";
 import { accounts } from "./server/db/schema/auth";
 import Github from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { directory } from "./server/db/schema";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
@@ -31,5 +32,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 			}
 		},
 	},
-	providers: [Github],
+	providers: [Github, Google],
 });
