@@ -259,7 +259,7 @@ export default function TaskManager() {
 						{statusColumns.map((column) => (
 							<div
 								key={column.id}
-								className="flex-1 min-w-[280px] bg-background dark:bg-[hsl(255.29,38.33%,11.65%)] rounded-lg p-4 border border-border min-h-min"
+								className="flex-1 min-w-[280px] bg-background rounded-lg p-4 border border-border min-h-min"
 							>
 								<div className="flex items-center justify-between mb-4">
 									<h3 className="font-semibold text-foreground">
@@ -299,7 +299,7 @@ export default function TaskManager() {
 																}`}
 															>
 																<Card
-																	className="bg-background dark:bg-card cursor-pointer hover:shadow-md transition-shadow dark:border-border dark:text-card-foreground dark:hover:bg-accent/50"
+																	className="bg-background cursor-pointer hover:shadow-md transition-shadow dark:border-border dark:hover:bg-accent/50"
 																	onClick={() => setSelectedTaskId(task.id)}
 																>
 																	<CardHeader className="p-4">
