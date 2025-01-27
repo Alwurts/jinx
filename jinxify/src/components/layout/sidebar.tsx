@@ -97,7 +97,7 @@ const settingsItems = [
 		icon: VscSettings,
 	},
 	{
-		title: "FAQs",
+		title: "FAQ",
 		url: "/dashboard/faq",
 		icon: FaRegLightbulb,
 	},
