@@ -210,7 +210,7 @@ export default function TaskManager() {
 							value={currentDiagramId || "all"}
 							onValueChange={handleDiagramFilter}
 						>
-							<SelectTrigger className="w-[200px] border-none bg-creamy dark:bg-accent dark:text-secondary-foreground">
+							<SelectTrigger className="w-[200px] border-none bg-creamy dark:bg-background dark:text-secondary-foreground">
 								<SelectValue placeholder="Filter by diagram" />
 							</SelectTrigger>
 							<SelectContent>
@@ -226,7 +226,7 @@ export default function TaskManager() {
 						<Button
 							onClick={() => setIsGenerateTasksOpen(true)}
 							variant="secondary"
-							className="flex items-center gap-2 bg-creamy text-mystical dark:bg-accent dark:text-secondary-foreground"
+							className="flex items-center gap-2 bg-creamy dark:bg-background text-mystical dark:text-secondary-foreground"
 						>
 							<Plus className="w-4 h-4" />
 							Generate Tasks
@@ -235,7 +235,7 @@ export default function TaskManager() {
 						<Button
 							onClick={handleCreateTask}
 							variant="secondary"
-							className="flex items-center gap-2 bg-creamy text-mystical dark:bg-accent dark:text-secondary-foreground"
+							className="flex items-center gap-2 bg-creamy text-mystical dark:bg-background dark:text-secondary-foreground"
 						>
 							<Plus className="w-4 h-4" />
 							Add Task

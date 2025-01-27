@@ -8,6 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Loader2 } from "lucide-react";
 import { MarkdownContent } from "@/components/ui/markdown-content";
+import { PiMagicWand } from "react-icons/pi";
 
 interface ContentItem {
 	type: "text";
@@ -63,9 +64,12 @@ function Page() {
 
 	return (
 		<div className="container mx-auto max-w-2xl py-10">
-			<Card className="bg-white rounded-lg text-mystical">
+			<Card className="bg-background rounded-lg text-mystical dark:text-creamy">
 				<CardHeader>
+					<div className="flex flex-row space-x-2">
+					<PiMagicWand />
 					<CardTitle>CV Analyser</CardTitle>
+					</div>
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={submitHandler} className="space-y-4">

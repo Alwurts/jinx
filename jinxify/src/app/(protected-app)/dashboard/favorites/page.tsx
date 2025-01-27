@@ -44,7 +44,7 @@ export default function Favorites() {
 						))}
 					</ul>
 				) : (
-					<div className="text-center text-gray-500 mt-8">
+					<div className="text-center text-gray-500 dark:text-creamy mt-8">
 						No favorites found. Add items to your favorites by clicking the
 						favorite icon in the file menu.
 					</div>

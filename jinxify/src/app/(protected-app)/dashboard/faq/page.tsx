@@ -49,7 +49,7 @@ export default function FAQs() {
 		},
 	];
 	return (
-		<div className="w-full max-w-4xl mx-auto p-4 md:p-6 overflow-hidden overflow-y-auto">
+		<div className="bg-background w-full max-w-4xl mx-auto p-4 md:p-6 overflow-hidden overflow-y-auto">
 			<h2 className="text-3xl font-bold mb-6 text-center text-foreground">
 				Frequently Asked Questions
 			</h2>
@@ -62,7 +62,7 @@ export default function FAQs() {
 					<AccordionItem
 						key={faq.id}
 						value={faq.id}
-						className="border border-border rounded-lg p-2 bg-white hover:bg-accent/50 transition-colors"
+						className="border border-border rounded-lg p-2 bg-background hover:bg-accent/50 transition-colors"
 					>
 						<AccordionTrigger className="text-left font-semibold px-2 text-foreground">
 							{faq.question}

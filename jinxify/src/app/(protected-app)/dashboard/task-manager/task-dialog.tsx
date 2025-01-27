@@ -352,7 +352,7 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 								</div>
 							)}
 
-							<div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 flex justify-between rounded-b-lg">
+							<div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 dark:bg-accent flex justify-between rounded-b-lg">
 								{task && (
 									<Button
 										type="button"

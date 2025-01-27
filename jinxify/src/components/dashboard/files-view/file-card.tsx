@@ -91,7 +91,7 @@ export default function FileCard({ item }: Props) {
 				}
 				key={item.id}
 			>
-				<Card className="bg-white mt-3 p-3 hover:bg-accent/50 transition-all cursor-pointer">
+				<Card className="bg-background mt-3 p-3 hover:bg-accent/50 transition-all cursor-pointer">
 					<CardHeader>
 						<CardTitle className="flex items-center w-full">
 							<div className="flex w-full justify-between">
@@ -113,7 +113,7 @@ export default function FileCard({ item }: Props) {
 											<EllipsisVertical className="h-4 w-4" />
 										</Button>
 									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end" className="bg-white">
+									<DropdownMenuContent align="end" className="bg-background">
 										<DropdownMenuLabel className="text-foreground">
 											Actions
 										</DropdownMenuLabel>
@@ -123,9 +123,9 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setOpenRenameDialog(item);
 											}}
-											className="flex items-center space-x-2 px-3 py-2 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 cursor-pointer"
+											className="flex items-center space-x-2 px-3 py-2 dark:text-creamy transition-all duration-200 hover:bg-gray-50 cursor-pointer"
 										>
-											<CiEdit className="w-4 h-4 text-black" />
+											<CiEdit className="w-4 h-4 text-black dark:text-creamy" />
 											<span>Edit</span>
 										</DropdownMenuItem>
 
@@ -134,9 +134,9 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setDeleteDialog(item);
 											}}
-											className="flex items-center space-x-2 px-3 py-2 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 cursor-pointer"
+											className="flex items-center space-x-2 px-3 py-2 dark:text-creamy transition-all duration-200 hover:bg-gray-50 cursor-pointer"
 										>
-											<RiDeleteBin5Line className="w-4 h-4 text-black" />
+											<RiDeleteBin5Line className="w-4 h-4 text-black dark:text-creamy" />
 											<span>Delete</span>
 										</DropdownMenuItem>
 
@@ -150,12 +150,12 @@ export default function FileCard({ item }: Props) {
 														isFavorite: !item.isFavorite,
 													});
 												}}
-												className="flex items-center space-x-2 px-3 py-2 dark:bg-accent/50 transition-all duration-200 hover:bg-gray-50 cursor-pointer"
+												className="flex items-center space-x-2 px-3 py-2 transition-all duration-200 hover:bg-gray-50 cursor-pointer"
 											>
 												{item.isFavorite ? (
-													<MdFavorite className="w-4 h-4 text-gray-800" />
+													<MdFavorite className="w-4 h-4 text-gray-800 dark:text-primary" />
 												) : (
-													<MdFavoriteBorder className="w-4 h-4 text-gray-500" />
+													<MdFavoriteBorder className="w-4 h-4 text-gray-500 dark:text-creamy" />
 												)}
 												<span>Favorite</span>
 											</DropdownMenuItem>
@@ -173,7 +173,7 @@ export default function FileCard({ item }: Props) {
 										? "Document"
 										: "Folder"}
 						</CardDescription>
-						<CardDescription className="text-muted-foreground">
+						<CardDescription className="text-xs text-muted-foreground">
 							{item.createdAt.toLocaleString("en-US").split("T")[0]}
 						</CardDescription>
 					</CardHeader>

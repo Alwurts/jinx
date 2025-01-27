@@ -9,7 +9,7 @@ import { DiagramsChart } from "@/components/dashboard/metrics/diagrams-chart";
 
 export default function Home() {
 	return (
-		<div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-background dark:bg-background">
+		<div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden bg-background">
 			<ImageOverlayHeader
 				title="Dashboard"
 				icon={<HomeIcon className="size-8 text-primary-foreground z-20" />}
@@ -18,8 +18,8 @@ export default function Home() {
 				<StatsCards />
 				<div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
 					<RecentFiles />
-					<TaskStatusChart />
 					<DiagramsChart />
+					<TaskStatusChart />
 				</div>
 			</div>
 		</div>

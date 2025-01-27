@@ -184,14 +184,14 @@ export default function Dashboard() {
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="secondary"
-								className="flex items-center gap-2 bg-creamy text-mystical dark:bg-accent dark:text-secondary-foreground"
+								className="flex items-center gap-2 bg-creamy text-mystical dark:bg-background dark:text-secondary-foreground"
 								disabled={createWorkspaceItem.isPending}
 							>
 								New Item
 								<Plus className="w-5 h-5" />
 							</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent className="bg-white">
+						<DropdownMenuContent className="bg-background">
 							<DropdownMenuItem
 								onClick={() => handleCreateFolder("directory")}
 								className="z-30"
@@ -272,7 +272,7 @@ export default function Dashboard() {
 								<SelectTrigger className="w-[180px] border-border">
 									<SelectValue placeholder="Filter Item" />
 								</SelectTrigger>
-								<SelectContent className="bg-white">
+								<SelectContent className="bg-background">
 									<SelectItem value="remove">Remove filter</SelectItem>
 									<DropdownMenuSeparator />
 									<SelectItem value="directory">Folders</SelectItem>
@@ -293,7 +293,7 @@ export default function Dashboard() {
 									<LuLayoutGrid />
 								</div>
 							</DropdownMenuTrigger>
-							<DropdownMenuContent className="mr-6 bg-white">
+							<DropdownMenuContent className="mr-6 bg-background">
 								<DropdownMenuItem onClick={() => setViewType("grid")}>
 									Symbol View
 								</DropdownMenuItem>
