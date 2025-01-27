@@ -192,7 +192,10 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 					</DialogHeader>
 
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="pb-4 space-y-4">
+						<form
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="pb-4 space-y-4"
+						>
 							<FormField
 								control={form.control}
 								name="title"
@@ -346,9 +349,7 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 									<div>
 										Created {new Date(task.createdAt).toLocaleDateString()}
 									</div>
-									<div>
-										ID: {task.id.slice(0, 8)}
-									</div>
+									<div>ID: {task.id.slice(0, 8)}</div>
 								</div>
 							)}
 

@@ -67,8 +67,8 @@ function Page() {
 			<Card className="bg-background rounded-lg text-mystical dark:text-creamy">
 				<CardHeader>
 					<div className="flex flex-row space-x-2">
-					<PiMagicWand />
-					<CardTitle>CV Analyser</CardTitle>
+						<PiMagicWand />
+						<CardTitle>CV Analyser</CardTitle>
 					</div>
 				</CardHeader>
 				<CardContent>

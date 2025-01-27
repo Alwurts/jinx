@@ -93,10 +93,11 @@ export default async function Home() {
 				<div className="relative z-20 mt-auto text-creamy dark:text-mystical">
 					<blockquote className="space-y-2 italic">
 						<p className="text-lg">
-							&ldquo;jinxify has transformed how I approach recruitment. From generating job offers effortlessly 
-							to customizing interview questions and automating onboarding workflows, 
-							it’s made my processes faster, more efficient, and incredibly easy to manage. 
-							A reliable teammate added to the process.&rdquo;
+							&ldquo;jinxify has transformed how I approach recruitment. From
+							generating job offers effortlessly to customizing interview
+							questions and automating onboarding workflows, it’s made my
+							processes faster, more efficient, and incredibly easy to manage. A
+							reliable teammate added to the process.&rdquo;
 						</p>
 						<footer className="text-sm not-italic">
 							Jane - HR professional

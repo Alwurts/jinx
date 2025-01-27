@@ -20,7 +20,7 @@ export default function FAQs() {
 			id: "1",
 			question: "What is jinxify?",
 			answer:
-				"jinxify is an advanced, AI-powered tool designed to streamline HR recruitment processes.\nCombining BPMN diagrams, AI-generated Forms, and Markdown, jinxify automates and simplifies key recruitment tasks—such as job offer creation, interview preparation, and onboarding workflows—ensuring efficiency, consistency, and ease for HR managers, especially in SMEs."
+				"jinxify is an advanced, AI-powered tool designed to streamline HR recruitment processes.\nCombining BPMN diagrams, AI-generated Forms, and Markdown, jinxify automates and simplifies key recruitment tasks—such as job offer creation, interview preparation, and onboarding workflows—ensuring efficiency, consistency, and ease for HR managers, especially in SMEs.",
 		},
 		{
 			id: "2",

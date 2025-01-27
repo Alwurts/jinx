@@ -25,14 +25,14 @@ const chartConfig = {
 		color: "hsl(var(--chart1))",
 	},
 	documents: {
-    label: "Documents",
-    color: "hsl(var(--chart2))",
+		label: "Documents",
+		color: "hsl(var(--chart2))",
 	},
 	forms: {
 		label: "Forms",
 		color: "hsl(var(--chart3))",
 	},
-} satisfies ChartConfig
+} satisfies ChartConfig;
 
 export function DiagramsChart() {
 	const { data: diagrams = [] } = useQuery({
@@ -47,43 +47,45 @@ export function DiagramsChart() {
 	const { data: documents = [] } = useQuery({
 		queryKey: ["documents"],
 		queryFn: async () => {
-		const response = await fetch("/api/document");
-		if (!response.ok) throw new Error("Failed to fetch documents");
-		return (await response.json()) as TDocument[];
+			const response = await fetch("/api/document");
+			if (!response.ok) throw new Error("Failed to fetch documents");
+			return (await response.json()) as TDocument[];
 		},
-  	});
+	});
 
-	 const { data: forms = [] } = useQuery({
-    queryKey: ["forms"],
-    queryFn: async () => {
-      const response = await fetch("/api/form");
-      if (!response.ok) throw new Error("Failed to fetch forms");
-      return (await response.json()) as TForm[];
-    	},
-  	});
+	const { data: forms = [] } = useQuery({
+		queryKey: ["forms"],
+		queryFn: async () => {
+			const response = await fetch("/api/form");
+			if (!response.ok) throw new Error("Failed to fetch forms");
+			return (await response.json()) as TForm[];
+		},
+	});
 
-	const today = new Date().toLocaleDateString()
-	type DataItem = { createdAt: Date }
+	const today = new Date().toLocaleDateString();
+	type DataItem = { createdAt: Date };
 
 	const aggregateByMonth = (items: DataItem[]): Record<string, number> =>
-    items.reduce((acc: Record<string, number>, item: DataItem) => {
-      const month = new Date(item.createdAt).toLocaleString("default", { month: "long" });
-      acc[month] = (acc[month] || 0) + 1;
-      return acc;
-    }, {});
-
+		items.reduce((acc: Record<string, number>, item: DataItem) => {
+			const month = new Date(item.createdAt).toLocaleString("default", {
+				month: "long",
+			});
+			acc[month] = (acc[month] || 0) + 1;
+			return acc;
+		}, {});
 
 	const diagramsByMonth = aggregateByMonth(diagrams);
 	const documentsByMonth = aggregateByMonth(documents);
 	const formsByMonth = aggregateByMonth(forms);
 
-	
-	const barChartData = Object.entries(diagramsByMonth).map(([month, count]) => ({
-    month,
-    diagrams: count,
-    documents: documentsByMonth[month] || 0,
-    forms: formsByMonth[month] || 0,
-  }));
+	const barChartData = Object.entries(diagramsByMonth).map(
+		([month, count]) => ({
+			month,
+			diagrams: count,
+			documents: documentsByMonth[month] || 0,
+			forms: formsByMonth[month] || 0,
+		}),
+	);
 
 	return (
 		<Card className="bg-background">
@@ -115,13 +117,13 @@ export function DiagramsChart() {
 								/>
 							}
 						/>
-						 <Bar
+						<Bar
 							dataKey="diagrams"
 							fill={chartConfig.diagrams.color}
 							stackId="a"
 							radius={[0, 0, 4, 4]}
-						 />
-						 <Bar
+						/>
+						<Bar
 							dataKey="documents"
 							fill={chartConfig.documents.color}
 							stackId="a"

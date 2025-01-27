@@ -51,7 +51,10 @@ export const AccountForm = ({ session }: Props) => {
 			<div className="pt-8 pb-2">
 				<div className="flex items-center space-x-2">
 					<VscAccount className="w-6 h-6 dark:text-secondary" />
-					<h3 id="account-form" className="text-2xl font-semibold dark:text-secondary">
+					<h3
+						id="account-form"
+						className="text-2xl font-semibold dark:text-secondary"
+					>
 						Account
 					</h3>
 				</div>

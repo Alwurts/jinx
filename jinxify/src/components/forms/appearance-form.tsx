@@ -53,7 +53,9 @@ export function AppearanceForm() {
 			<div className="pb-4">
 				<div className="flex items-center space-x-2">
 					<IoInvertModeOutline className="w-6 h-6 dark:text-secondary" />
-					<h3 className="text-2xl font-semibold dark:text-secondary">Appearance</h3>
+					<h3 className="text-2xl font-semibold dark:text-secondary">
+						Appearance
+					</h3>
 				</div>
 				<p className="text-sm text-muted-foreground">Modify the mode.</p>
 			</div>

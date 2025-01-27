@@ -22,23 +22,23 @@ export function StatsCards() {
 	});
 
 	const { data: documents = [], isLoading: documentsLoading } = useQuery({
-	queryKey: ["documents"],
-	queryFn: async function fetchDocuments() {
-		const response = await fetch("/api/documents"); // Adjust your endpoint for documents
-		if (!response.ok) throw new Error("Failed to fetch documents");
-		const json = await response.json();
-		return json as TDocument[];
-	},
+		queryKey: ["documents"],
+		queryFn: async function fetchDocuments() {
+			const response = await fetch("/api/documents"); // Adjust your endpoint for documents
+			if (!response.ok) throw new Error("Failed to fetch documents");
+			const json = await response.json();
+			return json as TDocument[];
+		},
 	});
 
 	const { data: forms = [], isLoading: formsLoading } = useQuery({
-	queryKey: ["forms"],
-	queryFn: async function fetchForms() {
-		const response = await fetch("/api/forms"); // Adjust your endpoint for forms
-		if (!response.ok) throw new Error("Failed to fetch forms");
-		const json = await response.json();
-		return json as TForm[];
-	},
+		queryKey: ["forms"],
+		queryFn: async function fetchForms() {
+			const response = await fetch("/api/forms"); // Adjust your endpoint for forms
+			if (!response.ok) throw new Error("Failed to fetch forms");
+			const json = await response.json();
+			return json as TForm[];
+		},
 	});
 
 	const totalFilesCreated = diagrams.length + documents.length + forms.length;
