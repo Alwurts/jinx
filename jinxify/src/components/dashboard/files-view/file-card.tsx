@@ -91,7 +91,7 @@ export default function FileCard({ item }: Props) {
 				}
 				key={item.id}
 			>
-				<Card className="mt-3 p-3 hover:bg-accent/50 transition-all cursor-pointer">
+				<Card className="bg-white mt-3 p-3 hover:bg-accent/50 transition-all cursor-pointer">
 					<CardHeader>
 						<CardTitle className="flex items-center w-full">
 							<div className="flex w-full justify-between">
@@ -113,7 +113,7 @@ export default function FileCard({ item }: Props) {
 											<EllipsisVertical className="h-4 w-4" />
 										</Button>
 									</DropdownMenuTrigger>
-									<DropdownMenuContent align="end" className="bg-popover">
+									<DropdownMenuContent align="end" className="bg-white">
 										<DropdownMenuLabel className="text-foreground">
 											Actions
 										</DropdownMenuLabel>
@@ -123,7 +123,7 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setOpenRenameDialog(item);
 											}}
-											className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 hover:shadow-md cursor-pointer"
+											className="flex items-center space-x-2 px-3 py-2 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 cursor-pointer"
 										>
 											<CiEdit className="w-4 h-4 text-black" />
 											<span>Edit</span>
@@ -134,7 +134,7 @@ export default function FileCard({ item }: Props) {
 												e.preventDefault();
 												setDeleteDialog(item);
 											}}
-											className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 hover:shadow-md cursor-pointer"
+											className="flex items-center space-x-2 px-3 py-2 dark:bg-accent/50 dark:text-black transition-all duration-200 hover:bg-gray-50 cursor-pointer"
 										>
 											<RiDeleteBin5Line className="w-4 h-4 text-black" />
 											<span>Delete</span>
@@ -150,7 +150,7 @@ export default function FileCard({ item }: Props) {
 														isFavorite: !item.isFavorite,
 													});
 												}}
-												className="flex items-center space-x-2 px-3 py-2 bg-gray-50 dark:bg-accent/50 transition-all duration-200 hover:bg-gray-50 hover:shadow-md cursor-pointer"
+												className="flex items-center space-x-2 px-3 py-2 dark:bg-accent/50 transition-all duration-200 hover:bg-gray-50 cursor-pointer"
 											>
 												{item.isFavorite ? (
 													<MdFavorite className="w-4 h-4 text-gray-800" />

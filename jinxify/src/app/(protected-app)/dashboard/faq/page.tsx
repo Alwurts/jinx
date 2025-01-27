@@ -18,7 +18,7 @@ export default function FAQs() {
 	const faqData = [
 		{
 			id: "1",
-			question: "What is Jinxify?",
+			question: "What is jinxify?",
 			answer:
 				"Jinxify is an innovative workflow management tool that combines BPMN diagram creation with AI capabilities. You can create diagrams using ChatGPT, organize them in folders, and convert your processes into actionable tasks. It's designed to streamline your business process management from conception to execution.",
 			image: "/images/BPMN.png",
@@ -54,7 +54,7 @@ export default function FAQs() {
 				Frequently Asked Questions
 			</h2>
 			<p className="text-muted-foreground mb-8 text-center">
-				Learn how to create, manage, and transform your workflows with Jinxify
+				Learn how to create, manage, and transform your workflows with jinxify
 			</p>
 
 			<Accordion type="single" collapsible className="space-y-4">
@@ -62,7 +62,7 @@ export default function FAQs() {
 					<AccordionItem
 						key={faq.id}
 						value={faq.id}
-						className="border border-border rounded-lg p-2 bg-card hover:bg-accent/50 transition-colors"
+						className="border border-border rounded-lg p-2 bg-white hover:bg-accent/50 transition-colors"
 					>
 						<AccordionTrigger className="text-left font-semibold px-2 text-foreground">
 							{faq.question}

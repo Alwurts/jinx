@@ -1,7 +1,7 @@
 "use client";
 
 import { useQuery } from "@tanstack/react-query";
-import { HomeIcon } from "lucide-react";
+import { Heart, HomeIcon } from "lucide-react";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
 import FileCard from "@/components/dashboard/files-view/file-card";
 import { FavoriteLoadingSkeleton } from "./favorite-skeleton";
@@ -33,7 +33,7 @@ export default function Favorites() {
 		<div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
 			<ImageOverlayHeader
 				title="Favorites"
-				icon={<HomeIcon className="size-8 text-secondary z-20" />}
+				icon={<Heart className="size-8 text-primary-foreground z-20" />}
 			/>
 			<div className="flex-1 overflow-y-auto px-4 pb-8">
 				{data.length > 0 ? (

@@ -19,7 +19,7 @@ export default async function RootLayout({
 		<div className="flex h-screen w-screen bg-background">
 			<SidebarProvider>
 				<AppSidebar session={session ?? null} />
-				<main className="flex-1 flex flex-col m-4 bg-background rounded-lg border border-border">
+				<main className="flex-1 flex flex-col m-4 bg-white rounded-lg border border-border">
 					{children}
 				</main>
 			</SidebarProvider>

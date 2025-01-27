@@ -144,7 +144,7 @@ export function ProfileForm({ session }: Props) {
 					</h3>
 				</div>
 				<p className="text-sm text-muted-foreground">
-					Manage your profile data here:
+					Manage your profile data.
 				</p>
 			</div>
 			<Form {...form}>

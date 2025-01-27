@@ -3,7 +3,7 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Plus, ArrowLeft, FilesIcon } from "lucide-react";
+import { Plus, ArrowLeft, FilesIcon, Folder } from "lucide-react";
 import type { TDirectory } from "@/types/db";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import {
@@ -24,7 +24,6 @@ import {
 	DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import ImageOverlayHeader from "@/components/layout/image-overlay-header";
-import { MdMyLocation } from "react-icons/md";
 import { LuLayoutGrid } from "react-icons/lu";
 import {
 	Breadcrumb,
@@ -164,7 +163,7 @@ export default function Dashboard() {
 		<>
 			<ImageOverlayHeader
 				title="Files"
-				icon={<FilesIcon className="size-8 text-primary-foreground z-20" />}
+				icon={<Folder className="size-8 text-primary-foreground z-20" />}
 				leftToolbar={
 					<>
 						{directoryUrlId !== "root" && (
@@ -185,14 +184,14 @@ export default function Dashboard() {
 						<DropdownMenuTrigger asChild>
 							<Button
 								variant="secondary"
-								className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
+								className="flex items-center gap-2 bg-creamy text-mystical dark:bg-accent dark:text-secondary-foreground"
 								disabled={createWorkspaceItem.isPending}
 							>
 								New Item
 								<Plus className="w-5 h-5" />
 							</Button>
 						</DropdownMenuTrigger>
-						<DropdownMenuContent>
+						<DropdownMenuContent className="bg-white">
 							<DropdownMenuItem
 								onClick={() => handleCreateFolder("directory")}
 								className="z-30"
@@ -273,11 +272,15 @@ export default function Dashboard() {
 								<SelectTrigger className="w-[180px] border-border">
 									<SelectValue placeholder="Filter Item" />
 								</SelectTrigger>
-								<SelectContent>
+								<SelectContent className="bg-white">
 									<SelectItem value="remove">Remove filter</SelectItem>
+									<DropdownMenuSeparator />
 									<SelectItem value="directory">Folders</SelectItem>
+									<DropdownMenuSeparator />
 									<SelectItem value="diagram">Diagram</SelectItem>
+									<DropdownMenuSeparator />
 									<SelectItem value="form">Form</SelectItem>
+									<DropdownMenuSeparator />
 									<SelectItem value="document">Document</SelectItem>
 								</SelectContent>
 							</Select>
@@ -290,11 +293,11 @@ export default function Dashboard() {
 									<LuLayoutGrid />
 								</div>
 							</DropdownMenuTrigger>
-							<DropdownMenuContent className="mr-6">
-								<DropdownMenuSeparator />
+							<DropdownMenuContent className="mr-6 bg-white">
 								<DropdownMenuItem onClick={() => setViewType("grid")}>
 									Symbol View
 								</DropdownMenuItem>
+								<DropdownMenuSeparator />
 								<DropdownMenuItem onClick={() => setViewType("list")}>
 									List View
 								</DropdownMenuItem>

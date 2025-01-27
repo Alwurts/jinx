@@ -38,7 +38,7 @@ export function StatsCards() {
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mb-8 mt-2">
-			<Card>
+			<Card className="bg-white">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						Total Diagrams
@@ -55,7 +55,7 @@ export function StatsCards() {
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card className="bg-white">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						Total Tasks
@@ -72,7 +72,7 @@ export function StatsCards() {
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card className="bg-white">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						Tasks Done
@@ -87,7 +87,7 @@ export function StatsCards() {
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card className="bg-white">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						In Progress

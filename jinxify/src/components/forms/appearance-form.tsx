@@ -55,7 +55,7 @@ export function AppearanceForm() {
 					<IoInvertModeOutline className="w-6 h-6" />
 					<h3 className="text-2xl font-semibold">Appearance</h3>
 				</div>
-				<p className="text-sm text-muted-foreground">Modify the mode here:</p>
+				<p className="text-sm text-muted-foreground">Modify the mode.</p>
 			</div>
 			<Form {...form}>
 				<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

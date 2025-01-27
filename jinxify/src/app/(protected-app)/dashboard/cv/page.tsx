@@ -63,9 +63,9 @@ function Page() {
 
 	return (
 		<div className="container mx-auto max-w-2xl py-10">
-			<Card>
+			<Card className="bg-white rounded-lg text-mystical">
 				<CardHeader>
-					<CardTitle>CV Analysis</CardTitle>
+					<CardTitle>CV Analyser</CardTitle>
 				</CardHeader>
 				<CardContent>
 					<form onSubmit={submitHandler} className="space-y-4">

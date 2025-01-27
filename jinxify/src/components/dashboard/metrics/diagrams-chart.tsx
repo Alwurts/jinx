@@ -54,7 +54,7 @@ export function DiagramsChart() {
 	);
 
 	return (
-		<Card>
+		<Card className="bg-white">
 			<CardHeader>
 				<CardTitle className="text-foreground">Bar Chart</CardTitle>
 				<CardDescription className="text-muted-foreground">

@@ -56,7 +56,7 @@ export const AccountForm = ({ session }: Props) => {
 					</h3>
 				</div>
 				<p className="text-sm text-muted-foreground">
-					Check your profile data:
+					Check your profile data.
 				</p>
 				<div className="text-sm mt-4 space-y-4">
 					<p>

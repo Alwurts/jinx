@@ -60,7 +60,7 @@ export function RecentFiles() {
 		.slice(0, 4);
 
 	return (
-		<Card className="xl:col-span-2">
+		<Card className="xl:col-span-2 bg-white">
 			<CardHeader className="flex flex-row items-center">
 				<div className="grid gap-2">
 					<CardTitle className="text-foreground">Recent Files</CardTitle>
