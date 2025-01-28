@@ -5,7 +5,10 @@ import { RiProgress2Line } from "react-icons/ri";
 import { IoCloudDoneOutline } from "react-icons/io5";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Activity, Users, CreditCard } from "lucide-react";
-import type { TDiagram, TTask } from "@/types/db";
+import type { TDiagram, TTask, TDocument, TForm } from "@/types/db";
+import { ImFilesEmpty } from "react-icons/im";
+import { MdTaskAlt } from "react-icons/md";
+import { BsListTask } from "react-icons/bs";
 
 export function StatsCards() {
 	const { data: diagrams = [] } = useQuery({
@@ -17,6 +20,28 @@ export function StatsCards() {
 			return json as TDiagram[];
 		},
 	});
+
+	const { data: documents = [], isLoading: documentsLoading } = useQuery({
+		queryKey: ["documents"],
+		queryFn: async function fetchDocuments() {
+			const response = await fetch("/api/documents"); // Adjust your endpoint for documents
+			if (!response.ok) throw new Error("Failed to fetch documents");
+			const json = await response.json();
+			return json as TDocument[];
+		},
+	});
+
+	const { data: forms = [], isLoading: formsLoading } = useQuery({
+		queryKey: ["forms"],
+		queryFn: async function fetchForms() {
+			const response = await fetch("/api/forms"); // Adjust your endpoint for forms
+			if (!response.ok) throw new Error("Failed to fetch forms");
+			const json = await response.json();
+			return json as TForm[];
+		},
+	});
+
+	const totalFilesCreated = diagrams.length + documents.length + forms.length;
 
 	const { data: tasks = [] } = useQuery({
 		queryKey: ["tasks"],
@@ -38,46 +63,46 @@ export function StatsCards() {
 
 	return (
 		<div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4 mb-8 mt-2">
-			<Card>
+			<Card className="bg-background">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
-						Total Diagrams
+						Total Files
 					</CardTitle>
-					<Activity className="h-4 w-4 text-muted-foreground" />
+					<ImFilesEmpty className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
 					<div className="text-2xl font-bold text-foreground">
-						{diagrams.length}
+						{totalFilesCreated}
 					</div>
 					<p className="text-xs text-muted-foreground">
-						Total diagrams created
+						All files created with jinxify
 					</p>
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card className="bg-background">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						Total Tasks
 					</CardTitle>
-					<Users className="h-4 w-4 text-muted-foreground" />
+					<BsListTask className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
 					<div className="text-2xl font-bold text-foreground">
 						{tasks.length}
 					</div>
 					<p className="text-xs text-muted-foreground">
-						Tasks across all diagrams
+						All tasks in the Task Manager
 					</p>
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card className="bg-background">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						Tasks Done
 					</CardTitle>
-					<IoCloudDoneOutline className="h-4 w-4 text-muted-foreground" />
+					<MdTaskAlt className="h-4 w-4 text-muted-foreground" />
 				</CardHeader>
 				<CardContent>
 					<div className="text-2xl font-bold text-foreground">
@@ -87,7 +112,7 @@ export function StatsCards() {
 				</CardContent>
 			</Card>
 
-			<Card>
+			<Card className="bg-background">
 				<CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 					<CardTitle className="text-sm font-medium text-foreground">
 						In Progress

@@ -60,7 +60,7 @@ export function RecentFiles() {
 		.slice(0, 4);
 
 	return (
-		<Card className="xl:col-span-2">
+		<Card className="xl:col-span-2 bg-background">
 			<CardHeader className="flex flex-row items-center">
 				<div className="grid gap-2">
 					<CardTitle className="text-foreground">Recent Files</CardTitle>
@@ -68,7 +68,7 @@ export function RecentFiles() {
 						Your most recently updated files
 					</CardDescription>
 				</div>
-				<Button asChild size="sm" className="ml-auto gap-1 hover:bg-accent/50">
+				<Button asChild size="sm" className="ml-auto gap-1">
 					<Link href="/dashboard/files">
 						View All
 						<ArrowUpRight className="h-4 w-4" />
@@ -80,7 +80,7 @@ export function RecentFiles() {
 					{combinedFiles.map((file) => (
 						<div
 							key={file.id}
-							className="flex items-center gap-4 p-2 rounded-lg hover:bg-accent/50 transition-colors"
+							className="flex items-center gap-2 p-4 rounded-lg hover:bg-accent/50 transition-colors"
 						>
 							<div className="grid gap-1">
 								<p className="text-sm font-medium leading-none text-foreground">

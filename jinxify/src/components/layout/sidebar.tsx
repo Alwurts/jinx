@@ -10,6 +10,7 @@ import { CgLogOut } from "react-icons/cg";
 import { PiMagicWand } from "react-icons/pi";
 import { VscSettings } from "react-icons/vsc";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
@@ -96,7 +97,7 @@ const settingsItems = [
 		icon: VscSettings,
 	},
 	{
-		title: "FAQs",
+		title: "FAQ",
 		url: "/dashboard/faq",
 		icon: FaRegLightbulb,
 	},
@@ -189,7 +190,7 @@ export function AppSidebar({ session }: Props) {
 							<DialogHeader>
 								<DialogTitle>Search</DialogTitle>
 							</DialogHeader>
-							<input
+							<Input
 								type="text"
 								onChange={handleSearch}
 								className="bg-background"
@@ -365,7 +366,7 @@ export function AppSidebar({ session }: Props) {
 					</SidebarGroupLabel>
 					<DropdownMenu>
 						<DropdownMenuTrigger className="w-full rounded-lg focus:outline-none">
-							<div className="flex items-center space-x-3 p-4 mb-3 rounded-md bg-white dark:bg-accent/50 border border-border shadow-md transition-shadow hover:bg-gray-50 cursor-pointer">
+							<div className="flex items-center space-x-3 p-4 mb-3 rounded-md bg-background dark:hover:bg-primary/10  border border-border shadow-md transition-shadow hover:bg-gray-50 cursor-pointer">
 								<Avatar>
 									<AvatarImage
 										src={session?.user?.image ?? "/images/jinx.png"}

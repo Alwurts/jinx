@@ -192,7 +192,10 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 					</DialogHeader>
 
 					<Form {...form}>
-						<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+						<form
+							onSubmit={form.handleSubmit(onSubmit)}
+							className="pb-4 space-y-4"
+						>
 							<FormField
 								control={form.control}
 								name="title"
@@ -342,17 +345,15 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 							</div>
 
 							{task && (
-								<div className="text-sm text-gray-500">
+								<div className="flex flex-row space-x-4 items-center text-sm text-gray-500">
 									<div>
 										Created {new Date(task.createdAt).toLocaleDateString()}
 									</div>
-									<div className="text-xs text-gray-400">
-										ID: {task.id.slice(0, 8)}
-									</div>
+									<div>ID: {task.id.slice(0, 8)}</div>
 								</div>
 							)}
 
-							<div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 flex justify-between gap-2 rounded-b-lg">
+							<div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 dark:bg-accent flex justify-between rounded-b-lg">
 								{task && (
 									<Button
 										type="button"
@@ -360,7 +361,7 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 										onClick={() => deleteTask.mutate()}
 										className="text-red-600 hover:bg-red-100 hover:text-red-700"
 									>
-										<Trash className="h-4 w-4 mr-2" />
+										<Trash className="h-4 w-4" />
 										Delete Task
 									</Button>
 								)}

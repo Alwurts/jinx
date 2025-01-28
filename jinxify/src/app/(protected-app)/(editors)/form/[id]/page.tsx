@@ -112,7 +112,7 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 							variant="ghost"
 							disabled={renameMutation.isPending}
 							onClick={handleButtonClick}
-							className="ml-2 p-2 bg-white"
+							className="ml-2 p-2 bg-background"
 							aria-label="Edit title"
 						>
 							{isEditing ? (

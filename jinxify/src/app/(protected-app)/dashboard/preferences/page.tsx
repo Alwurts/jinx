@@ -10,7 +10,7 @@ export default async function SettingsProfilePage() {
 	const session = await auth();
 
 	return (
-		<div className="flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
+		<div className="bg-background flex flex-col h-[calc(100vh-4rem)] overflow-hidden">
 			<div>
 				<ImageOverlayHeader
 					title="Preferences"

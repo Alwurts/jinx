@@ -138,13 +138,16 @@ export function ProfileForm({ session }: Props) {
 		<div>
 			<div className="pt-8 pb-2">
 				<div className="flex items-center space-x-2">
-					<FiEdit className="w-6 h-6" />
-					<h3 id="edit-profile-form" className="text-2xl font-semibold">
+					<FiEdit className="w-6 h-6 dark:text-secondary" />
+					<h3
+						id="edit-profile-form"
+						className="text-2xl font-semibold dark:text-secondary"
+					>
 						Edit Profile
 					</h3>
 				</div>
 				<p className="text-sm text-muted-foreground">
-					Manage your profile data here:
+					Manage your profile data.
 				</p>
 			</div>
 			<Form {...form}>

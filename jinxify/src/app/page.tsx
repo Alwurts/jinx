@@ -93,13 +93,14 @@ export default async function Home() {
 				<div className="relative z-20 mt-auto text-creamy dark:text-mystical">
 					<blockquote className="space-y-2 italic">
 						<p className="text-lg">
-							&ldquo;jinxify has streamlined our processes with AI-driven to-dos
-							and workflow automation. By turning BPMN diagrams into actionable
-							tasks and reducing manual work, it has enhanced our efficiency and
-							productivity significantly.&rdquo;
+							&ldquo;jinxify has transformed how I approach recruitment. From
+							generating job offers effortlessly to customizing interview
+							questions and automating onboarding workflows, it’s made my
+							processes faster, more efficient, and incredibly easy to manage. A
+							reliable teammate added to the process.&rdquo;
 						</p>
 						<footer className="text-sm not-italic">
-							Pedro - Sales professional
+							Jane - HR professional
 						</footer>
 					</blockquote>
 				</div>
@@ -111,7 +112,7 @@ export default async function Home() {
 							Enter the jinxify Portal
 						</h1>
 						<p className="text-sm text-muted-foreground">
-							Log in or create an account with GitHub
+							Log in or create an account via Google or GitHub
 						</p>
 					</div>
 					<UserAuthForm />

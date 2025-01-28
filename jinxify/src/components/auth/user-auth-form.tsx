@@ -55,20 +55,6 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 				<Button
 					variant="default"
 					type="button"
-					onClick={() => signIn("github", { callbackUrl: "/dashboard/home" })}
-					className="w-full"
-					disabled={isLoading}
-				>
-					{isLoading ? (
-						<ImSpinner2 className="mr-2 h-4 w-4 animate-spin" />
-					) : (
-						<FaGithub className="mr-2 h-4 w-4" />
-					)}
-					GitHub
-				</Button>
-				<Button
-					variant="outline"
-					type="button"
 					onClick={() => signIn("google", { callbackUrl: "/dashboard/home" })}
 					className="w-full"
 					disabled={isLoading}
@@ -79,6 +65,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
 						<FaGoogle className="mr-2 h-4 w-4" />
 					)}
 					Google
+				</Button>
+				<Button
+					variant="outline"
+					type="button"
+					onClick={() => signIn("github", { callbackUrl: "/dashboard/home" })}
+					className="w-full"
+					disabled={isLoading}
+				>
+					{isLoading ? (
+						<ImSpinner2 className="mr-2 h-4 w-4 animate-spin" />
+					) : (
+						<FaGithub className="mr-2 h-4 w-4" />
+					)}
+					GitHub
 				</Button>
 			</div>
 		</div>

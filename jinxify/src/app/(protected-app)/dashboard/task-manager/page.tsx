@@ -27,6 +27,7 @@ import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/file-skeleton";
+import { GrTask } from "react-icons/gr";
 import { TaskLoadingSkeleton } from "./task-skeleton";
 import type { TTask } from "@/types/db";
 import { TaskDialog } from "./task-dialog";
@@ -200,16 +201,16 @@ export default function TaskManager() {
 	return (
 		<>
 			<ImageOverlayHeader
-				title="Task Board"
-				icon={<EyeIcon className="size-8 text-primary-foreground z-20" />}
+				title="Task Manager"
+				icon={<GrTask className="size-8 text-primary-foreground z-20" />}
 				leftToolbar={<SidebarTrigger className="md:hidden z-10 bg-secondary" />}
 				rightToolbar={
-					<div className="flex items-center gap-2">
+					<div className="flex items-center gap-2 text-mystical">
 						<Select
 							value={currentDiagramId || "all"}
 							onValueChange={handleDiagramFilter}
 						>
-							<SelectTrigger className="w-[200px] bg-secondary dark:bg-accent dark:text-secondary-foreground">
+							<SelectTrigger className="w-[200px] border-none bg-creamy dark:bg-background dark:text-secondary-foreground">
 								<SelectValue placeholder="Filter by diagram" />
 							</SelectTrigger>
 							<SelectContent>
@@ -225,7 +226,7 @@ export default function TaskManager() {
 						<Button
 							onClick={() => setIsGenerateTasksOpen(true)}
 							variant="secondary"
-							className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
+							className="flex items-center gap-2 bg-creamy dark:bg-background text-mystical dark:text-secondary-foreground"
 						>
 							<Plus className="w-4 h-4" />
 							Generate Tasks
@@ -234,7 +235,7 @@ export default function TaskManager() {
 						<Button
 							onClick={handleCreateTask}
 							variant="secondary"
-							className="flex items-center gap-2 dark:bg-accent dark:text-secondary-foreground"
+							className="flex items-center gap-2 bg-creamy text-mystical dark:bg-background dark:text-secondary-foreground"
 						>
 							<Plus className="w-4 h-4" />
 							Add Task
@@ -252,13 +253,13 @@ export default function TaskManager() {
 				taskId={selectedTaskId}
 				onClose={() => setSelectedTaskId(null)}
 			/>
-			<div className="flex-1 overflow-x-auto p-4">
+			<div className="flex-1 overflow-x-auto p-4 mb-4">
 				<DragDropContext onDragEnd={handleDragEnd}>
 					<div className="flex gap-4 h-full min-h-[calc(100vh-12rem)]">
 						{statusColumns.map((column) => (
 							<div
 								key={column.id}
-								className="flex-1 min-w-[280px] bg-background dark:bg-[hsl(255.29,38.33%,11.65%)] rounded-lg p-4 border border-border"
+								className="flex-1 min-w-[280px] bg-background rounded-lg p-4 border border-border min-h-min"
 							>
 								<div className="flex items-center justify-between mb-4">
 									<h3 className="font-semibold text-foreground">
@@ -298,7 +299,7 @@ export default function TaskManager() {
 																}`}
 															>
 																<Card
-																	className="bg-background dark:bg-card cursor-pointer hover:shadow-md transition-shadow dark:border-border dark:text-card-foreground dark:hover:bg-accent/50"
+																	className="bg-background cursor-pointer hover:shadow-md transition-shadow dark:border-border dark:hover:bg-accent/50"
 																	onClick={() => setSelectedTaskId(task.id)}
 																>
 																	<CardHeader className="p-4">
