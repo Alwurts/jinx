@@ -4,7 +4,7 @@ import {
 	PopoverContent,
 	PopoverTrigger,
 } from "@/components/ui/popover";
-import { Share2, Copy } from "lucide-react";
+import { Share2, Copy, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
 
@@ -40,8 +40,18 @@ export function SharePopover({ url }: SharePopoverProps) {
 							variant="outline"
 							className="h-9 px-3"
 							onClick={handleCopy}
+							title="Copy link"
 						>
 							<Copy className="h-4 w-4" />
+						</Button>
+						<Button
+							size="sm"
+							variant="outline"
+							className="h-9 px-3"
+							onClick={() => window.open(url, "_blank")}
+							title="Open link"
+						>
+							<ExternalLink className="h-4 w-4" />
 						</Button>
 					</div>
 				</div>

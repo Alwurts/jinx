@@ -41,13 +41,15 @@ export default function FormView({ params }: { params: { id: string } }) {
 					<QuerySpinner />
 				</div>
 			</div>
-			<div className="flex-1 flex relative overflow-hidden container mx-auto">
-				{isLoading && !data && (
-					<div className="flex-1 flex items-center justify-center">
-						Loading...
-					</div>
-				)}
-				{data && <FormViewer form={data} />}
+			<div className="overflow-y-auto py-10">
+				<div className="flex-1 flex relative container mx-auto">
+					{isLoading && !data && (
+						<div className="flex-1 flex items-center justify-center">
+							Loading...
+						</div>
+					)}
+					{data && <FormViewer form={data} />}
+				</div>
 			</div>
 		</div>
 	);
