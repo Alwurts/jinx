@@ -28,6 +28,11 @@ export default function PricingCard({
         </CardHeader>
 
         <CardContent className="space-y-6">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center">
+              <span className="text-4xl font-bold">${price}</span>
+            </div>
+          </div>
           <div className="space-y-4">
             {features.map((feature, index) => (
               <div key={index} className="flex items-center space-x-3">
