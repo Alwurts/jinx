@@ -102,7 +102,13 @@ export default function InitializedMDXEditor({
 			]}
 			{...props}
 			ref={editorRef}
-			contentEditableClassName="prose dark:prose-invert max-w-none"
+			contentEditableClassName="prose dark:prose-invert max-w-none
+				prose-p:text-foreground dark:prose-p:text-foreground
+				prose-headings:text-foreground dark:prose-headings:text-foreground
+				prose-strong:text-foreground dark:prose-strong:text-foreground
+				prose-ul:text-foreground dark:prose-ul:text-foreground
+				prose-ol:text-foreground dark:prose-ol:text-foreground
+				prose-blockquote:text-foreground dark:prose-blockquote:text-foreground"
 		/>
 	);
 }

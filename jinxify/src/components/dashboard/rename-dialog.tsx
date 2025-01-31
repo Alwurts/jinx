@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { use, useEffect, useState } from "react";
-import { useDirectory } from '@/context/directory-context';
+import { useDirectory } from "@/context/directory-context";
 
 type Props = {
 	item: TDirectory | TDiagram | TForm | TDocument | null;
@@ -53,6 +53,13 @@ export function RenameDialog({ item, close }: Props) {
 		},
 	});
 
+	const handleSubmit = (e: React.FormEvent) => {
+		e.preventDefault();
+		if (name.trim()) {
+			renameMutation.mutate();
+		}
+	};
+
 	return (
 		<Dialog open={!!item} onOpenChange={(state) => close(state)}>
 			<DialogContent className="sm:max-w-[425px]">
@@ -62,7 +69,7 @@ export function RenameDialog({ item, close }: Props) {
 						Make changes to your directory, diagram, form or document.
 					</DialogDescription>
 				</DialogHeader>
-				<div className="grid gap-4 py-4">
+				<form onSubmit={handleSubmit} className="grid gap-4 py-4">
 					<div className="grid grid-cols-4 items-center gap-4">
 						<Label htmlFor="name" className="text-right">
 							Name
@@ -73,17 +80,15 @@ export function RenameDialog({ item, close }: Props) {
 							className="col-span-3"
 							value={name}
 							onChange={(e) => setName(e.target.value)}
+							autoFocus
 						/>
 					</div>
-				</div>
-				<DialogFooter>
-					<Button
-						disabled={renameMutation.isPending}
-						onClick={() => renameMutation.mutate()}
-					>
-						Save changes
-					</Button>
-				</DialogFooter>
+					<DialogFooter>
+						<Button type="submit" disabled={renameMutation.isPending}>
+							Save changes
+						</Button>
+					</DialogFooter>
+				</form>
 			</DialogContent>
 		</Dialog>
 	);
