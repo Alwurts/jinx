@@ -42,6 +42,7 @@ import {
 } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import { FilesLayout } from "@/components/dashboard/files-layout";
+import { DirectoryProvider } from '@/context/directory-context';
 
 export default function Dashboard() {
 	const [viewType, setViewType] = useState<"grid" | "list">("grid");
@@ -128,7 +129,7 @@ export default function Dashboard() {
 		},
 	});
 
-	const handleCreateFolder = (
+	const handleCreateFile = (
 		type: "diagram" | "directory" | "form" | "document",
 	) => {
 		createWorkspaceItem.mutate({
@@ -160,7 +161,7 @@ export default function Dashboard() {
 	}
 
 	return (
-		<>
+		<DirectoryProvider directoryUrlId={directoryUrlId}>
 			<ImageOverlayHeader
 				title="Files"
 				icon={<Folder className="size-8 text-primary-foreground z-20" />}
@@ -193,7 +194,7 @@ export default function Dashboard() {
 						</DropdownMenuTrigger>
 						<DropdownMenuContent className="bg-background">
 							<DropdownMenuItem
-								onClick={() => handleCreateFolder("directory")}
+								onClick={() => handleCreateFile("directory")}
 								className="z-30"
 							>
 								<FaFolder className="w-4 h-4 mr-2" />
@@ -203,7 +204,7 @@ export default function Dashboard() {
 								<>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem
-										onClick={() => handleCreateFolder("diagram")}
+										onClick={() => handleCreateFile("diagram")}
 									>
 										<FaProjectDiagram className="w-4 h-4 mr-2" />
 										New Diagram
@@ -213,7 +214,7 @@ export default function Dashboard() {
 							{directoryUrlId !== "root" && (
 								<>
 									<DropdownMenuSeparator />
-									<DropdownMenuItem onClick={() => handleCreateFolder("form")}>
+									<DropdownMenuItem onClick={() => handleCreateFile("form")}>
 										<FaFileAlt className="w-4 h-4 mr-2" />
 										New Form
 									</DropdownMenuItem>
@@ -223,7 +224,7 @@ export default function Dashboard() {
 								<>
 									<DropdownMenuSeparator />
 									<DropdownMenuItem
-										onClick={() => handleCreateFolder("document")}
+										onClick={() => handleCreateFile("document")}
 									>
 										<FaFileWord className="w-4 h-4 mr-2" />
 										New Document
@@ -312,7 +313,7 @@ export default function Dashboard() {
 					<p className="mb-4">
 						No folders or files yet. Create one to get started!
 					</p>
-					<Button onClick={() => handleCreateFolder("directory")}>
+					<Button onClick={() => handleCreateFile("directory")}>
 						<Plus className="w-4 h-4 mr-2" />
 						Create Your First Folder
 					</Button>
@@ -329,6 +330,6 @@ export default function Dashboard() {
 					</div>
 				)
 			)}
-		</>
+		</DirectoryProvider>
 	);
 }

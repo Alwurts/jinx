@@ -14,6 +14,7 @@ import { Label } from "@/components/ui/label";
 import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { use, useEffect, useState } from "react";
+import { useDirectory } from '@/context/directory-context';
 
 type Props = {
 	item: TDirectory | TDiagram | TForm | TDocument | null;
@@ -29,6 +30,7 @@ export function RenameDialog({ item, close }: Props) {
 	}, [item]);
 
 	const queryClient = useQueryClient();
+	const { directoryUrlId } = useDirectory();
 
 	const renameMutation = useMutation({
 		mutationFn: async () => {
@@ -40,8 +42,13 @@ export function RenameDialog({ item, close }: Props) {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: ["directory", item?.directoryId],
+				queryKey: ["directory", directoryUrlId],
 			});
+			if (item?.directoryId) {
+				queryClient.invalidateQueries({
+					queryKey: ["directory", item.directoryId],
+				});
+			}
 			close(false);
 		},
 	});

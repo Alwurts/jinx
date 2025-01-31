@@ -13,6 +13,8 @@ import {
 import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { boolean } from "drizzle-orm/pg-core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useDirectory } from '@/context/directory-context';
+
 type Props = {
 	item: TDiagram | TDirectory | TForm | TDocument | null;
 	close: (open: boolean) => void;
@@ -20,6 +22,8 @@ type Props = {
 
 export function DeleteDialog({ item, close }: Props) {
 	const queryClient = useQueryClient();
+	const { directoryUrlId } = useDirectory();
+
 	const deleteMutation = useMutation({
 		mutationFn: async (values: {
 			id: string | undefined;
@@ -32,8 +36,13 @@ export function DeleteDialog({ item, close }: Props) {
 		},
 		onSuccess: () => {
 			queryClient.invalidateQueries({
-				queryKey: ["directory", item?.directoryId],
+				queryKey: ["directory", directoryUrlId],
 			});
+			if (item?.directoryId) {
+				queryClient.invalidateQueries({
+					queryKey: ["directory", item.directoryId],
+				});
+			}
 			close(false);
 		},
 	});
