@@ -9,6 +9,7 @@ const createWorkspaceItemSchema = z.object({
 	type: z.enum(["directory", "diagram", "form", "document"]),
 	title: z.string().min(1),
 	directoryId: z.string().min(1),
+	content: z.union([z.string(), z.record(z.any())]).optional(),
 });
 
 export async function POST(request: NextRequest) {
@@ -36,11 +37,14 @@ export async function POST(request: NextRequest) {
 		}
 
 		if (validated.type === "diagram") {
+			const diagramContent =
+				typeof validated.content === "string" ? validated.content : defDiagram;
+
 			const newDiagram = await db
 				.insert(diagram)
 				.values({
 					title: validated.title,
-					content: defDiagram,
+					content: diagramContent,
 					directoryId: validated.directoryId,
 					userId: session.user.id,
 				})
@@ -50,14 +54,19 @@ export async function POST(request: NextRequest) {
 		}
 
 		if (validated.type === "form") {
+			const formSchema =
+				validated.content && typeof validated.content === "object"
+					? validated.content
+					: {
+							type: "default",
+							components: [],
+						};
+
 			const newForm = await db
 				.insert(form)
 				.values({
 					title: validated.title,
-					schema: {
-						type: "default",
-						components: [],
-					},
+					schema: formSchema,
 					directoryId: validated.directoryId,
 					userId: session.user.id,
 				})
@@ -67,11 +76,14 @@ export async function POST(request: NextRequest) {
 		}
 
 		if (validated.type === "document") {
+			const documentContent =
+				typeof validated.content === "string" ? validated.content : "# Edit me";
+
 			const newDocument = await db
 				.insert(document)
 				.values({
 					title: validated.title,
-					content: "# Edit me",
+					content: documentContent,
 					directoryId: validated.directoryId,
 					userId: session.user.id,
 				})

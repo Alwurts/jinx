@@ -42,12 +42,17 @@ import {
 } from "@/components/ui/select";
 import { useMemo, useState } from "react";
 import { FilesLayout } from "@/components/dashboard/files-layout";
-import { DirectoryProvider } from '@/context/directory-context';
+import { DirectoryProvider } from "@/context/directory-context";
+import { TemplateSelectionDialog } from "@/components/dashboard/template-selection-dialog";
 
 export default function Dashboard() {
 	const [viewType, setViewType] = useState<"grid" | "list">("grid");
 	const [selectItem, setSelectItem] = useState<
 		"directory" | "diagram" | "form" | "document" | null
+	>(null);
+	const [templateDialogOpen, setTemplateDialogOpen] = useState(false);
+	const [selectedFileType, setSelectedFileType] = useState<
+		"diagram" | "form" | "document" | null
 	>(null);
 	const queryClient = useQueryClient();
 	const searchParams = useSearchParams();
@@ -99,9 +104,11 @@ export default function Dashboard() {
 		mutationFn: async ({
 			type,
 			title,
+			content,
 		}: {
 			type: "directory" | "diagram" | "form" | "document";
 			title: string;
+			content?: string | object;
 		}) => {
 			const response = await fetch("/api/workspace", {
 				method: "POST",
@@ -112,6 +119,7 @@ export default function Dashboard() {
 					type,
 					title,
 					directoryId: currentDirectoryData?.id,
+					content,
 				}),
 			});
 
@@ -132,17 +140,27 @@ export default function Dashboard() {
 	const handleCreateFile = (
 		type: "diagram" | "directory" | "form" | "document",
 	) => {
+		if (type === "directory") {
+			createWorkspaceItem.mutate({
+				type,
+				title: "New Folder",
+			});
+		} else {
+			setSelectedFileType(type);
+			setTemplateDialogOpen(true);
+		}
+	};
+
+	const handleTemplateSelect = (template: {
+		title: string;
+		content: string;
+	}) => {
+		if (!selectedFileType) return;
+
 		createWorkspaceItem.mutate({
-			type,
-			title: `New ${
-				type === "directory"
-					? "Folder"
-					: type === "diagram"
-						? "Diagram"
-						: type === "form"
-							? "Form"
-							: "Document"
-			}`,
+			type: selectedFileType,
+			title: template.title,
+			content: template.content,
 		});
 	};
 
@@ -203,9 +221,7 @@ export default function Dashboard() {
 							{directoryUrlId !== "root" && (
 								<>
 									<DropdownMenuSeparator />
-									<DropdownMenuItem
-										onClick={() => handleCreateFile("diagram")}
-									>
+									<DropdownMenuItem onClick={() => handleCreateFile("diagram")}>
 										<FaProjectDiagram className="w-4 h-4 mr-2" />
 										New Diagram
 									</DropdownMenuItem>
@@ -329,6 +345,15 @@ export default function Dashboard() {
 						/>
 					</div>
 				)
+			)}
+
+			{selectedFileType && (
+				<TemplateSelectionDialog
+					type={selectedFileType}
+					open={templateDialogOpen}
+					onOpenChange={setTemplateDialogOpen}
+					onSelect={handleTemplateSelect}
+				/>
 			)}
 		</DirectoryProvider>
 	);
