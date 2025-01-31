@@ -9,14 +9,25 @@ import { useChatContext } from "../chat/chat-provider";
 import { useMutation } from "@tanstack/react-query";
 import type { TForm } from "@/types/db";
 
-export default function Editor({ form }: { form: TForm }) {
+interface FormSchema {
+	type: string;
+	components: Array<{
+		type: string;
+		[key: string]: unknown;
+	}>;
+}
+
+export default function Editor({ form, onSubmitButtonChange }: { 
+	form: TForm; 
+	onSubmitButtonChange?: (hasButton: boolean) => void;
+}) {
 	const containerRef = useRef<HTMLDivElement>(null);
 	const [modeler, setModeler] = useState<FormEditor | null>(null);
 	const { generateForm } = useChatContext();
+	const [hasSubmitButton, setHasSubmitButton] = useState(true);
 
 	const updateForm = useMutation({
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		mutationFn: async (values: { formId: string; schema: any }) => {
+		mutationFn: async (values: { formId: string; schema: FormSchema }) => {
 			const res = await fetch(`/api/form/${values.formId}`, {
 				method: "PATCH",
 				body: JSON.stringify({ schema: values.schema }),
@@ -25,16 +36,26 @@ export default function Editor({ form }: { form: TForm }) {
 		},
 	});
 
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const debouncedSave = useDebouncedCallback((schema: any) => {
+	// Check if schema has submit button
+	const checkSubmitButton = useCallback((schema: FormSchema) => {
+		const components = schema?.components || [];
+		const submitExists = components.some(
+			(component) => component.type === "button"
+		);
+		setHasSubmitButton(!!submitExists);
+		onSubmitButtonChange?.(!!submitExists);
+	}, [onSubmitButtonChange]);
+
+	const debouncedSave = useDebouncedCallback((schema: FormSchema) => {
+		// Check for submit button whenever schema changes
+		checkSubmitButton(schema);
 		// Only save if content has actually changed
 		console.log("schema", schema);
 		updateForm.mutate({ formId: form.id, schema: schema });
 	}, 200);
 
 	const importSchema = useCallback(
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		async (schema: any, modelerRef?: FormEditor) => {
+		async (schema: FormSchema, modelerRef?: FormEditor) => {
 			const modelerToUse = modelerRef ?? modeler;
 			if (!modelerToUse) {
 				throw new Error("Modeler not initialized");
@@ -42,6 +63,7 @@ export default function Editor({ form }: { form: TForm }) {
 
 			try {
 				const { warnings } = await modelerToUse.importSchema(schema);
+				checkSubmitButton(schema);
 				if (warnings.length) {
 					console.warn(warnings);
 				}
@@ -49,7 +71,7 @@ export default function Editor({ form }: { form: TForm }) {
 				console.error(error);
 			}
 		},
-		[modeler],
+		[modeler, checkSubmitButton],
 	);
 
 	let modelerInitializationInstance: FormEditor | null = null;
@@ -67,8 +89,7 @@ export default function Editor({ form }: { form: TForm }) {
 				debouncedSave(schema);
 			});
 
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			await importSchema(form.schema as any[], modelerInitializationInstance);
+			await importSchema(form.schema as FormSchema, modelerInitializationInstance);
 
 			setModeler(modelerInitializationInstance);
 		} catch (error) {

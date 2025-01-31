@@ -19,6 +19,8 @@ import { FaCheck } from "react-icons/fa6";
 import { MessageSquare, Settings2 } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { PropertiesPanel } from "@/components/properties/properties-panel";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const Editor = dynamic(() => import("@/components/form-js/editor"), {
 	ssr: false,
@@ -32,6 +34,7 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 	const [isEditing, setIsEditing] = useState(false);
 	const [title, setTitle] = useState("");
 	const [sidebarView, setSidebarView] = useState<"chat" | "properties">("chat");
+	const [hasSubmitButton, setHasSubmitButton] = useState(true);
 
 	const { isLoading, data } = useQuery<TForm>({
 		queryKey: ["form", params.id],
@@ -128,7 +131,7 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 
 				<div className="flex items-center gap-2">
 					<FormSubmissionsDialog formId={params.id} />
-					<SharePopover url={shareUrl} />
+					<SharePopover url={shareUrl} disabled={!hasSubmitButton} />
 					<ToggleGroup
 						type="single"
 						value={sidebarView}
@@ -152,7 +155,9 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 						Loading...
 					</div>
 				)}
-				{data && <Editor form={data} />}
+				{data && (
+					<Editor form={data} onSubmitButtonChange={setHasSubmitButton} />
+				)}
 				{sidebarView === "chat" ? (
 					<ChatSidebar
 						messages={jinxChat.messages}
@@ -171,6 +176,24 @@ export default function FormEditor({ params }: { params: { id: string } }) {
 						updatedAt={data?.updatedAt || new Date()}
 					/>
 				)}
+
+				{/* Floating Alert */}
+				<div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 transition-all duration-200 ease-in-out">
+					<div
+						className={`transform transition-all duration-200 ${hasSubmitButton ? "translate-y-[200%] opacity-0" : "translate-y-0 opacity-100"}`}
+					>
+						<Alert
+							variant="default"
+							className="shadow-lg border-orange-200 bg-orange-100 dark:bg-orange-900/10 dark:border-orange-900/20"
+						>
+							<AlertCircle className="h-4 w-4 text-orange-600 dark:text-orange-600" />
+							<AlertDescription className="text-orange-600 dark:text-orange-600">
+								No submit button found in form. Users won't be able to submit
+								responses.
+							</AlertDescription>
+						</Alert>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
