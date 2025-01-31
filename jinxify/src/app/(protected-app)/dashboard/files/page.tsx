@@ -15,6 +15,7 @@ import {
 
 import { useSession } from "next-auth/react";
 import { DashboardSkeleton } from "@/components/dashboard/file-skeleton";
+import { WelcomeDialog } from "@/components/dashboard/welcome-dialog";
 
 import {
 	DropdownMenu,
@@ -40,7 +41,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@/components/ui/select";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { FilesLayout } from "@/components/dashboard/files-layout";
 import { DirectoryProvider } from "@/context/directory-context";
 import { TemplateSelectionDialog } from "@/components/dashboard/template-selection-dialog";
@@ -54,11 +55,28 @@ export default function Dashboard() {
 	const [selectedFileType, setSelectedFileType] = useState<
 		"diagram" | "form" | "document" | null
 	>(null);
+	const [welcomeDialogOpen, setWelcomeDialogOpen] = useState(false);
 	const queryClient = useQueryClient();
 	const searchParams = useSearchParams();
 	const directoryUrlId = searchParams.get("directoryId") ?? "root";
 	const { data: session, status } = useSession();
 	const router = useRouter();
+
+	// Show welcome dialog if newUser parameter is present
+	useEffect(() => {
+		if (searchParams.get("newUser") === "true") {
+			setWelcomeDialogOpen(true);
+		}
+	}, [searchParams]);
+
+	// Handle welcome dialog close
+	const handleWelcomeDialogClose = () => {
+		setWelcomeDialogOpen(false);
+		// Remove the newUser parameter from the URL
+		const newParams = new URLSearchParams(searchParams);
+		newParams.delete("newUser");
+		router.replace(`/dashboard/files?${newParams.toString()}`);
+	};
 
 	const { data: currentDirectoryData, isLoading } = useQuery({
 		queryKey: ["directory", directoryUrlId],
@@ -138,7 +156,7 @@ export default function Dashboard() {
 	});
 
 	const handleCreateFile = (
-		type: "diagram" | "directory" | "form" | "document",
+		type: "directory" | "diagram" | "form" | "document",
 	) => {
 		if (type === "directory") {
 			createWorkspaceItem.mutate({
@@ -180,6 +198,14 @@ export default function Dashboard() {
 
 	return (
 		<DirectoryProvider directoryUrlId={directoryUrlId}>
+			<WelcomeDialog
+				open={welcomeDialogOpen}
+				onOpenChange={handleWelcomeDialogClose}
+				onCreateFolder={() => {
+					handleWelcomeDialogClose();
+					handleCreateFile("directory");
+				}}
+			/>
 			<ImageOverlayHeader
 				title="Files"
 				icon={<Folder className="size-8 text-primary-foreground z-20" />}

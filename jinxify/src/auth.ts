@@ -15,6 +15,9 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 		verificationTokensTable: verificationTokens,
 	}),
 	trustHost: true,
+	pages: {
+		newUser: "/dashboard/files?newUser=true",
+	},
 	events: {
 		async createUser({ user }) {
 			try {
