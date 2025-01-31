@@ -2,26 +2,37 @@
 
 import { useChatContext } from "@/components/chat/chat-provider";
 import { ChatSidebar } from "@/components/chat/sidebar-chat";
-import Editor from "@/components/diagram/editor";
+import Editor, { type EditorRef } from "@/components/diagram/editor";
 import { QuerySpinner } from "@/components/query/query-spinner";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Separator } from "@/components/ui/separator";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import type { TDiagram } from "@/types/db";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { MessageSquare, Settings2 } from "lucide-react";
+import { MessageSquare, Settings2, Settings } from "lucide-react";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
 import { HiPencil } from "react-icons/hi2";
 import { FaCheck } from "react-icons/fa6";
 import { PropertiesPanel } from "@/components/properties/properties-panel";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ImportXmlDialog } from "@/components/diagram/import-xml-dialog";
+import { ExportXmlDialog } from "@/components/diagram/export-xml-dialog";
 
 export default function page({ params }: { params: { id: string } }) {
 	const { jinxChat } = useChatContext();
 	const [isEditing, setIsEditing] = useState(false);
 	const [title, setTitle] = useState("");
 	const [sidebarView, setSidebarView] = useState<"chat" | "properties">("chat");
+	const [showImportDialog, setShowImportDialog] = useState(false);
+	const [showExportDialog, setShowExportDialog] = useState(false);
+	const editorRef = useRef<EditorRef>(null);
 
 	const { isLoading, data } = useQuery<TDiagram>({
 		queryKey: ["diagram", params.id],
@@ -113,11 +124,15 @@ export default function page({ params }: { params: { id: string } }) {
 							)}
 						</Button>
 					</div>
-
-					<Separator orientation="vertical" />
 				</div>
 
 				<div className="flex items-center gap-2">
+					<Button variant="outline" onClick={() => setShowImportDialog(true)}>
+						Import
+					</Button>
+					<Button variant="outline" onClick={() => setShowExportDialog(true)}>
+						Export
+					</Button>{" "}
 					<ToggleGroup
 						type="single"
 						value={sidebarView}
@@ -141,7 +156,42 @@ export default function page({ params }: { params: { id: string } }) {
 						Loading...
 					</div>
 				)}
-				{data && <Editor diagram={data} />}
+				{data && (
+					<>
+						<Editor ref={editorRef} diagram={data} />
+						<ImportXmlDialog
+							open={showImportDialog}
+							onOpenChange={setShowImportDialog}
+							onImport={async (xml) => {
+								try {
+									if (!editorRef.current) {
+										throw new Error("Editor not initialized");
+									}
+									await editorRef.current.importXML(xml);
+								} catch (error) {
+									console.error("Import error:", error);
+									throw error;
+								}
+							}}
+						/>
+						<ExportXmlDialog
+							open={showExportDialog}
+							onOpenChange={setShowExportDialog}
+							getXml={async () => {
+								try {
+									if (!editorRef.current) {
+										throw new Error("Editor not initialized");
+									}
+									return await editorRef.current.getXml();
+								} catch (error) {
+									console.error("Export error:", error);
+									throw error;
+								}
+							}}
+							fileName={`${data.title}.bpmn`}
+						/>
+					</>
+				)}
 				{sidebarView === "chat" ? (
 					<ChatSidebar
 						messages={jinxChat.messages}

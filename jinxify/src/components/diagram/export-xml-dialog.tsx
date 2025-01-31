@@ -8,37 +8,58 @@ import {
 	DialogFooter,
 	DialogHeader,
 	DialogTitle,
-	DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Check, Download } from "lucide-react";
-import { useState } from "react";
+import { AlertCircle, Check, Download } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface ExportXmlDialogProps {
 	getXml: () => Promise<string>;
 	fileName: string;
+	open: boolean;
+	onOpenChange: (open: boolean) => void;
 }
 
-export function ExportXmlDialog({ getXml, fileName }: ExportXmlDialogProps) {
-	const [open, setOpen] = useState(false);
+export function ExportXmlDialog({
+	getXml,
+	fileName,
+	open,
+	onOpenChange,
+}: ExportXmlDialogProps) {
 	const [xml, setXml] = useState("");
 	const [copied, setCopied] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<string | null>(null);
 
-	const handleOpen = async (isOpen: boolean) => {
-		if (isOpen) {
+	useEffect(() => {
+		if (open) {
 			setIsLoading(true);
-			try {
-				const content = await getXml();
-				setXml(content);
-			} catch (error) {
-				console.error("Error getting XML:", error);
-			} finally {
-				setIsLoading(false);
-			}
+			setError(null);
+			getXml()
+				.then((content) => {
+					if (!content) {
+						throw new Error("No diagram content available");
+					}
+					setXml(content);
+				})
+				.catch((error) => {
+					console.error("Error getting XML:", error);
+					setError(
+						error instanceof Error
+							? error.message
+							: "Failed to get diagram content",
+					);
+					onOpenChange(false);
+				})
+				.finally(() => {
+					setIsLoading(false);
+				});
+		} else {
+			setXml("");
+			setError(null);
 		}
-		setOpen(isOpen);
-	};
+	}, [open, getXml, onOpenChange]);
 
 	const handleCopy = async () => {
 		await navigator.clipboard.writeText(xml);
@@ -59,47 +80,52 @@ export function ExportXmlDialog({ getXml, fileName }: ExportXmlDialogProps) {
 	};
 
 	return (
-		<Dialog open={open} onOpenChange={handleOpen}>
-			<DialogTrigger asChild>
-				<Button variant="outline">Export</Button>
-			</DialogTrigger>
-			<DialogContent className="max-w-2xl">
-				<DialogHeader>
-					<DialogTitle>Export BPMN XML</DialogTitle>
-					<DialogDescription>
-						View, copy, or download the BPMN XML content
-					</DialogDescription>
-				</DialogHeader>
+		<>
+			{error && (
+				<Alert variant="destructive">
+					<AlertCircle className="h-4 w-4" />
+					<AlertDescription>{error}</AlertDescription>
+				</Alert>
+			)}
+			<Dialog open={open} onOpenChange={onOpenChange}>
+				<DialogContent className="max-w-2xl">
+					<DialogHeader>
+						<DialogTitle>Export BPMN XML</DialogTitle>
+						<DialogDescription>
+							View, copy, or download the BPMN XML content
+						</DialogDescription>
+					</DialogHeader>
 
-				{isLoading ? (
-					<div className="h-[400px] flex items-center justify-center">
-						Loading...
-					</div>
-				) : (
-					<ScrollArea className="h-[400px] w-full rounded-md border p-4">
-						<pre className="text-sm">{xml}</pre>
-					</ScrollArea>
-				)}
+					{isLoading ? (
+						<div className="h-[400px] flex items-center justify-center">
+							Loading...
+						</div>
+					) : (
+						<ScrollArea className="h-[400px] w-full rounded-md border p-4">
+							<pre className="text-sm">{xml}</pre>
+						</ScrollArea>
+					)}
 
-				<DialogFooter>
-					<div className="flex gap-2">
-						<Button variant="outline" onClick={handleCopy}>
-							{copied ? (
-								<>
-									<Check className="mr-2 h-4 w-4" />
-									Copied!
-								</>
-							) : (
-								"Copy to Clipboard"
-							)}
-						</Button>
-						<Button onClick={handleDownload}>
-							<Download className="mr-2 h-4 w-4" />
-							Download
-						</Button>
-					</div>
-				</DialogFooter>
-			</DialogContent>
-		</Dialog>
+					<DialogFooter>
+						<div className="flex gap-2">
+							<Button variant="outline" onClick={handleCopy} disabled={!xml}>
+								{copied ? (
+									<>
+										<Check className="mr-2 h-4 w-4" />
+										Copied!
+									</>
+								) : (
+									"Copy to Clipboard"
+								)}
+							</Button>
+							<Button onClick={handleDownload} disabled={!xml}>
+								<Download className="mr-2 h-4 w-4" />
+								Download
+							</Button>
+						</div>
+					</DialogFooter>
+				</DialogContent>
+			</Dialog>
+		</>
 	);
 }
