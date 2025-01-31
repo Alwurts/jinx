@@ -13,7 +13,7 @@ import {
 import type { TDiagram, TDirectory, TForm, TDocument } from "@/types/db";
 import { boolean } from "drizzle-orm/pg-core";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useDirectory } from '@/context/directory-context';
+import { useDirectory } from "@/context/directory-context";
 
 type Props = {
 	item: TDiagram | TDirectory | TForm | TDocument | null;

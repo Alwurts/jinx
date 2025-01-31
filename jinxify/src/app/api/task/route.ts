@@ -43,6 +43,7 @@ export async function POST(request: Request) {
 			linkedDiagramId,
 			linkedDocumentId,
 			linkedFormId,
+			dueDate,
 		} = body;
 
 		const newTask = await db
@@ -55,6 +56,7 @@ export async function POST(request: Request) {
 				linkedDiagramId: linkedDiagramId || null,
 				linkedDocumentId: linkedDocumentId || null,
 				linkedFormId: linkedFormId || null,
+				dueDate: dueDate ? new Date(dueDate) : null,
 			})
 			.returning();
 

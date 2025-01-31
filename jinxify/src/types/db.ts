@@ -30,4 +30,6 @@ export type TTask = InferQueryModel<
 export const TTaskSchema = z.object({
 	title: z.string().min(1),
 	description: z.string().min(1),
+	status: z.enum(["TODO", "IN_PROGRESS", "IN_REVIEW", "DONE"]),
+	dueDate: z.string().datetime().nullable(),
 });

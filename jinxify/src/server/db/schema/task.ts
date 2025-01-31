@@ -12,6 +12,7 @@ export const task = pgTable("task", {
 	})
 		.notNull()
 		.default("TODO"),
+	dueDate: timestamp("dueDate"),
 	linkedDiagramId: uuid("linkedDiagramId").references(() => diagram.id, {
 		onDelete: "set null",
 	}),

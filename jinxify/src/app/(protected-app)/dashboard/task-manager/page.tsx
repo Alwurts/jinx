@@ -22,6 +22,7 @@ import {
 	Link as LinkIcon,
 	EyeIcon,
 	FilterIcon,
+	ClockIcon,
 } from "lucide-react";
 import { AppSidebar } from "@/components/layout/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";
@@ -82,6 +83,7 @@ export default function TaskManager() {
 				body: JSON.stringify({
 					...newTask,
 					status: "TODO",
+					dueDate: null,
 				}),
 			});
 
@@ -101,6 +103,7 @@ export default function TaskManager() {
 			taskId,
 			newStatus,
 		}: { taskId: string; newStatus: StatusType }) => {
+			const task = tasks?.find((t) => t.id === taskId);
 			const response = await fetch(`/api/task/${taskId}`, {
 				method: "PUT",
 				headers: {
@@ -108,8 +111,9 @@ export default function TaskManager() {
 				},
 				body: JSON.stringify({
 					status: newStatus,
-					title: tasks?.find((t) => t.id === taskId)?.title || "",
-					description: tasks?.find((t) => t.id === taskId)?.description || "",
+					title: task?.title || "",
+					description: task?.description || "",
+					dueDate: task?.dueDate ? new Date(task.dueDate).toISOString() : null,
 				}),
 			});
 
@@ -323,6 +327,23 @@ export default function TaskManager() {
 																			<div className="flex items-center gap-1 text-xs text-muted-foreground italic">
 																				<LinkIcon className="h-3 w-3" />
 																				<span>No diagram linked</span>
+																			</div>
+																		)}
+																		{task.dueDate && (
+																			<div className="flex items-center gap-1 text-xs mt-2">
+																				<ClockIcon className="h-3 w-3" />
+																				<span
+																					className={`${
+																						new Date(task.dueDate) < new Date()
+																							? "text-destructive"
+																							: "text-muted-foreground"
+																					}`}
+																				>
+																					Due:{" "}
+																					{new Date(
+																						task.dueDate,
+																					).toLocaleDateString()}
+																				</span>
 																			</div>
 																		)}
 																	</CardContent>

@@ -27,7 +27,12 @@ export function SharePopover({ url, disabled }: SharePopoverProps) {
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
-				<Button variant="outline" className="gap-2" title="Share form" disabled={disabled}>
+				<Button
+					variant="outline"
+					className="gap-2"
+					title="Share form"
+					disabled={disabled}
+				>
 					<Share2 className="h-4 w-4" />
 					Share with others
 				</Button>
@@ -37,8 +42,8 @@ export function SharePopover({ url, disabled }: SharePopoverProps) {
 					<div className="space-y-2">
 						<h4 className="font-medium text-lg">Share Form</h4>
 						<p className="text-sm text-muted-foreground">
-							Share this link with others to let them fill out your survey. They can access
-							the form directly through the link.
+							Share this link with others to let them fill out your survey. They
+							can access the form directly through the link.
 						</p>
 					</div>
 					<div className="flex space-x-2">

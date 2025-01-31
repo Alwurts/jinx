@@ -17,8 +17,11 @@ interface FormSchema {
 	}>;
 }
 
-export default function Editor({ form, onSubmitButtonChange }: { 
-	form: TForm; 
+export default function Editor({
+	form,
+	onSubmitButtonChange,
+}: {
+	form: TForm;
 	onSubmitButtonChange?: (hasButton: boolean) => void;
 }) {
 	const containerRef = useRef<HTMLDivElement>(null);
@@ -37,14 +40,17 @@ export default function Editor({ form, onSubmitButtonChange }: {
 	});
 
 	// Check if schema has submit button
-	const checkSubmitButton = useCallback((schema: FormSchema) => {
-		const components = schema?.components || [];
-		const submitExists = components.some(
-			(component) => component.type === "button"
-		);
-		setHasSubmitButton(!!submitExists);
-		onSubmitButtonChange?.(!!submitExists);
-	}, [onSubmitButtonChange]);
+	const checkSubmitButton = useCallback(
+		(schema: FormSchema) => {
+			const components = schema?.components || [];
+			const submitExists = components.some(
+				(component) => component.type === "button",
+			);
+			setHasSubmitButton(!!submitExists);
+			onSubmitButtonChange?.(!!submitExists);
+		},
+		[onSubmitButtonChange],
+	);
 
 	const debouncedSave = useDebouncedCallback((schema: FormSchema) => {
 		// Check for submit button whenever schema changes
@@ -89,7 +95,10 @@ export default function Editor({ form, onSubmitButtonChange }: {
 				debouncedSave(schema);
 			});
 
-			await importSchema(form.schema as FormSchema, modelerInitializationInstance);
+			await importSchema(
+				form.schema as FormSchema,
+				modelerInitializationInstance,
+			);
 
 			setModeler(modelerInitializationInstance);
 		} catch (error) {

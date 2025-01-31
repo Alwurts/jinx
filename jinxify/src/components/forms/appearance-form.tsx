@@ -46,7 +46,7 @@ export function AppearanceForm() {
 					<div
 						className={cn(
 							"items-center rounded-md border-2 border-muted p-1 hover:border-accent",
-							currentTheme === "light" && "border-primary"
+							currentTheme === "light" && "border-primary",
 						)}
 					>
 						<div className="space-y-2 rounded-sm bg-[#ecedef] p-2">
@@ -64,7 +64,9 @@ export function AppearanceForm() {
 							</div>
 						</div>
 					</div>
-					<span className="block w-full p-2 text-center font-normal">Light</span>
+					<span className="block w-full p-2 text-center font-normal">
+						Light
+					</span>
 				</button>
 
 				<button
@@ -75,7 +77,7 @@ export function AppearanceForm() {
 					<div
 						className={cn(
 							"items-center rounded-md border-2 border-muted bg-popover p-1 hover:bg-accent hover:text-accent-foreground",
-							currentTheme === "dark" && "border-primary"
+							currentTheme === "dark" && "border-primary",
 						)}
 					>
 						<div className="space-y-2 rounded-sm bg-slate-950 p-2">

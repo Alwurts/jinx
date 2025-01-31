@@ -56,6 +56,7 @@ export async function PUT(
 			linkedDiagramId,
 			linkedDocumentId,
 			linkedFormId,
+			dueDate,
 		} = body;
 
 		const updatedTask = await db
@@ -67,6 +68,7 @@ export async function PUT(
 				linkedDiagramId: linkedDiagramId || null,
 				linkedDocumentId: linkedDocumentId || null,
 				linkedFormId: linkedFormId || null,
+				dueDate: dueDate ? new Date(dueDate) : null,
 			})
 			.where(and(eq(task.id, params.id), eq(task.userId, userId)))
 			.returning();

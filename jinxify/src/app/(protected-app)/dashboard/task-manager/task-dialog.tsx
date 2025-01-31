@@ -34,10 +34,19 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { ResourceSelectionDialog } from "./resource-selection-dialog";
-import { Skeleton } from "@/components/ui/skeleton";
 import { Trash, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import type { TTask } from "@/types/db";
+import { CalendarIcon } from "lucide-react";
+import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import {
+	Collapsible,
+	CollapsibleContent,
+	CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 const formSchema = z.object({
 	title: z.string().min(1, {
@@ -47,6 +56,7 @@ const formSchema = z.object({
 		message: "Description is required.",
 	}),
 	status: z.enum(["TODO", "IN_PROGRESS", "IN_REVIEW", "DONE"]),
+	dueDate: z.date().nullable(),
 });
 
 interface TaskDialogProps {
@@ -81,6 +91,7 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 			title: task?.title || "",
 			description: task?.description || "",
 			status: task?.status || "TODO",
+			dueDate: task?.dueDate ? new Date(task.dueDate) : null,
 		},
 	});
 
@@ -96,7 +107,10 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 			const response = await fetch(`/api/task/${taskId}`, {
 				method: "PUT",
 				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify(values),
+				body: JSON.stringify({
+					...values,
+					dueDate: values.dueDate?.toISOString() || null,
+				}),
 			});
 			if (!response.ok) throw new Error("Failed to update task");
 			return response.json();
@@ -246,6 +260,69 @@ export function TaskDialog({ taskId, onClose }: TaskDialogProps) {
 												<SelectItem value="DONE">Done</SelectItem>
 											</SelectContent>
 										</Select>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+
+							<FormField
+								control={form.control}
+								name="dueDate"
+								render={({ field }) => (
+									<FormItem className="flex flex-col">
+										<FormLabel>Due Date</FormLabel>
+										<Collapsible>
+											<CollapsibleTrigger asChild>
+												<FormControl>
+													<Button
+														type="button"
+														variant={"outline"}
+														className={cn(
+															"w-full pl-3 text-left font-normal flex justify-between items-center",
+															!field.value && "text-muted-foreground",
+														)}
+													>
+														<span>
+															{field.value ? (
+																format(field.value, "PPP")
+															) : (
+																<span>Pick a date</span>
+															)}
+														</span>
+														<div className="flex items-center gap-2">
+															<CalendarIcon className="h-4 w-4 opacity-50" />
+															<ChevronDown className="h-4 w-4 opacity-50" />
+														</div>
+													</Button>
+												</FormControl>
+											</CollapsibleTrigger>
+											<CollapsibleContent>
+												<div className="pt-2">
+													<Calendar
+														mode="single"
+														selected={field.value || undefined}
+														onSelect={(date) => {
+															field.onChange(date);
+														}}
+														initialFocus
+														disabled={(date) =>
+															date < new Date(new Date().setHours(0, 0, 0, 0))
+														}
+														className="rounded-md border"
+													/>
+													{field.value && (
+														<Button
+															type="button"
+															variant="ghost"
+															className="w-full mt-2"
+															onClick={() => field.onChange(null)}
+														>
+															Clear date
+														</Button>
+													)}
+												</div>
+											</CollapsibleContent>
+										</Collapsible>
 										<FormMessage />
 									</FormItem>
 								)}

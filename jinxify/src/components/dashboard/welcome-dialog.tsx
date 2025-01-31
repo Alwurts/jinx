@@ -32,7 +32,9 @@ export function WelcomeDialog({
 				</DialogHeader>
 				<div className="flex flex-col gap-4 py-4">
 					<p className="text-sm text-muted-foreground">
-						Folders help you organize your diagrams, forms, and documents. You can create as many folders as you need and nest them to create a structure that works for you.
+						Folders help you organize your diagrams, forms, and documents. You
+						can create as many folders as you need and nest them to create a
+						structure that works for you.
 					</p>
 					<Button onClick={onCreateFolder} className="w-full">
 						<Plus className="w-4 h-4 mr-2" />
@@ -42,4 +44,4 @@ export function WelcomeDialog({
 			</DialogContent>
 		</Dialog>
 	);
-} 
+}
