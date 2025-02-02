@@ -45,11 +45,10 @@ export async function POST(
 		prompt: diagramXML,
 	});
 
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 	const tasksParsed: any[] = object.map((task) => ({
 		...task,
 		userId: userId,
-		createdFromDiagramId: diagramId,
+		linkedDiagramId: diagramId,
 	}));
 
 	await db.insert(task).values(tasksParsed);
