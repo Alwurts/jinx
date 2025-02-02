@@ -4,11 +4,18 @@ import { z } from "zod";
 import { openai } from "@ai-sdk/openai";
 import { streamObject } from "ai";
 import { GENERATE_DOCUMENT_PROMPT } from "@/lib/prompts";
+import db from "@/server/db";
+import { document } from "@/server/db/schema";
+import { eq } from "drizzle-orm";
 
 export const maxDuration = 60;
 
 const generateDiagramSchema = z.object({
 	input: z.string().min(1),
+	currentEditor: z.object({
+		type: z.string().min(1),
+		id: z.string().min(1),
+	}),
 });
 
 export async function POST(request: NextRequest) {
@@ -19,9 +26,22 @@ export async function POST(request: NextRequest) {
 	}
 
 	const data = await request.json();
-	const { input } = generateDiagramSchema.parse(data);
+
+	console.log("data", data);
+	const { input, currentEditor } = generateDiagramSchema.parse(data);
+
+	const currentDocument = await db.query.document.findFirst({
+		where: eq(document.id, currentEditor.id),
+	});
 
 	console.log("input", input);
+
+	const parsedInputWithCurrentDocument = `<currentDocument>
+		${currentDocument?.content}
+	</currentDocument>
+	<newRequirements>
+		${input}
+	</newRequirements>`;
 
 	const result = await streamObject({
 		model: openai("gpt-4o"),
@@ -31,7 +51,7 @@ export async function POST(request: NextRequest) {
 				.describe("The markdown for the given document description."),
 		}),
 		system: GENERATE_DOCUMENT_PROMPT,
-		prompt: input,
+		prompt: parsedInputWithCurrentDocument,
 	});
 
 	const response = result.toTextStreamResponse();

@@ -22,7 +22,19 @@ const diagramTemplates: Template[] = [
 		id: "empty",
 		title: "Empty Diagram",
 		description: "Start with a blank canvas",
-		content: "",
+		content: `<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" id="Definitions_0qleqp7" targetNamespace="http://bpmn.io/schema/bpmn" exporter="bpmn-js (https://demo.bpmn.io)" exporterVersion="18.1.1">
+  <bpmn:process id="Process_06ut86l" isExecutable="false">
+    <bpmn:startEvent id="StartEvent_0q3b2kz" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process_06ut86l">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_0q3b2kz">
+        <dc:Bounds x="156" y="82" width="36" height="36" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>`,
 	},
 	{
 		id: "basic-process",
@@ -61,6 +73,11 @@ const formTemplates: Template[] = [
 					label: "Message",
 					required: true,
 				},
+				{
+					type: "button",
+					label: "Submit",
+					action: "submit",
+				},
 			],
 		}),
 	},
@@ -78,6 +95,18 @@ const documentTemplates: Template[] = [
 		title: "README",
 		description: "Basic README template",
 		content: "# Project Title\n\n## Description\n\n## Installation\n\n## Usage",
+	},
+	{
+		id: "hr",
+		title: "HR Policy Document",
+		description: "HR template in MDX format to get started",
+		content: `---
+title: "HR Policies"
+---
+
+# HR Policies
+
+Welcome to the HR policy document. Use this template to outline guidelines, benefits, and procedures.`,
 	},
 ];
 

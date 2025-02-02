@@ -1,9 +1,9 @@
-import { ChatProvider } from "@/components/chat/chat-provider";
+import EditorChatWrapper from "./EditorChatWrapper";
 
 export default async function EditorsLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
-	return <ChatProvider>{children}</ChatProvider>;
+	return <EditorChatWrapper>{children}</EditorChatWrapper>;
 }

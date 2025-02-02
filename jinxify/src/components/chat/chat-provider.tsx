@@ -22,8 +22,12 @@ const ChatContext = createContext<ChatContextType | null>(null);
 
 export function ChatProvider({
 	children,
+	editorType = "document",
+	documentId = "",
 }: {
 	children: ReactNode;
+	editorType?: string;
+	documentId?: string;
 }) {
 	const formGenerationParams = useRef<{
 		toolId: string;
@@ -95,6 +99,12 @@ export function ChatProvider({
 	const jinxChat = useChat({
 		api: "/api/ai/chat",
 		maxSteps: 5,
+		body: {
+			currentEditor: {
+				type: editorType,
+				id: documentId,
+			},
+		},
 		async onToolCall({ toolCall }) {
 			console.log("Calling tool", toolCall);
 			switch (toolCall.toolName) {
@@ -114,6 +124,10 @@ export function ChatProvider({
 
 					generateForm.submit({
 						input: formDescription,
+						currentEditor: {
+							type: editorType,
+							id: documentId,
+						},
 					});
 					break;
 				}
@@ -128,6 +142,10 @@ export function ChatProvider({
 
 					generateBPMNDiagram.submit({
 						input: processDescription,
+						currentEditor: {
+							type: editorType,
+							id: documentId,
+						},
 					});
 					break;
 				}
@@ -142,6 +160,10 @@ export function ChatProvider({
 
 					generateMarkdownDocument.submit({
 						input: documentDescription,
+						currentEditor: {
+							type: editorType,
+							id: documentId,
+						},
 					});
 					break;
 				}
