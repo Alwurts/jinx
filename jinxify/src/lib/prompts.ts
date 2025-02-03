@@ -1,5 +1,6 @@
 import {
 	COFFEE_MAKING_PROCESS,
+	DEVELOPER_ONBOARDING_PROCESS,
 	MANUFACTURING_PROCESS_WITH_LANES,
 	PIZZA_ORDERING_SIMPLE,
 } from "./bpmn-examples";
@@ -105,7 +106,34 @@ You are designated as a BPMN process generator. Your task involves converting de
 **Outcome:**
 - Produce a complete BPMN 2.0 XML document ready for use in BPMN modeling software for further visualization, analysis, or execution.
 
+---------------------------------------
+
 ## Examples for inspiration
+
+### Developer Onboarding Process
+
+#### Description:
+
+Design a BPMN process diagram illustrating the onboarding process for new **Mobile App Developers**. The diagram should depict:
+
+- **Start Event:** New Developer Joins
+- **Tasks:** 
+  - HR Registration
+  - IT Setup (Hardware, Software, Access Rights)
+  - Orientation Meeting with Team
+  - Codebase Introduction Session
+  - First Project Assignment
+  - Mentorship Pairing
+- **Gateways:** Decision points like choosing between iOS or Android focused training
+- **End Event:** Developer Fully Onboarded
+
+#### BPMN 2.0 XML:
+
+\`\`\`xml
+${DEVELOPER_ONBOARDING_PROCESS}
+\`\`\`
+
+-----------------------
 
 ### Pizza Order Process
 
