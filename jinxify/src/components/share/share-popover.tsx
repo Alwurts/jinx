@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
 	Popover,
 	PopoverContent,
@@ -7,6 +7,8 @@ import {
 import { Share2, Copy, ExternalLink } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Input } from "@/components/ui/input";
+import Link from "next/link";
+import { cn } from "@/lib/utils";
 
 interface SharePopoverProps {
 	url: string;
@@ -47,7 +49,14 @@ export function SharePopover({ url, disabled }: SharePopoverProps) {
 						</p>
 					</div>
 					<div className="flex space-x-2">
-						<Input value={url} readOnly className="h-9" />
+						<Input
+							value={url.replace(
+								"http://localhost:3000",
+								"https://jinxify-app.vercel.app",
+							)}
+							readOnly
+							className="h-9"
+						/>
 						<Button
 							size="sm"
 							variant="outline"
@@ -58,16 +67,17 @@ export function SharePopover({ url, disabled }: SharePopoverProps) {
 							<Copy className="h-4 w-4" />
 							Copy
 						</Button>
-						<Button
-							size="sm"
-							variant="outline"
-							className="h-9 gap-2 whitespace-nowrap"
-							onClick={() => window.open(url, "_blank")}
+						<Link
+							href={url}
+							className={cn(
+								"h-9 gap-2 whitespace-nowrap",
+								buttonVariants({ variant: "outline" }),
+							)}
 							title="Open form in new tab"
 						>
 							<ExternalLink className="h-4 w-4" />
 							Open Form
-						</Button>
+						</Link>
 					</div>
 				</div>
 			</PopoverContent>

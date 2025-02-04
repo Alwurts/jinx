@@ -119,11 +119,8 @@ Design a BPMN process diagram illustrating the onboarding process for new **Mobi
 - **Start Event:** New Developer Joins
 - **Tasks:** 
   - HR Registration
-  - IT Setup (Hardware, Software, Access Rights)
-  - Orientation Meeting with Team
-  - Codebase Introduction Session
+  - Decide on Android or IOS training
   - First Project Assignment
-  - Mentorship Pairing
 - **Gateways:** Decision points like choosing between iOS or Android focused training
 - **End Event:** Developer Fully Onboarded
 

@@ -670,45 +670,21 @@ export const DEVELOPER_ONBOARDING_PROCESS = `<?xml version="1.0" encoding="UTF-8
   <process id="OnboardingProcess" isExecutable="false">
     <startEvent id="StartEvent_1" name="New Developer Joins" />
     <sequenceFlow id="Flow1" sourceRef="StartEvent_1" targetRef="Task_HR_Registration" />
-    <sequenceFlow id="Flow2" sourceRef="Task_HR_Registration" targetRef="Task_IT_Setup" />
-    <sequenceFlow id="Flow3" sourceRef="Task_IT_Setup" targetRef="Task_Orientation_Meeting" />
-    <sequenceFlow id="Flow4" sourceRef="Task_Orientation_Meeting" targetRef="Task_Codebase_Introduction" />
-    <sequenceFlow id="Flow5" sourceRef="Task_Codebase_Introduction" targetRef="Gateway_Training_Decision" />
-    <sequenceFlow id="Flow8" sourceRef="Task_First_Project" targetRef="Task_Mentorship_Pairing" />
-    <sequenceFlow id="Flow9" sourceRef="Task_Mentorship_Pairing" targetRef="EndEvent_1" />
+    <sequenceFlow id="Flow2" sourceRef="Task_HR_Registration" targetRef="Gateway_Training_Decision" />
+    <sequenceFlow id="Flow8" sourceRef="Task_First_Project" targetRef="EndEvent_1" />
+    <sequenceFlow id="Flow_1gqtto9" name="Android" sourceRef="Gateway_Training_Decision" targetRef="Activity_0ed1wsc" />
+    <sequenceFlow id="Flow_16wqqm9" name="IOS" sourceRef="Gateway_Training_Decision" targetRef="Activity_1oaqpro" />
+    <sequenceFlow id="Flow_1c0rj6n" sourceRef="Activity_0ed1wsc" targetRef="Task_First_Project" />
+    <sequenceFlow id="Flow_0i6twd8" sourceRef="Activity_1oaqpro" targetRef="Task_First_Project" />
     <userTask id="Task_HR_Registration" name="HR Registration">
       <incoming>Flow1</incoming>
       <outgoing>Flow2</outgoing>
-    </userTask>
-    <userTask id="Task_Orientation_Meeting" name="Orientation Meeting with Team">
-      <incoming>Flow3</incoming>
-      <outgoing>Flow4</outgoing>
-    </userTask>
-    <userTask id="Task_Codebase_Introduction" name="Codebase Introduction Session">
-      <incoming>Flow4</incoming>
-      <outgoing>Flow5</outgoing>
     </userTask>
     <userTask id="Task_First_Project" name="First Project Assignment">
       <incoming>Flow_1c0rj6n</incoming>
       <incoming>Flow_0i6twd8</incoming>
       <outgoing>Flow8</outgoing>
     </userTask>
-    <userTask id="Task_Mentorship_Pairing" name="Mentorship Pairing">
-      <incoming>Flow8</incoming>
-      <outgoing>Flow9</outgoing>
-    </userTask>
-    <serviceTask id="Task_IT_Setup" name="IT Setup (Hardware, Software, Access Rights)">
-      <incoming>Flow2</incoming>
-      <outgoing>Flow3</outgoing>
-    </serviceTask>
-    <exclusiveGateway id="Gateway_Training_Decision" name="Choose iOS or Android Training">
-      <incoming>Flow5</incoming>
-      <outgoing>Flow_1gqtto9</outgoing>
-      <outgoing>Flow_16wqqm9</outgoing>
-    </exclusiveGateway>
-    <endEvent id="EndEvent_1" name="Developer Fully Onboarded">
-      <incoming>Flow9</incoming>
-    </endEvent>
     <userTask id="Activity_0ed1wsc" name="Android Training">
       <incoming>Flow_1gqtto9</incoming>
       <outgoing>Flow_1c0rj6n</outgoing>
@@ -717,10 +693,14 @@ export const DEVELOPER_ONBOARDING_PROCESS = `<?xml version="1.0" encoding="UTF-8
       <incoming>Flow_16wqqm9</incoming>
       <outgoing>Flow_0i6twd8</outgoing>
     </userTask>
-    <sequenceFlow id="Flow_1gqtto9" name="Android" sourceRef="Gateway_Training_Decision" targetRef="Activity_0ed1wsc" />
-    <sequenceFlow id="Flow_16wqqm9" name="IOS" sourceRef="Gateway_Training_Decision" targetRef="Activity_1oaqpro" />
-    <sequenceFlow id="Flow_1c0rj6n" sourceRef="Activity_0ed1wsc" targetRef="Task_First_Project" />
-    <sequenceFlow id="Flow_0i6twd8" sourceRef="Activity_1oaqpro" targetRef="Task_First_Project" />
+    <exclusiveGateway id="Gateway_Training_Decision" name="Choose iOS or Android Training">
+      <incoming>Flow2</incoming>
+      <outgoing>Flow_1gqtto9</outgoing>
+      <outgoing>Flow_16wqqm9</outgoing>
+    </exclusiveGateway>
+    <endEvent id="EndEvent_1" name="Developer Fully Onboarded">
+      <incoming>Flow8</incoming>
+    </endEvent>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="OnboardingProcess">
@@ -730,40 +710,28 @@ export const DEVELOPER_ONBOARDING_PROCESS = `<?xml version="1.0" encoding="UTF-8
       <bpmndi:BPMNShape id="Task_HR_Registration_di" bpmnElement="Task_HR_Registration">
         <omgdc:Bounds x="200" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_Orientation_Meeting_di" bpmnElement="Task_Orientation_Meeting">
-        <omgdc:Bounds x="500" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_Codebase_Introduction_di" bpmnElement="Task_Codebase_Introduction">
-        <omgdc:Bounds x="650" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_IT_Setup_di" bpmnElement="Task_IT_Setup">
-        <omgdc:Bounds x="350" y="80" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
-        <omgdc:Bounds x="1402" y="100" width="36" height="36" />
-        <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="1382" y="136" width="77" height="27" />
-        </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_Mentorship_Pairing_di" bpmnElement="Task_Mentorship_Pairing">
-        <omgdc:Bounds x="1240" y="78" width="100" height="80" />
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="BPMNShape_00oviut" bpmnElement="Activity_1oaqpro">
-        <omgdc:Bounds x="930" y="150" width="100" height="80" />
-        <bpmndi:BPMNLabel />
+      <bpmndi:BPMNShape id="Task_First_Project_di" bpmnElement="Task_First_Project">
+        <omgdc:Bounds x="650" y="78" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="BPMNShape_0gim81t" bpmnElement="Activity_0ed1wsc">
-        <omgdc:Bounds x="930" y="-10" width="100" height="80" />
+        <omgdc:Bounds x="490" y="-10" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_00oviut" bpmnElement="Activity_1oaqpro">
+        <omgdc:Bounds x="490" y="150" width="100" height="80" />
         <bpmndi:BPMNLabel />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="Gateway_Training_Decision_di" bpmnElement="Gateway_Training_Decision" isMarkerVisible="true">
-        <omgdc:Bounds x="845" y="93" width="50" height="50" />
+        <omgdc:Bounds x="405" y="93" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="773.5" y="136" width="81" height="27" />
+          <omgdc:Bounds x="334" y="136" width="81" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="Task_First_Project_di" bpmnElement="Task_First_Project">
-        <omgdc:Bounds x="1090" y="78" width="100" height="80" />
+      <bpmndi:BPMNShape id="EndEvent_1_di" bpmnElement="EndEvent_1">
+        <omgdc:Bounds x="838" y="100" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <omgdc:Bounds x="818" y="136" width="77" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow1_di" bpmnElement="Flow1">
         <omgdi:waypoint x="136" y="118" />
@@ -771,59 +739,43 @@ export const DEVELOPER_ONBOARDING_PROCESS = `<?xml version="1.0" encoding="UTF-8
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow2_di" bpmnElement="Flow2">
         <omgdi:waypoint x="300" y="118" />
-        <omgdi:waypoint x="350" y="118" />
+        <omgdi:waypoint x="353" y="118" />
+        <omgdi:waypoint x="353" y="116" />
+        <omgdi:waypoint x="407" y="116" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow3_di" bpmnElement="Flow3">
-        <omgdi:waypoint x="450" y="118" />
-        <omgdi:waypoint x="500" y="118" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow4_di" bpmnElement="Flow4">
-        <omgdi:waypoint x="600" y="118" />
+      <bpmndi:BPMNEdge id="Flow_1c0rj6n_di" bpmnElement="Flow_1c0rj6n">
+        <omgdi:waypoint x="590" y="30" />
+        <omgdi:waypoint x="620" y="30" />
+        <omgdi:waypoint x="620" y="118" />
         <omgdi:waypoint x="650" y="118" />
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow5_di" bpmnElement="Flow5">
-        <omgdi:waypoint x="750" y="118" />
-        <omgdi:waypoint x="798" y="118" />
-        <omgdi:waypoint x="798" y="116" />
-        <omgdi:waypoint x="847" y="116" />
+      <bpmndi:BPMNEdge id="Flow_0i6twd8_di" bpmnElement="Flow_0i6twd8">
+        <omgdi:waypoint x="590" y="190" />
+        <omgdi:waypoint x="620" y="190" />
+        <omgdi:waypoint x="620" y="118" />
+        <omgdi:waypoint x="650" y="118" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow8_di" bpmnElement="Flow8">
-        <omgdi:waypoint x="1190" y="116" />
-        <omgdi:waypoint x="1240" y="116" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow9_di" bpmnElement="Flow9">
-        <omgdi:waypoint x="1340" y="116" />
-        <omgdi:waypoint x="1371" y="116" />
-        <omgdi:waypoint x="1371" y="118" />
-        <omgdi:waypoint x="1402" y="118" />
+        <omgdi:waypoint x="750" y="116" />
+        <omgdi:waypoint x="794" y="116" />
+        <omgdi:waypoint x="794" y="118" />
+        <omgdi:waypoint x="838" y="118" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_1gqtto9_di" bpmnElement="Flow_1gqtto9">
-        <omgdi:waypoint x="870" y="93" />
-        <omgdi:waypoint x="870" y="30" />
-        <omgdi:waypoint x="930" y="30" />
+        <omgdi:waypoint x="430" y="93" />
+        <omgdi:waypoint x="430" y="30" />
+        <omgdi:waypoint x="490" y="30" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="871" y="43" width="38" height="14" />
+          <omgdc:Bounds x="431" y="43" width="38" height="14" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_16wqqm9_di" bpmnElement="Flow_16wqqm9">
-        <omgdi:waypoint x="870" y="143" />
-        <omgdi:waypoint x="870" y="190" />
-        <omgdi:waypoint x="930" y="190" />
+        <omgdi:waypoint x="430" y="143" />
+        <omgdi:waypoint x="430" y="190" />
+        <omgdi:waypoint x="490" y="190" />
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds x="874" y="165" width="19" height="14" />
+          <omgdc:Bounds x="434" y="165" width="19" height="14" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_1c0rj6n_di" bpmnElement="Flow_1c0rj6n">
-        <omgdi:waypoint x="1030" y="30" />
-        <omgdi:waypoint x="1060" y="30" />
-        <omgdi:waypoint x="1060" y="118" />
-        <omgdi:waypoint x="1090" y="118" />
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="Flow_0i6twd8_di" bpmnElement="Flow_0i6twd8">
-        <omgdi:waypoint x="1030" y="190" />
-        <omgdi:waypoint x="1060" y="190" />
-        <omgdi:waypoint x="1060" y="118" />
-        <omgdi:waypoint x="1090" y="118" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
