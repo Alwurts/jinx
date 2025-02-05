@@ -11,21 +11,21 @@ const data = [
 		title: "Our Vision",
 		icon: <AiOutlineBulb size={30} />,
 		description:
-			"Smartify Your Business Processes! means upgrading your traditional workflows with smart, AI-driven solutions that enhance efficiency and decision-making. We help businesses automate repetitive tasks, optimize operations, and utilize data-driven insights to stay ahead in a competitive market.",
+			"Smartify Your HR recrutment processes! means automating job offers, interview processes, and onboarding through AI-driven workflows. We envision a world where HR professionals can focus on talent, not tasks, with seamless, intelligent, and efficient hiring experiences.",
 	},
 	{
 		id: 2,
 		title: " Our Mission",
 		icon: <FiTarget size={30} />,
 		description:
-			"We transform business processes into successful, AI-enhanced automated workflows by incorporating advanced AI technologies. This allows companies to streamline operations, reduce errors, and improve efficiency.",
+			"We empower HR teams with AI-powered solutions that automate job offers, streamline interview workflows, and optimize onboarding. By integrating intelligent automation, centralized dashboards, and organized document management, we help businesses build a smarter, faster, and more effective hiring process.",
 	},
 	{
 		id: 3,
 		title: "Our Purpose",
 		icon: <MdTrendingUp size={30} />,
 		description:
-			"We help businesses seamlessly optimize their core processes to achieve their strategic objectives by implementing tailored, intelligent solutions. This enables more efficient operations, better resource allocation, and enhanced productivity, aligning everyday activities with long-term goals.",
+			"We simplify recruitment with an AI-powered platform that enhances decision-making, candidate engagement, and operational efficiency. Our solution empowers HR professionals to manage job offers, conduct interviews, and onboard talent effortlessly, ensuring a structured and stress-free hiring experience.",
 	},
 	{
 		id: 4,
@@ -39,7 +39,7 @@ const data = [
 		title: "Our Principles",
 		icon: <MdGroup size={30} />,
 		description:
-			"We commit to transparent communication, value diverse perspectives, and embrace learning from mistakes to foster continuous growth and respect among all stakeholders.",
+			"We streamline HR processes with AI-powered automation for job offers, interviews, and onboarding, enabling seamless collaboration between recruiters, hiring managers, and candidates. Our bias-free AI tools ensure fair hiring, while scalable solutions adapt to teams of all sizes. With centralized and secure data management, HR assets stay organized, protected, and easily accessible.",
 	},
 ];
 
