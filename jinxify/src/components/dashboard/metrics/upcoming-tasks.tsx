@@ -51,26 +51,32 @@ export function UpcomingTasks() {
 	console.log("upcomingTasks", upcomingTasks);
 
 	return (
-		<Card className="col-span-1">
+		<Card className="col-span-1 bg-background">
 			<CardHeader>
-				<CardTitle className="text-xl font-semibold">Task Deadlines</CardTitle>
-				<CardDescription>Overdue and upcoming tasks</CardDescription>
+				<CardTitle className="text-xl font-semibold text-foreground">
+					Task Deadlines
+				</CardTitle>
+				<CardDescription className="text-muted-foreground">
+					Overdue and upcoming tasks
+				</CardDescription>
 			</CardHeader>
 			<CardContent>
 				<ScrollArea className="h-[300px] pr-4">
 					{overdueTasks.length > 0 && (
 						<div className="mb-6">
-							<h3 className="font-semibold text-destructive mb-2">
+							<h3 className="font-semibold text-foreground mb-2">
 								Overdue Tasks
 							</h3>
 							<div className="space-y-3">
 								{overdueTasks.map((task) => (
 									<div
 										key={task.id}
-										className="flex items-start justify-between p-2 rounded-lg border bg-destructive/10"
+										className="flex items-start justify-between p-2 rounded-lg hover:bg-accent/50 transition-colors"
 									>
 										<div>
-											<p className="font-medium">{task.title}</p>
+											<p className="font-medium text-foreground">
+												{task.title}
+											</p>
 											<div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
 												<ClockIcon className="w-4 h-4" />
 												<span>
@@ -80,7 +86,7 @@ export function UpcomingTasks() {
 												</span>
 											</div>
 										</div>
-										<Badge variant="destructive">{task.status}</Badge>
+										<Badge variant="secondary">{task.status}</Badge>
 									</div>
 								))}
 							</div>
@@ -89,17 +95,19 @@ export function UpcomingTasks() {
 
 					{upcomingTasks.length > 0 && (
 						<div>
-							<h3 className="font-semibold text-warning mb-2">
+							<h3 className="font-semibold text-foreground mb-2">
 								Upcoming Tasks
 							</h3>
 							<div className="space-y-3">
 								{upcomingTasks.map((task) => (
 									<div
 										key={task.id}
-										className="flex items-start justify-between p-2 rounded-lg border bg-warning/10"
+										className="flex items-start justify-between p-2 rounded-lg hover:bg-accent/50 transition-colors"
 									>
 										<div>
-											<p className="font-medium">{task.title}</p>
+											<p className="font-medium text-foreground">
+												{task.title}
+											</p>
 											<div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
 												<ClockIcon className="w-4 h-4" />
 												<span>

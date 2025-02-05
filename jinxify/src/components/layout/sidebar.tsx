@@ -451,18 +451,27 @@ export function AppSidebar({ session }: Props) {
 							</div>
 						</DropdownMenuTrigger>
 						<DropdownMenuContent
-							className="w-56 mb-4 rounded-md shadow-md bg-white dark:bg-black"
+							className="w-56 mb-4 rounded-lg border bg-background shadow-lg"
 							align="end"
 						>
-							<DropdownMenuItem>
-								<Link href="/dashboard/profile" className="text-sm">
-									<VscAccount className="w-5 h-5 mr-2" />
-									Profile
+							<DropdownMenuItem className="px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground">
+								<Link
+									href="/dashboard/profile"
+									className="flex items-center w-full"
+								>
+									<VscAccount className="w-4 h-4 mr-2" />
+									<span>Profile</span>
 								</Link>
 							</DropdownMenuItem>
-							<DropdownMenuItem onClick={handleLogout} className="text-sm">
-								<CgLogOut className="w-5 h-5 mr-2" />
-								{isLoading ? "Logging out..." : "Logout"}
+							<DropdownMenuSeparator className="bg-border" />
+							<DropdownMenuItem
+								className="px-3 py-2 text-sm focus:bg-accent focus:text-accent-foreground"
+								onClick={handleLogout}
+							>
+								<div className="flex items-center w-full">
+									<CgLogOut className="w-4 h-4 mr-2" />
+									<span>{isLoading ? "Logging out..." : "Logout"}</span>
+								</div>
 							</DropdownMenuItem>
 						</DropdownMenuContent>
 					</DropdownMenu>
