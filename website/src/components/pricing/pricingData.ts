@@ -18,7 +18,7 @@ export const packages = [
   },
   {
     name: "Diamond",
-    price: 30,
+    price: 20,
     features: [
       "AI powered BPMN diagram editor in personalized workspaces  ",
       " AI powered Task manager",

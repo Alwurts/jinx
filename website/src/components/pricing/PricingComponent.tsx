@@ -30,7 +30,7 @@ export default function PricingCard({
         <CardContent className="space-y-6">
           <div className="text-center space-y-2">
             <div className="flex items-center justify-center">
-              <span className="text-4xl font-bold">${price}</span>
+              <span className="text-4xl font-bold">€{price}</span>
             </div>
           </div>
           <div className="space-y-4">
